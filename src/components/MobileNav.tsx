@@ -15,13 +15,14 @@ import { usePathname } from 'next/navigation';
 import { NAVLINKS } from '@/utils/constants';
 import { Modal } from './Modal';
 import { Button } from './Button';
+import useClickOutside from '@/hooks/useClickOutside';
 
 export function MobileNav({
   isComponentOpen,
   closeComponent,
   trigger,
 }: FocusTrapProps) {
-  const pathname = usePathname();
+  const ref = useClickOutside({ isComponentOpen, closeComponent });
 
   useEffect(() => {
     const bodyElement = document.querySelector('body') as HTMLBodyElement;
@@ -44,12 +45,12 @@ export function MobileNav({
       className='block'
     >
       <motion.div
-        // className={styles.side_nav}
         variants={sideNavVariant}
         initial={'hidden'}
         animate='visible'
         exit={'exit'}
         className='w-3/5 h-screen bg-white mr-0 ml-auto p-6'
+        ref={ref}
       >
         <motion.button
           variants={closeButtonVariant}
@@ -72,6 +73,7 @@ export function MobileNav({
               <Link
                 href={link}
                 className='capitalize text-[#240404] font-medium'
+                onClick={closeComponent}
               >
                 {name}
               </Link>

@@ -16,7 +16,7 @@ export default function useClickOutside({
       if (
         isComponentOpen &&
         elementRef &&
-        !elementRef.current?.contains(event.target as Node)
+        !elementRef.current?.contains(event.target as Node) 
       ) {
         // Handle logic for click outside the div
         closeComponent();

@@ -2,7 +2,6 @@ import { createPortal } from 'react-dom';
 import { PopOverProps } from '@/utils/types';
 import useFocusTrap from '@/hooks/useFocusTrap';
 import { AnimatePresence, motion } from 'framer-motion';
-import useClickOutside from '@/hooks/useClickOutside';
 
 export function Modal({
   isComponentOpen,
@@ -36,7 +35,9 @@ export function Modal({
             transition={{ duration: 0.3 }}
             ref={modalWrapperRef}
           >
-            <div>{children}</div>
+            <div>
+              {children}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>,
