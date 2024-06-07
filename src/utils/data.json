@@ -1,0 +1,53 @@
+{
+  "Espresso-Based Coffee": {
+    "Espresso": "A strong, full-bodied coffee shot made from finely-ground coffee beans.",
+    "Americano": "A smooth coffee drink made by diluting espresso with hot water.",
+    "Latte": "Creamy and rich, made with espresso and steamed milk, topped with a thin layer of foam.",
+    "Cappuccino": "A balanced blend of espresso, steamed milk, and thick milk foam.",
+    "Macchiato": "A shot of espresso topped with a dollop of frothy steamed milk.",
+    "Flat White": "A velvety coffee with a higher ratio of espresso to steamed milk, topped with a thin layer of microfoam.",
+    "Mocha": "A chocolate-flavored coffee drink made with espresso, steamed milk, and chocolate syrup.",
+    "Cortado": "A balanced coffee drink with equal parts espresso and steamed milk."
+  },
+
+  "Cold Brew and Iced Coffee": {
+    "Classic Cold Brew": "Smooth and refreshing, steeped slowly in cold water for a full-bodied flavor.",
+    "Iced Americano": "A chilled version of the classic Americano, with espresso and cold water over ice.",
+    "Iced Latte": "Espresso combined with chilled milk and served over ice for a creamy, refreshing taste.",
+    "Iced Cappuccino": "A frothy iced coffee made with espresso, cold milk, and ice, topped with foam.",
+    "Nitro Cold Brew": "Cold brew infused with nitrogen for a creamy texture and rich, velvety taste.",
+    "Iced Mocha": "A chilled coffee drink made with espresso, milk, ice, and chocolate syrup.",
+    "Iced Caramel Macchiato": "Layers of espresso, vanilla-flavored milk, and ice, topped with caramel drizzle.",
+    "Cold Brew Lemonade": "A unique blend of cold brew coffee and lemonade, offering a refreshing twist."
+  },
+  "Bottled Beverages": {
+    "Orange Juice": "Freshly squeezed, pure orange juice for a refreshing and vitamin-rich drink.",
+    "Apple Juice": "Crisp and sweet, made from fresh apples for a wholesome beverage.",
+    "Lemonade": "Classic lemonade made with real lemons, offering a perfect balance of sweet and tart flavors.",
+    "Berry Blend Juice": "A delicious mix of berries including strawberries, blueberries, and raspberries for a fruity treat.",
+    "Tropical Punch": "A vibrant blend of tropical fruits such as pineapple, mango, and passionfruit.",
+    "Pomegranate Juice": "Rich and tangy, made from 100% pomegranate for a healthy boost.",
+    "Coconut Water": "Naturally hydrating and refreshing, sourced from fresh coconuts.",
+    "Green Juice": "A nutritious blend of leafy greens, apples, and a hint of lemon for a healthy, revitalizing drink."
+  },
+  "Bakery": {
+    "Croissant": "A flaky, buttery pastry perfect for pairing with coffee.",
+    "Muffin": "Moist and delicious, available in various flavors like blueberry, chocolate chip, and banana nut.",
+    "Scone": "A crumbly, slightly sweet pastry, often with fruit or chocolate chips.",
+    "Danish": "A sweet pastry with a variety of fillings such as cream cheese, fruit, or almond paste.",
+    "Cinnamon Roll": "Soft, sweet dough rolled with cinnamon and sugar, topped with icing.",
+    "Bagel": "Chewy and versatile, available plain or with toppings like sesame seeds, poppy seeds, and everything seasoning.",
+    "Banana Bread": "Moist and flavorful, made with ripe bananas and sometimes nuts or chocolate chips.",
+    "Pain au Chocolat": "A buttery pastry filled with rich chocolate, perfect for a sweet treat."
+  },
+  "Snacks and Sweets": {
+    "Chocolate Chip Cookie": "Classic cookie filled with rich chocolate chips.",
+    "Brownie": "Dense and fudgy, perfect for a chocolate lover's treat.",
+    "Granola Bar": "A healthy and satisfying snack, often made with oats, nuts, and dried fruit.",
+    "Macaron": "Delicate French cookies with a crisp shell and soft interior, available in various flavors.",
+    "Fruit Cup": "A refreshing mix of seasonal fruits, perfect for a light snack.",
+    "Energy Bites": "Bite-sized snacks made with ingredients like oats, peanut butter, and honey, providing a quick energy boost.",
+    "Yogurt Parfait": "Layers of creamy yogurt, crunchy granola, and fresh fruit.",
+    "Rice Krispies Treat": "A sweet, crispy snack made with puffed rice cereal and marshmallows"
+  }
+}
