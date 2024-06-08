@@ -29,7 +29,7 @@ export default function Menu() {
           </Link>
 
           <Link
-            href={'/menu/cold-iced-coffee'}
+            href={'/menu/cold-brew-and-iced-coffee'}
             className='grid grid-cols-[auto_1fr] items-center gap-4 group'
           >
             <div className='rounded-full bg-secondary-accent relative w-16 h-16'>
@@ -70,7 +70,7 @@ export default function Menu() {
 
         <div className='grid grid-cols-[repeat(auto-fit_minmax(auto_1fr))] gap-8 pt-6'>
           <Link
-            href={'/menu-bakery'}
+            href={'/menu/bakery'}
             className='grid grid-cols-[auto_1fr] items-center gap-4 group'
           >
             <div className='rounded-full bg-secondary-accent relative w-16 h-16'>
@@ -85,7 +85,7 @@ export default function Menu() {
           </Link>
 
           <Link
-            href={'/menu-snaks'}
+            href={'/menu/snacks-and-sweets'}
             className='grid grid-cols-[auto_1fr] items-center gap-4 group'
           >
             <div className='rounded-full bg-secondary-accent relative w-16 h-16'>

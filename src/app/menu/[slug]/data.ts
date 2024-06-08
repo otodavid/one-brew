@@ -1,7 +1,6 @@
-[
+export const data =  [
   {
-    "type": "espresso-based-coffee",
-    "data": [
+    "espresso-based-coffee": [
       {
         "name": "Espresso",
         "description": "A strong, full-bodied coffee shot made from finely-ground coffee beans."
@@ -38,8 +37,7 @@
   },
 
   {
-    "type": "cold-brew-and-iced-coffee",
-    "data": [
+    "cold-brew-and-iced-coffee": [
       {
         "name": "Classic Cold Brew",
         "description": "Smooth and refreshing, steeped slowly in cold water for a full-bodied flavor."
@@ -74,10 +72,8 @@
       }
     ]
   },
-
   {
-    "type": "bottled-beverages",
-    "data": [
+    "bottled-beverages": [
       {
         "name": "Orange Juice",
         "description": "Freshly squeezed, pure orange juice for a refreshing and vitamin-rich drink."
@@ -112,10 +108,8 @@
       }
     ]
   },
-
   {
-    "type": "bakery",
-    "data": [
+    "bakery": [
       {
         "name": "Croissant",
         "description": "A flaky, buttery pastry perfect for pairing with coffee."
@@ -150,10 +144,8 @@
       }
     ]
   },
-
   {
-    "type": "snacks-and-sweets",
-    "data": [
+    "snacks-and-sweets": [
       {
         "name": "Chocolate Chip Cookie",
         "description": "Classic cookie filled with rich chocolate chips."
