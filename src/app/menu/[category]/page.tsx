@@ -2,6 +2,7 @@
 
 import { Card } from '@/components/Card';
 import data from '@/utils/data.json';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 interface ICoffeeType {
@@ -10,35 +11,36 @@ interface ICoffeeType {
 }
 
 interface IParams {
-  params: { slug: string };
+  params: { category: string };
 }
 
-export default function Page({ params: { slug } }: IParams) {
+export default function Page({ params: { category } }: IParams) {
   const [coffeeData, setCoffeeData] = useState<ICoffeeType[]>([]);
 
   useEffect(() => {
     data.forEach((coffeeType) => {
-      if (coffeeType.type === slug) {
+      if (coffeeType.type === category) {
         setCoffeeData(() => coffeeType.data);
       }
     });
-  }, [coffeeData, slug]);
+  }, [coffeeData, category]);
 
   return (
     <section className='px-6'>
       <h1 className='capitalize font-bold text-xl'>
-        {slug.replaceAll('-', ' ')}
+        {category.replaceAll('-', ' ')}
       </h1>
 
       <div className='grid grid-col-[repeat(auto-fill_minmax(250px_1fr))] gap-6 pt-4'>
         {coffeeData.map((coffee) => (
-          <Card
-            key={coffee?.name}
-            imageSrc='/img/menu-espresso.png'
-            name={coffee?.name}
-            shortDesc={coffee?.description}
-            price={12.99}
-          />
+          <Link href={`${category}/${coffee.name}`} key={coffee?.name}>
+            <Card
+              imageSrc='/img/menu-espresso.png'
+              name={coffee?.name}
+              shortDesc={coffee?.description}
+              price={12.99}
+            />
+          </Link>
         ))}
       </div>
     </section>
