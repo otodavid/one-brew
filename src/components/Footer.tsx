@@ -14,7 +14,7 @@ import {
 export const Footer = () => {
   return (
     <footer>
-      <div className='bg-[#281E1B] px-6 text-neutral-white grid gap-6 py-12 justify-center text-center'>
+      <div className='bg-[#281E1B] px-6 text-neutral-white grid gap-6 py-12 justify-center text-center my-4'>
         <div>
           <h5 className='text-neutral-white font-bold mb-4 text-xl'>OneBrew</h5>
           <div className='flex gap-6 justify-center items-center text-xl mb-3'>

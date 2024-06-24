@@ -20,7 +20,7 @@ export default function Menu() {
                 src='/img/menu-espresso.png'
                 alt='Machiato coffee'
                 fill={true}
-                className='object-cover object-bottom'
+                className='object-contain'
               />
             </div>
             <p className='font-medium group-hover:text-accent'>
