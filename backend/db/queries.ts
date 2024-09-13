@@ -1,4 +1,4 @@
-import conn from "../config/db";
+import conn from '../config/db';
 
 export const getCategories = async () => {
   const query = 'SELECT * FROM categories';
@@ -9,9 +9,16 @@ export const getCategories = async () => {
   return categories;
 };
 
-export const getCategoryProducts = async (category: string) => {
+export const getCategoryProducts = async (req: Request, res: Response) => {
   const query =
-    'SELECT * FROM products p INNER JOIN categories c ON p.category_id = c.category_id';
+    'SELECT * FROM products p INNER JOIN categories c ON p.category_id = c.category_id WHERE c.name = $1';
+
+  try {
+    const result = await conn.query(query);
+    return result.rows;
+  } catch (err: any) {
+    console.error(err.message);
+  }
   // const query = `SELECT * FROM products p INNER JOIN categories c ON p.category_id = c.id WHERE c.name = $1`;
   const result = await conn.query(query);
   // const result = await pool.query<IProduct>( query, [category]);
