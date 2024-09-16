@@ -87,10 +87,19 @@ app.get('/products', async (req: Request, res: Response) => {
 app.get('/products/:productId', async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    const query = 'SELECT * FROM products WHERE products.product_id=$1';
+    const query = `
+      SELECT products.product_id, products.product_name, products.product_description, products.product_price, products.product_image, products.category_id, products.category_name,
+             json_agg(DISTINCT jsonb_build_object('size_name', sizes.size_name, 'size_price', sizes.size_price)) AS sizes,
+             json_agg(DISTINCT jsonb_build_object('addon_name', addons.addon_name, 'addon_price', addons.addon_price)) AS addons
+      FROM products
+      LEFT JOIN sizes ON sizes.product_id = products.product_id
+      LEFT JOIN addons ON addons.product_id = products.product_id
+      WHERE products.product_id = $1
+      GROUP BY products.product_id;
+      `;
     const result = await conn.query(query, [productId]);
 
-    const products = result.rows.map((product) => ({
+    const product = result.rows.map((product) => ({
       id: product.product_id,
       name: product.product_name,
       description: product.product_description,
@@ -98,9 +107,23 @@ app.get('/products/:productId', async (req: Request, res: Response) => {
       image: product.product_image,
       categoryId: product.category_id,
       categoryName: product.category_name,
+      sizes: product.sizes.map(
+        (size: { size_name: string; size_price: number }) => ({
+          name: size.size_name,
+          price: size.size_price,
+        })
+      ),
+      addons: product.addons.map(
+        (addon: { addon_name: string; addon_price: number }) => ({
+          name: addon.addon_name,
+          price: addon.addon_price,
+        })
+      ),
     }));
 
-    res.json(products[0]);
+    console.log(product);
+
+    res.json(product[0]);
   } catch (err: any) {
     console.error(err.message);
     res.status(500).json({ error: 'Internal Server Error' });
