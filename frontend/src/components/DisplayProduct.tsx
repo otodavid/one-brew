@@ -82,7 +82,9 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
             </div>
             <div className='flex justify-between items-center flex-wrap pt-6 gap-x-3 gap-y-2'>
               <h2 className='capitalize'>{product.name}</h2>
-              <span className='text-primary text-xl font-medium'>$13.99</span>
+              <span className='text-primary text-xl font-medium'>
+                ${product.price}
+              </span>
               <p className='text-sm flex-[1_1_100%]'>{product.description}</p>
             </div>
           </div>

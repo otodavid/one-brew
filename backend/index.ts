@@ -23,6 +23,15 @@ interface CData {
   type: string;
 }
 
+interface IProduct {
+  id: number;
+  name: string;
+  categoryName: string;
+  description: string;
+  image: string;
+  price: number;
+}
+
 app.get('/categories', async (req: Request, res: Response) => {
   try {
     const query = 'SELECT * FROM categories';
@@ -47,7 +56,7 @@ app.get('/categories/:categoryName', async (req: Request, res: Response) => {
     const { categoryName } = req.params;
     const result = await conn.query(query, [categoryName]);
 
-    const products = result.rows.map((product) => ({
+    const products: IProduct[] = result.rows.map((product: any) => ({
       id: product.product_id,
       name: product.product_name,
       description: product.product_description,
