@@ -22,10 +22,10 @@ export interface ICategories {
 export interface IProduct {
   id: number;
   name: string;
-  category: string;
+  categoryName: string;
   description: string;
-  image: string;  
-  price?: string | number;
+  image: string;
+  price: number;
 }
 
 export interface IProductCard extends IProduct {}

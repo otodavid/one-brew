@@ -2,6 +2,7 @@ import express, { Express, query, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import conn from './config/db';
+import { error } from 'console';
 
 dotenv.config();
 const app: Express = express();
@@ -15,31 +16,86 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Express + Typescript');
 });
 
-// Sample route to fetch products
-app.get('/products', async (req: Request, res: Response) => {
+interface CData {
+  id: number;
+  name: string;
+  image: string;
+  type: string;
+}
+
+app.get('/categories', async (req: Request, res: Response) => {
   try {
-    const result = await conn.query(
-      'SELECT * FROM products p INNER JOIN categories c ON p.category_id = c.category_id'
-    );
-    res.json(result.rows);
-    console.log(result.rows);
+    const query = 'SELECT * FROM categories';
+    const result = await conn.query(query);
+
+    const categories: CData[] = result.rows.map((category) => ({
+      id: category.category_id,
+      name: category.category_name,
+      image: category.category_image,
+      type: category.category_type,
+    }));
+
+    res.json(categories);
   } catch (err: any) {
     console.error(err.message);
   }
 });
 
-app.get('/products/:category_name', async (req: Request, res: Response) => {
+app.get('/categories/:categoryName', async (req: Request, res: Response) => {
   try {
-    const query =
-      'SELECT * FROM products p INNER JOIN categories c ON p.category_id = c.category_id WHERE c.category_name = $1';
+    const query = 'SELECT * FROM products WHERE products.category_name=$1';
+    const { categoryName } = req.params;
+    const result = await conn.query(query, [categoryName]);
 
-    const { category_name } = req.params;
+    const products = result.rows.map((product) => ({
+      id: product.product_id,
+      name: product.product_name,
+      description: product.product_description,
+      price: product.product_price,
+      image: product.product_image,
+      categoryId: product.category_id,
+      categoryName: product.category_name,
+    }));
 
-    const result = await conn.query(query, [category_name]);
-    res.json(result.rows);
-    console.log(result.rows);
+    res.json(products);
   } catch (err: any) {
     console.error(err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/products', async (req: Request, res: Response) => {
+  try {
+    const query = 'SELECT * FROM products';
+    const result = await conn.query(query);
+
+    res.json(result.rows);
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/products/:productId', async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const query = 'SELECT * FROM products WHERE products.product_id=$1';
+    const result = await conn.query(query, [productId]);
+
+    const products = result.rows.map((product) => ({
+      id: product.product_id,
+      name: product.product_name,
+      description: product.product_description,
+      price: product.product_price,
+      image: product.product_image,
+      categoryId: product.category_id,
+      categoryName: product.category_name,
+    }));
+
+    res.json(products[0]);
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

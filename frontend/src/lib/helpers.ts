@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function sanitizeData(text: string) {
+export function convertToText(text: string) {
   return text.replaceAll('-', ' ');
 }
 

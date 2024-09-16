@@ -12,11 +12,12 @@ export const ProductList = ({ productList }: IProductList) => {
       {productList.map((product) => (
         <ProductCard
           key={product.name}
+          id={product.id}
           name={product.name}
           description={product.description}
           price={product.price}
-          imageSrc={product.imageSrc}
-          category={product.category}
+          image={product.image}
+          categoryName={product.categoryName}
         />
       ))}
     </>
