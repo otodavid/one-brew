@@ -89,11 +89,24 @@ app.get('/products/:productId', async (req: Request, res: Response) => {
     const { productId } = req.params;
     const query = `
       SELECT products.product_id, products.product_name, products.product_description, products.product_price, products.product_image, products.category_id, products.category_name,
-             json_agg(DISTINCT jsonb_build_object('size_name', sizes.size_name, 'size_price', sizes.size_price)) AS sizes,
-             json_agg(DISTINCT jsonb_build_object('addon_name', addons.addon_name, 'addon_price', addons.addon_price)) AS addons
+            json_agg(DISTINCT jsonb_build_object('size_name', sizes.size_name, 'size_price', sizes.size_price)) AS sizes,
+
+            json_agg(DISTINCT jsonb_build_object('addon_type', addons.addon_name, 'items', 
+         (SELECT json_agg(jsonb_build_object('item_name', addon_items.item_name, 'item_price', product_addon_items.price))
+          FROM addon_items
+          INNER JOIN product_addon_items ON addon_items.item_id = product_addon_items.addon_item_id
+          WHERE product_addon_items.product_id = products.product_id AND addon_items.addon_id = addons.addon_id)
+       )) as addons
+      
       FROM products
       LEFT JOIN sizes ON sizes.product_id = products.product_id
-      LEFT JOIN addons ON addons.product_id = products.product_id
+      LEFT JOIN product_addon_items 
+        ON products.product_id = product_addon_items.product_id
+      LEFT JOIN addon_items 
+        ON product_addon_items.addon_item_id = addon_items.item_id
+      LEFT JOIN addons 
+        ON addon_items.addon_id = addons.addon_id
+
       WHERE products.product_id = $1
       GROUP BY products.product_id;
       `;
@@ -114,14 +127,18 @@ app.get('/products/:productId', async (req: Request, res: Response) => {
         })
       ),
       addons: product.addons.map(
-        (addon: { addon_name: string; addon_price: number }) => ({
-          name: addon.addon_name,
-          price: addon.addon_price,
+        (addon: {
+          addon_type: string;
+          items: [{ item_name: string; item_price: number }];
+        }) => ({
+          type: addon.addon_type,
+          items: addon.items.map((item) => ({
+            name: item.item_name,
+            price: item.item_price,
+          })),
         })
       ),
     }));
-
-    console.log(product);
 
     res.json(product[0]);
   } catch (err: any) {
