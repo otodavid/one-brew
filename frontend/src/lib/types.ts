@@ -28,14 +28,24 @@ export interface IProduct {
   price: number;
 }
 
+export interface IDetailedProduct extends IProduct {
+  categoryId: number;
+  sizes: ISizes[];
+  addons: IAddons[];
+}
+
 export interface IProductCard extends IProduct {}
 
 export interface IProductItem extends IProduct {}
 
-interface IAddons {
+interface ISizes {
   name: string;
   price: number;
-  quantity: number;
+}
+
+interface IAddons {
+  type: string;
+  items: [{ name: string, price: number }];
 }
 
 export interface ICartItem {

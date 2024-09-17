@@ -1,7 +1,7 @@
 'use client';
 
 import { convertToText } from '@/lib/helpers';
-import { IProduct } from '@/lib/types';
+import { IProduct, IDetailedProduct } from '@/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -24,13 +24,16 @@ interface ICustomizations {
 }
 
 export const DisplayProduct = ({ productId }: { productId: string }) => {
-  const [product, setProduct] = useState<IProduct>({
+  const [product, setProduct] = useState<IDetailedProduct>({
     name: '',
     categoryName: '',
     description: '',
     id: 0,
     image: '',
     price: 0.0,
+    categoryId: 0,
+    sizes: [],
+    addons: [],
   });
 
   useEffect(() => {
@@ -46,7 +49,9 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     };
 
     fetchProduct();
-  }, []);
+  }, [productId]);
+
+  console.log(product);
 
   const productToAdd: IProduct = {
     id: 1,
@@ -147,71 +152,55 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
             <p className='font-semibold'>Customize</p>
 
             <Accordion type='multiple' className='w-full pt-1'>
-              <AccordionItem value='coffee-blend'>
-                <AccordionTrigger>Coffee Roast</AccordionTrigger>
-                <AccordionContent>
-                  <RadioGroup
-                    defaultValue='medium-roast'
-                    className='*:mb-6 last:mb-0'
-                  >
-                    <div className='flex flex-row-reverse justify-between'>
-                      <RadioGroupItem value='light-roast' id='light-roast' />
-                      <Label className='font-normal' htmlFor='light-roast'>
-                        light roast
-                      </Label>
-                    </div>
-                    <div className='flex flex-row-reverse justify-between'>
-                      <RadioGroupItem value='medium-roast' id='medium-roast' />
-                      <Label className='font-normal' htmlFor='medium-roast'>
-                        medium roast
-                      </Label>
-                    </div>
-                    <div className='flex flex-row-reverse justify-between'>
-                      <RadioGroupItem value='dark-roast' id='dark-roast' />
-                      <Label className='font-normal' htmlFor='dark-roast'>
-                        dark roast
-                      </Label>
-                    </div>
-                    <div className='flex flex-row-reverse justify-between'>
-                      <RadioGroupItem value='decaf' id='decaf' />
-                      <Label className='font-normal' htmlFor='decaf'>
-                        decaf
-                      </Label>
-                    </div>
-                  </RadioGroup>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value='dairy'>
-                <AccordionTrigger>Dairy</AccordionTrigger>
-                <AccordionContent className='flex flex-col gap-y-6'>
-                  <CustomizationItem
-                    name='cream'
-                    incrementValue={1}
-                    maxValue={6}
-                  />
-                  <CustomizationItem
-                    name='2% Milk'
-                    incrementValue={1}
-                    maxValue={6}
-                  />
-                  <CustomizationItem
-                    name='soy milk'
-                    incrementValue={1}
-                    maxValue={6}
-                  />
-                  <CustomizationItem
-                    name='almond milk'
-                    incrementValue={1}
-                    maxValue={6}
-                  />
-                  <CustomizationItem
-                    name='oat milk'
-                    incrementValue={1}
-                    maxValue={6}
-                  />
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value='sweetners'>
+                <AccordionItem value='coffee-blend'>
+                  <AccordionTrigger>Coffee Blend</AccordionTrigger>
+                  <AccordionContent>
+                    <RadioGroup
+                      defaultValue='medium-roast'
+                      className='*:mb-6 last:mb-0'
+                    >
+                      <div className='flex flex-row-reverse justify-between'>
+                        <RadioGroupItem value='light-roast' id='light-roast' />
+                        <Label className='font-normal' htmlFor='light-roast'>
+                          light roast
+                        </Label>
+                      </div>
+                      <div className='flex flex-row-reverse justify-between'>
+                        <RadioGroupItem value='medium-roast' id='medium-roast' />
+                        <Label className='font-normal' htmlFor='medium-roast'>
+                          medium roast
+                        </Label>
+                      </div>
+                      <div className='flex flex-row-reverse justify-between'>
+                        <RadioGroupItem value='dark-roast' id='dark-roast' />
+                        <Label className='font-normal' htmlFor='dark-roast'>
+                          dark roast
+                        </Label>
+                      </div>
+                      <div className='flex flex-row-reverse justify-between'>
+                        <RadioGroupItem value='decaf' id='decaf' />
+                        <Label className='font-normal' htmlFor='decaf'>
+                          decaf
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                  </AccordionContent>
+                </AccordionItem>
+              {product.addons.map((addon) => (
+                <AccordionItem value={addon.type}>
+                  <AccordionTrigger>{addon.type}</AccordionTrigger>
+                  <AccordionContent className='flex flex-col gap-y-6'>
+                    {addon.items.map((item) => (
+                      <CustomizationItem
+                        name={item.name}
+                        incrementValue={1}
+                        maxValue={6}
+                      />
+                    ))}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+              {/* <AccordionItem value='sweetners'>
                 <AccordionTrigger>Add Sweetners</AccordionTrigger>
                 <AccordionContent className='flex flex-col gap-y-4'>
                   <CustomizationItem
@@ -277,7 +266,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
                     incrementValue={1}
                   />
                 </AccordionContent>
-              </AccordionItem>
+              </AccordionItem> */}
             </Accordion>
           </div>
 
