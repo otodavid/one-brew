@@ -189,11 +189,16 @@
     "type": "bakery",
     "data": [
       {
+        "id": 36,
         "name": "croissant",
         "description": "A flaky, buttery pastry perfect for pairing with coffee.",
-        "imageSrc": "/img/croissant.jpg",
-        "price": 15.0,
-        "category": "bakery"
+        "price": 12.99,
+        "image": "https://api.slingacademy.com/public/sample-photos/21.jpeg",
+        "categoryId": 2,
+        "categoryName": "bakery",
+        "coffeeBlend": false,
+        "sizes": [{ "name": "", "price": 0 }],
+        "addons": [{ "type": "", "items": [] }]
       },
       {
         "name": "muffin",

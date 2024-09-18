@@ -32,6 +32,7 @@ export interface IDetailedProduct extends IProduct {
   categoryId: number;
   sizes: ISizes[];
   addons: IAddons[];
+  coffeeBlend: boolean;
 }
 
 export interface IProductCard extends IProduct {}
@@ -45,7 +46,7 @@ interface ISizes {
 
 interface IAddons {
   type: string;
-  items: [{ name: string, price: number }];
+  items: [{ name: string; price: number }];
 }
 
 export interface ICartItem {

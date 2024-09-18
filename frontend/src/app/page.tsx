@@ -11,12 +11,12 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ProductCard } from '@/components/ui/ProductCard';
 import { useEffect, useState } from 'react';
-import { IProduct } from '@/lib/types';
+import { IDetailedProduct, IProduct } from '@/lib/types';
 import data from '@/lib/data.json';
 import { ProductList } from '@/components/ProductList';
 
 export default function Home() {
-  const [productList, setProductList] = useState<IProduct[]>([
+  const [productList, setProductList] = useState<IDetailedProduct[]>([
     data[3].data[0],
     data[3].data[1],
     data[3].data[3],
@@ -30,7 +30,7 @@ export default function Home() {
         subheading='Discover the blends our customers love the most.'
       >
         <ProductCard
-          imageSrc={'/img/iced-americano.jpg'}
+          image={'/img/iced-americano.jpg'}
           name={'Iced Americano'}
           description='This is a very good coffee brewed with premium coffee beans and a very expensive coffee maker'
           price={500}
