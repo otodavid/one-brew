@@ -19,9 +19,8 @@ export const CategoryProducts = ({ category }: { category: string }) => {
     };
 
     getProducts();
-
-    console.log(products);
   }, []);
+  console.log(products);
 
   return (
     <>

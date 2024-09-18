@@ -26,11 +26,11 @@ export const ProductCard = ({
   categoryName: string;
   description: string;
   image: string;
-  price: number;
+  price: number | string;
 }) => {
   return (
-    <Link href={`/menu/${categoryName}/${convertToLink(name)}/${id}`}>
-      <Card>
+    <Card>
+      <Link href={`/menu/${categoryName}/${convertToLink(name)}/${id}`}>
         <CardImage imageSrc={image} alt={name} />
 
         <CardHeader>
@@ -42,13 +42,11 @@ export const ProductCard = ({
           <p className='font-bold'>
             <span className='text-xs font-extralight'>Starts at </span>${price}
           </p>
-          <Button asChild={true}>
-            <Link href={`/menu/${categoryName}/${convertToLink(name)}/${id}`}>
-              <BiSolidMagicWand size={'16'} className='mr-1.5' /> Customize
-            </Link>
+          <Button>
+            <BiSolidMagicWand size={'16'} className='mr-1.5' /> Customize
           </Button>
         </CardContent>
-      </Card>
-    </Link>
+      </Link>
+    </Card>
   );
 };

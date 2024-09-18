@@ -6,7 +6,7 @@ export const ReviewCard = () => {
     <div className='relative bg-white rounded-xl px-4 py-8 shadow-lg'>
       <div className='w-16 h-16 rounded-full absolute overflow-hidden -top-8 left-2/4 -translate-x-2/4 border-2 border-primary'>
         <Image
-          src='https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/280.jpg'
+          src='https://api.slingacademy.com/public/sample-photos/25.jpeg'
           alt='Customer Picture'
           fill={true}
         />

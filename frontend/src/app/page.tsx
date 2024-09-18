@@ -16,10 +16,33 @@ import data from '@/lib/data.json';
 import { ProductList } from '@/components/ProductList';
 
 export default function Home() {
-  const [productList, setProductList] = useState<IDetailedProduct[]>([
-    data[3].data[0],
-    data[3].data[1],
-    data[3].data[3],
+  const [productList, setProductList] = useState<IProduct[]>([
+    {
+      id: 36,
+      name: 'croissant',
+      description: 'A flaky, buttery pastry perfect for pairing with coffee.',
+      price: 12.99,
+      image: 'https://api.slingacademy.com/public/sample-photos/21.jpeg',
+      categoryName: 'bakery',
+    },
+    {
+      id: 1,
+      name: 'espresso',
+      description:
+        'A strong, full-bodied coffee shot made from finely-ground coffee beans.',
+      price: 14.9,
+      image: 'https://api.slingacademy.com/public/sample-photos/1.jpeg',
+      categoryName: 'espresso-based-coffee',
+    },
+    {
+      id: 2,
+      name: 'latte',
+      description:
+        'Creamy and rich, made with espresso and steamed milk, topped with a thin layer of foam.',
+      price: 15.99,
+      image: 'https://api.slingacademy.com/public/sample-photos/2.jpeg',
+      categoryName: 'espresso-based-coffee',
+    },
   ]);
 
   return (
@@ -30,11 +53,12 @@ export default function Home() {
         subheading='Discover the blends our customers love the most.'
       >
         <ProductCard
-          image={'/img/iced-americano.jpg'}
-          name={'Iced Americano'}
-          description='This is a very good coffee brewed with premium coffee beans and a very expensive coffee maker'
-          price={500}
-          category='cold brew and iced coffee'
+          id={data[1].id}
+          image={data[1].image}
+          name={data[1].name}
+          description={data[1].description}
+          price={data[1].price}
+          categoryName={data[1].categoryName}
         />
       </Featured>
 
