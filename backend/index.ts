@@ -88,7 +88,7 @@ app.get('/products/:productId', async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
     const query = `
-      SELECT products.product_id, products.product_name, products.product_description, products.product_price, products.product_image, products.category_id, products.category_name,
+      SELECT products.product_id, products.product_name, products.product_description, products.product_price, products.product_image, products.category_id, products.category_name, products.coffee_blend,
             json_agg(DISTINCT jsonb_build_object('size_name', sizes.size_name, 'size_price', sizes.size_price)) AS sizes,
 
             json_agg(DISTINCT jsonb_build_object('addon_type', addons.addon_name, 'items', 
@@ -112,33 +112,44 @@ app.get('/products/:productId', async (req: Request, res: Response) => {
       `;
     const result = await conn.query(query, [productId]);
 
-    const product = result.rows.map((product) => ({
-      id: product.product_id,
-      name: product.product_name,
-      description: product.product_description,
-      price: product.product_price,
-      image: product.product_image,
-      categoryId: product.category_id,
-      categoryName: product.category_name,
-      sizes: product.sizes.map(
-        (size: { size_name: string; size_price: number }) => ({
-          name: size.size_name,
-          price: size.size_price,
-        })
-      ),
-      addons: product.addons.map(
-        (addon: {
-          addon_type: string;
-          items: [{ item_name: string; item_price: number }];
-        }) => ({
-          type: addon.addon_type,
-          items: addon.items.map((item) => ({
-            name: item.item_name,
-            price: item.item_price,
-          })),
-        })
-      ),
-    }));
+    const product = result.rows.map((product) => {
+      if (product.addons.items == null) {
+        console.log([]);
+      }
+
+      return {
+        id: product.product_id,
+        name: product.product_name,
+        description: product.product_description,
+        price: product.product_price,
+        image: product.product_image,
+        categoryId: product.category_id,
+        categoryName: product.category_name,
+        coffeeBlend: product.coffee_blend,
+        sizes: product.sizes.map(
+          (size: { size_name: string; size_price: number }) => ({
+            name: size.size_name || '',
+            price: size.size_price || 0,
+          })
+        ),
+        addons: product.addons.map(
+          (addon: {
+            addon_type: string;
+            items: [{ item_name: string; item_price: number }];
+          }) => ({
+            type: addon.addon_type || '',
+            items: addon.items
+              ? addon.items.map((item) => ({
+                  name: item.item_name,
+                  price: item.item_price,
+                }))
+              : [],
+          })
+        ),
+      };
+    });
+
+    console.log(product[0]);
 
     res.json(product[0]);
   } catch (err: any) {
