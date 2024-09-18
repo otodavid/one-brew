@@ -22,26 +22,29 @@ export default function Home() {
       name: 'croissant',
       description: 'A flaky, buttery pastry perfect for pairing with coffee.',
       price: 12.99,
-      image: 'https://api.slingacademy.com/public/sample-photos/21.jpeg',
+      image:
+        'https://res.cloudinary.com/oloruntomidavid/image/upload/v1726646490/onebrew/seqgo6don3dtwsgjghkb.jpg',
       categoryName: 'bakery',
     },
     {
-      id: 1,
-      name: 'espresso',
+      id: 37,
+      name: 'muffin',
       description:
-        'A strong, full-bodied coffee shot made from finely-ground coffee beans.',
-      price: 14.9,
-      image: 'https://api.slingacademy.com/public/sample-photos/1.jpeg',
-      categoryName: 'espresso-based-coffee',
+        'Moist and delicious, available in various flavours like blueberry, chocolate chip, and banana nut.',
+      price: 6.99,
+      image:
+        'https://res.cloudinary.com/oloruntomidavid/image/upload/v1726647321/onebrew/dujarkpbpvvet8wpm0ki.jpg',
+      categoryName: 'bakery',
     },
     {
-      id: 2,
-      name: 'latte',
+      id: 38,
+      name: 'danish',
       description:
-        'Creamy and rich, made with espresso and steamed milk, topped with a thin layer of foam.',
-      price: 15.99,
-      image: 'https://api.slingacademy.com/public/sample-photos/2.jpeg',
-      categoryName: 'espresso-based-coffee',
+        'A sweet pastry with a variety of fillings such as cream cheese, fruit, or almond paste.',
+      price: 10.99,
+      image:
+        'https://res.cloudinary.com/oloruntomidavid/image/upload/v1726646496/onebrew/fj5fwqy43ryjxiw2ckwn.jpg',
+      categoryName: 'bakery',
     },
   ]);
 
