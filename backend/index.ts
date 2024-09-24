@@ -113,10 +113,6 @@ app.get('/products/:productId', async (req: Request, res: Response) => {
     const result = await conn.query(query, [productId]);
 
     const product = result.rows.map((product) => {
-      if (product.addons.items == null) {
-        console.log([]);
-      }
-
       return {
         id: product.product_id,
         name: product.product_name,
@@ -148,8 +144,6 @@ app.get('/products/:productId', async (req: Request, res: Response) => {
         ),
       };
     });
-
-    console.log(product[0]);
 
     res.json(product[0]);
   } catch (err: any) {
