@@ -26,9 +26,6 @@ export interface IProduct {
   description: string;
   image: string;
   price: number;
-}
-
-export interface IDetailedProduct extends IProduct {
   categoryId: number;
   sizes: ISizes[];
   addons: IAddons[];
@@ -49,12 +46,27 @@ interface IAddons {
   items: [{ name: string; price: number }];
 }
 
+export interface ICustomizeDetails {
+  size: string;
+  addons: { name: string; quantity: number; price: number }[];
+}
+
 export interface ICartItem {
   name: string;
-  category: string;
+  categoryName: string;
   description: string;
-  imageSrc: string;
+  id: number;
+  image: string;
   price: number;
-  size: string;
-  addons: IAddons[];
+  categoryId: number;
+  size: { name: string; price: number };
+  addons: { name: string; quantity: number; price: number }[];
+  coffeeBlend: boolean;
+}
+
+export interface IContext {
+  customizeDetails: ICustomizeDetails;
+  setCustomizeDetails: React.Dispatch<React.SetStateAction<ICustomizeDetails>>;
+  cartItem: ICartItem;
+  setCartItem: React.Dispatch<React.SetStateAction<ICartItem>>;
 }

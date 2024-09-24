@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ProductCard } from '@/components/ui/ProductCard';
 import { useEffect, useState } from 'react';
-import { IDetailedProduct, IProduct } from '@/lib/types';
+import { IProduct, IProduct } from '@/lib/types';
 import data from '@/lib/data.json';
 import { ProductList } from '@/components/ProductList';
 

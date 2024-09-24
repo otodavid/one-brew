@@ -10,27 +10,24 @@ import { CiEdit } from 'react-icons/ci';
 import { MdOutlineDeleteOutline } from 'react-icons/md';
 
 export default function Cart() {
-  const { category, product } = useParams<{
-    category: string;
-    product: string;
-  }>();
+  const dispatch = useAppDispatch();
+  const cart = useAppSelector(selectCart);
 
-  const dispatch = useAppDispatch()
-  const cartItems = useAppSelector(selectCart);
+  console.log(cart);
 
   return (
     <section className='px-4 py-6'>
       <h2 className='capitalize font-bold'>Cart</h2>
 
       <div className='grid grid-cols-1 gap-y-8 pb-12 mt-8'>
-        {cartItems.map((item) => (
+        {cart.map((item) => (
           <div
             key={item.name}
             className='flex flex-wrap gap-4 shadow-sm rounded-lg px-4 py-6 bg-card'
           >
             <div className='self-start relative h-20 w-20 rounded-full overflow-hidden'>
               <Image
-                src={item.imageSrc}
+                src={item.image}
                 fill={true}
                 alt={item.name}
                 className='object-cover'
