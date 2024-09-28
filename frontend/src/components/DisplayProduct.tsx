@@ -45,8 +45,9 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     price: 0,
     categoryId: 0,
     size: { name: '', price: 0 },
-    addons: [] as { name: string; quantity: number; price: number }[] ,
+    addons: [] as { name: string; quantity: number; price: number }[],
     coffeeBlend: false,
+    totalPrice: 0,
   });
 
   const [customizeDetails, setCustomizeDetails] = useState<ICustomizeDetails>({
@@ -72,6 +73,12 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
 
   // update cartItm
   useEffect(() => {
+    let sizeInfo = { name: '', price: 0 };
+
+    if (product.sizes[0].name !== '') {
+      sizeInfo = { name: product.sizes[0].name, price: product.sizes[0].price };
+    }
+
     setCartItem((prev) => ({
       ...prev,
 
@@ -82,11 +89,21 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
       image: product.image,
       price: product.price,
       categoryId: product.categoryId,
-      size: { name: '', price: 0 },
+      size: { name: sizeInfo.name, price: sizeInfo.price },
       addons: [],
       coffeeBlend: product.coffeeBlend,
+      totalPrice: 0,
     }));
   }, [product]);
+
+  // update total price
+  useEffect(() => {
+    setCartItem((prev) => ({
+      ...prev,
+
+      totalPrice: prev.size.price,
+    }));
+  }, [cartItem.size]);
 
   const handleProductSizeVolume = (size: string) => {
     let volume;

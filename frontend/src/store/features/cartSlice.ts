@@ -19,10 +19,15 @@ export const cartSlice = createAppSlice({
     addToCart: (state: ICart, action: PayloadAction<ICartItem>) => {
       state.cartItems.push(action.payload);
     },
+    removeFromCart: (state: ICart, action: PayloadAction<ICartItem>) => {
+      state.cartItems.filter(
+        (item, index) => state.cartItems[index] != action.payload
+      );
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
 

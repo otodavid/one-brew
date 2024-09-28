@@ -19,7 +19,6 @@ export const CustomizationItem = ({
 }: CustomizationItemProps) => {
   const [quantity, setQuantity] = useState<number>(0);
   const context = useContext(CustomizeContext);
-  // const [addonName, setAddonName] = useState<string>('');
 
   if (!context) {
     throw new Error('Context Provider is undefined');
@@ -37,6 +36,8 @@ export const CustomizationItem = ({
   };
 
   useEffect(() => {
+    console.log(quantity);
+
     if (quantity > 0) {
       setCustomizeDetails((prev: ICustomizeDetails) => {
         const itemExists = prev.addons.some((item) => item.name === name);
@@ -56,20 +57,27 @@ export const CustomizationItem = ({
         }
       });
     }
-  }, [quantity, name, setCustomizeDetails]);
+  }, [quantity, name]);
 
   useEffect(() => {
+    console.log(customizeDetails.addons);
     setCartItem((prev) => ({
       ...prev,
 
-      addons: [
-        ...prev.addons,
-        {
-          name: customizeDetails.size,
-          price: price,
-          quantity: quantity,
-        },
-      ],
+      addons: customizeDetails.addons,
+    }));
+  }, [customizeDetails.addons]);
+
+  useEffect(() => {
+    const totalAddons = customizeDetails.addons.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
+
+    setCartItem((prev) => ({
+      ...prev,
+
+      totalPrice: prev.size.price + totalAddons,
     }));
   }, [customizeDetails.addons]);
 

@@ -62,6 +62,7 @@ export interface ICartItem {
   size: { name: string; price: number };
   addons: { name: string; quantity: number; price: number }[];
   coffeeBlend: boolean;
+  totalPrice: number;
 }
 
 export interface IContext {
