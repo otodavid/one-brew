@@ -1,5 +1,6 @@
 'use client';
 
+import { EmptyCart } from '@/components/EmptyCart';
 import { Button } from '@/components/ui/button';
 import { selectCart, removeFromCart } from '@/store/features/cartSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -13,19 +14,14 @@ export default function Cart() {
   const cart = useAppSelector(selectCart);
 
   console.log(cart);
-  const calculateTotal = () => {
-    let total = 0;
-
-    cart.forEach((item) => {
-      total += item.price;
-    });
-  };
 
   return (
     <section className='px-4 py-6'>
-      <h2 className='capitalize font-bold text-center'>
-        Review order{cart.length > 0 && <span>{cart.length}</span>}
-      </h2>
+      {cart.length > 0 && (
+        <h2 className='capitalize font-bold text-center'>
+          Review order ({cart.length})
+        </h2>
+      )}
 
       {cart.length !== 0 ? (
         <div className='grid grid-cols-1 gap-y-8 pb-12 mt-8'>
@@ -62,7 +58,7 @@ export default function Cart() {
                         <p className='flex-1'>{addon.name}</p>
                         <div className='border-b border-dotted'></div>
                         <span className='font-bold'>
-                          + {(addon.price * addon.quantity).toPrecision(2)}
+                          + {(addon.price * addon.quantity).toFixed(2)}
                         </span>
                       </div>
                     ))}
@@ -79,7 +75,7 @@ export default function Cart() {
                 <Button
                   variant={'ghost'}
                   size={'icon'}
-                  onClick={() => dispatch(removeFromCart(item))}
+                  onClick={() => dispatch(removeFromCart(index))}
                 >
                   <MdOutlineDeleteOutline
                     size={'18'}
@@ -95,29 +91,12 @@ export default function Cart() {
             <span>
               {cart
                 .reduce((accumulator, item) => accumulator + item.totalPrice, 0)
-                .toPrecision(2)}
+                .toFixed(2)}
             </span>
           </div>
         </div>
       ) : (
-        <div className='h-[35rem] items-center py-12 text-center'>
-          <div className='relative h-72 w-full'>
-            <Image
-              src={'/empty-cart.svg'}
-              alt='SVG icon for empty cart'
-              fill={true}
-              className='object-cover object-center'
-            />
-          </div>
-          <h3 className='mt-4'>Let&apos;s get you started</h3>
-          <p className='text-center'>
-            Looks like your cart is empty, have a look at our menu items, and
-            we&apos;ll set you right up
-          </p>
-          <Button asChild className='mt-8 mb-4'>
-            <Link href={'/menu'}>View Menu</Link>
-          </Button>
-        </div>
+        <EmptyCart />
       )}
     </section>
   );
