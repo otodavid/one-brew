@@ -18,9 +18,7 @@ export const ReviewCard = () => {
 
       <p className='my-4 text-center'>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui pariatur
-        praesentium ab voluptas mollitia sed delectus perspiciatis recusandae
-        dolor, nesciunt possimus esse fuga rerum repellat omnis nemo, commodi id
-        ex.
+        praesentium ab voluptas mollitia sed delectus pe
       </p>
 
       <p className='font-semibold text-center text-primary'>Ophelia Ritchie</p>

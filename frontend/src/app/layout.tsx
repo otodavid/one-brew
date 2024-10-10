@@ -21,7 +21,7 @@ export default function RootLayout({
     <StoreProvider>
       <html lang='en'>
         <body className={inter.className}>
-          <div className='overflow-hidden'>
+          <div className='overflow-hidden mx-auto'>
             <Header />
 
             <main>{children}</main>

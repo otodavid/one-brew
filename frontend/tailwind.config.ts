@@ -13,9 +13,6 @@ const config = {
     container: {
       center: true,
       padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-      },
     },
     extend: {
       colors: {
@@ -76,6 +73,17 @@ const config = {
       },
       backgroundImage: {
         'hero-bg': 'url(/coffee-beans.png)',
+        community: 'url(/img/community2.jpg)',
+      },
+      screens: {
+        xs: '500px',
+        '2xl': '1400px',
+      },
+      maxWidth: {
+        '8xl': '90rem',
+      },
+      gridTemplateColumns: {
+        'cards-list': 'repeat(auto-fit, minmax(280px, 1fr))',
       },
     },
   },

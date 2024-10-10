@@ -7,6 +7,7 @@ import Popover from './Popover';
 import { useRef, useState } from 'react';
 import { MobileNav } from './MobileNav';
 import { Button } from './ui/button';
+import { NAVLINKS } from '@/lib/constants';
 
 export default function Header() {
   const userButtonRef = useRef<HTMLButtonElement>(null);
@@ -37,10 +38,20 @@ export default function Header() {
   };
 
   return (
-    <header className='flex justify-between items-center px-4 py-4 relative z-10 border-b'>
+    <header className='flex justify-between items-center px-4 py-4 relative z-10 border-b xs:px-6 md:px-12 xl:px-16'>
       <Link href={'/'}>One Brew</Link>
 
-      <div className='flex justify-between gap-16'>
+      <div className='flex justify-between gap-16 items-center'>
+        <ul className='hidden md:flex md:gap-12 items-center'>
+          {NAVLINKS.map(({ name, link }) => (
+            <li key={name} className='hover:text-primary'>
+              <Link href={link} className='capitalize font-medium'>
+                {name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
         <div className='relative flex gap-4'>
           <Button asChild variant={'ghost'} size={'icon'}>
             <Link href='/cart'>
@@ -52,22 +63,12 @@ export default function Header() {
             <FaRegUserCircle size={18} />
           </button> */}
 
-          <Popover
-            trigger={userButtonRef.current}
-            closeComponent={closePopOver}
-            isComponentOpen={isOpen}
-            className='absolute right-0 top-8 rounded-md'
-          >
-            <button className='block'>first</button>
-            <button className='block'>Hello</button>
-            <button className='block'>last</button>
-          </Popover>
-
           <Button
             onClick={openModal}
             ref={menuTriggerRef}
             variant={'ghost'}
             size={'icon'}
+            className='md:hidden'
           >
             <IoMenuOutline size={20} />
           </Button>

@@ -43,7 +43,7 @@ interface ISizes {
 
 interface IAddons {
   type: string;
-  items: [{ name: string; price: number }];
+  items: { name: string; price: number }[];
 }
 
 export interface ICustomizeDetails {

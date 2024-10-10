@@ -76,7 +76,7 @@ export function MobileNav({
             <motion.li key={name} variants={menuItemVariant} className='mb-4'>
               <Link
                 href={link}
-                className='capitalize text-[#240404] font-medium'
+                className='capitalize font-medium'
                 onClick={closeComponent}
               >
                 {name}

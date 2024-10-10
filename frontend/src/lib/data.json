@@ -3,7 +3,7 @@
     "id": 36,
     "name": "croissant",
     "description": "A flaky, buttery pastry perfect for pairing with coffee.",
-    "price": "12.99",
+    "price": 12.99,
     "image": "https://res.cloudinary.com/oloruntomidavid/image/upload/v1726646490/onebrew/seqgo6don3dtwsgjghkb.jpg",
     "categoryId": 2,
     "categoryName": "bakery",
@@ -25,7 +25,7 @@
     "id": 37,
     "name": "muffin",
     "description": "Moist and delicious, available in various flavours like blueberry, chocolate chip, and banana nut.",
-    "price": "6.99",
+    "price": 6.99,
     "image": "https://res.cloudinary.com/oloruntomidavid/image/upload/v1726647321/onebrew/dujarkpbpvvet8wpm0ki.jpg",
     "categoryId": 2,
     "categoryName": "bakery",
@@ -47,8 +47,30 @@
     "id": 38,
     "name": "danish",
     "description": "A sweet pastry with a variety of fillings such as cream cheese, fruit, or almond paste.",
-    "price": "10.99",
+    "price": 10.99,
     "image": "https://res.cloudinary.com/oloruntomidavid/image/upload/v1726646496/onebrew/fj5fwqy43ryjxiw2ckwn.jpg",
+    "categoryId": 2,
+    "categoryName": "bakery",
+    "coffeeBlend": false,
+    "sizes": [
+      {
+        "name": "",
+        "price": 0
+      }
+    ],
+    "addons": [
+      {
+        "type": "",
+        "items": []
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "name": "croissant",
+    "description": "A flaky, buttery pastry perfect for pairing with coffee.",
+    "price": 12.99,
+    "image": "https://res.cloudinary.com/oloruntomidavid/image/upload/v1726646490/onebrew/seqgo6don3dtwsgjghkb.jpg",
     "categoryId": 2,
     "categoryName": "bakery",
     "coffeeBlend": false,
@@ -69,7 +91,7 @@
     "id": 1,
     "name": "espresso",
     "description": "A strong, full-bodied coffee shot made from finely-ground coffee beans.",
-    "price": "14.90",
+    "price": 14.9,
     "image": "https://res.cloudinary.com/oloruntomidavid/image/upload/v1726646500/onebrew/fqqzwjnfxwbduyhge0lr.jpg",
     "categoryId": 1,
     "categoryName": "espresso-based-coffee",
@@ -117,7 +139,7 @@
     "id": 2,
     "name": "latte",
     "description": "Creamy and rich, made with espresso and steamed milk, topped with a thin layer of foam.",
-    "price": "15.99",
+    "price": 15.99,
     "image": "https://res.cloudinary.com/oloruntomidavid/image/upload/v1726646444/onebrew/lnnbl90i318w2sef2mhe.jpg",
     "categoryId": 1,
     "categoryName": "espresso-based-coffee",
@@ -147,7 +169,7 @@
     "id": 35,
     "name": "Iced americano",
     "description": "A chilled version of the classic Americano, with espresso and cold water over ice.",
-    "price": "15.00",
+    "price": 15.0,
     "image": "https://res.cloudinary.com/oloruntomidavid/image/upload/v1726646444/onebrew/iktchtsy09szuovdcd1r.jpg",
     "categoryId": 3,
     "categoryName": "cold-brew-and-iced-coffee",
@@ -156,6 +178,36 @@
       {
         "name": "",
         "price": 0
+      }
+    ],
+    "addons": [
+      {
+        "type": "",
+        "items": []
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "latte",
+    "description": "Creamy and rich, made with espresso and steamed milk, topped with a thin layer of foam.",
+    "price": 15.99,
+    "image": "https://res.cloudinary.com/oloruntomidavid/image/upload/v1726646444/onebrew/lnnbl90i318w2sef2mhe.jpg",
+    "categoryId": 1,
+    "categoryName": "espresso-based-coffee",
+    "coffeeBlend": true,
+    "sizes": [
+      {
+        "name": "large",
+        "price": 17.99
+      },
+      {
+        "name": "medium",
+        "price": 14.99
+      },
+      {
+        "name": "small",
+        "price": 13.99
       }
     ],
     "addons": [

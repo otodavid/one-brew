@@ -3,78 +3,61 @@
 import { CallOutSection } from '@/components/CallOutSection';
 import { Featured } from '@/components/Featured';
 import Hero from '@/components/Hero';
-import Image from 'next/image';
-import callOutPic from '/public/img/callout1.png';
-import { CustomerReviews } from '@/components/CustomerReviews';
+import { ReviewsList } from '@/components/ReviewsList';
 import { Community } from '@/components/Community';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ProductCard } from '@/components/ui/ProductCard';
 import { useEffect, useState } from 'react';
-import { IProduct, IProduct } from '@/lib/types';
+import { IProduct } from '@/lib/types';
 import data from '@/lib/data.json';
 import { ProductList } from '@/components/ProductList';
 
 export default function Home() {
-  const [productList, setProductList] = useState<IProduct[]>([
-    {
-      id: 36,
-      name: 'croissant',
-      description: 'A flaky, buttery pastry perfect for pairing with coffee.',
-      price: 12.99,
-      image:
-        'https://res.cloudinary.com/oloruntomidavid/image/upload/v1726646490/onebrew/seqgo6don3dtwsgjghkb.jpg',
-      categoryName: 'bakery',
-    },
-    {
-      id: 37,
-      name: 'muffin',
-      description:
-        'Moist and delicious, available in various flavours like blueberry, chocolate chip, and banana nut.',
-      price: 6.99,
-      image:
-        'https://res.cloudinary.com/oloruntomidavid/image/upload/v1726647321/onebrew/dujarkpbpvvet8wpm0ki.jpg',
-      categoryName: 'bakery',
-    },
-    {
-      id: 38,
-      name: 'danish',
-      description:
-        'A sweet pastry with a variety of fillings such as cream cheese, fruit, or almond paste.',
-      price: 10.99,
-      image:
-        'https://res.cloudinary.com/oloruntomidavid/image/upload/v1726646496/onebrew/fj5fwqy43ryjxiw2ckwn.jpg',
-      categoryName: 'bakery',
-    },
-  ]);
+  const [productList, setProductList] = useState<IProduct[] | null>(null);
+
+  useEffect(() => {
+    setProductList(data);
+  }, []);
 
   return (
-    <div className='relative py-6'>
+    <div className='relative'>
       <Hero />
       <Featured
         heading='Explore our Top Coffee Selection'
         subheading='Discover the blends our customers love the most.'
       >
-        <ProductCard
-          id={data[1].id}
-          image={data[1].image}
-          name={data[1].name}
-          description={data[1].description}
-          price={data[1].price}
-          categoryName={data[1].categoryName}
-        />
+        <div className='mb-6 mt-10 grid gap-6 grid-cols-cards-list'>
+          {productList !== null ? (
+            productList
+              .slice(4)
+              .map((item) => (
+                <ProductCard
+                  key={item.name}
+                  id={item.id}
+                  image={item.image}
+                  name={item.name}
+                  description={item.description}
+                  price={item.price}
+                  categoryName={item.categoryName}
+                />
+              ))
+          ) : (
+            <div>Loading...</div>
+          )}
+        </div>
       </Featured>
 
-      <CallOutSection bgImagePath='/img/callout1.jpg' imageDesc='coffee'>
-        <div>
-          <h2 className='text-2xl font-bold text-center'>
+      <CallOutSection bgImagePath='/img/callout2.jpg' imageDesc='coffee beans'>
+        <div className='md:flex md:gap-9 md:justify-center'>
+          <h2 className='text-center max-w-xl md:text-left'>
             Discover Our Premium Coffee Bean Selection
           </h2>
           <Button
             asChild
             variant={'secondary'}
             size={'lg'}
-            className='mt-7 mx-auto'
+            className='mt-7 mx-auto lg:mx-0'
           >
             <Link href={'/products'}>Explore our products</Link>
           </Button>
@@ -85,34 +68,43 @@ export default function Home() {
         heading='Delicious Fresh Baked Treats'
         subheading='Perfect companions for your coffee moments, made fresh daily. Take a pick from our special baked foods.'
       >
-        <div className='grid gap-8'>
-          <ProductList productList={productList} />
+        <div className='grid gap-8 mb-6 mt-10 grid-cols-cards-list'>
+          {productList !== null ? (
+            <ProductList productList={productList.slice(0, 4)} />
+          ) : (
+            <div>Loading...</div>
+          )}
         </div>
       </Featured>
 
-      <CustomerReviews />
+      <ReviewsList />
       <Community />
 
       <CallOutSection
-        bgImagePath='/img/callout2.jpg'
-        imageDesc='coffee beans in a bag'
+        bgImagePath='/img/callout1.jpg'
+        imageDesc='coffee community'
       >
-        <div className=''>
-          <h2 className='text-2xl font-bold text-center'>
-            Join the <span className='text-primary-dark'>OneBrew Club</span>
-          </h2>
-          <p className='text-center'>
-            Subscribe to our newsletter for exclusive blends, discounts, and
-            early access to new products.
-          </p>
+        <div className='max-w-lg mx-auto'>
+          <div>
+            <h2 className='text-center'>
+              Join the <span className='text-primary-dark'>OneBrew Club</span>
+            </h2>
+            <p className='text-center'>
+              Subscribe to our newsletter for exclusive blends, discounts, and
+              early access to new products.
+            </p>
+          </div>
 
-          <div className='pt-8'>
+          <div className='pt-8 sm:flex sm:gap-6'>
             <input
               type='text'
               placeholder='Email address'
-              className='px-4 py-3 rounded-full w-full'
+              className='px-4 py-2 rounded-full w-full sm:flex-[1_1_70%]'
             />
-            <Button size={'lg'} className='mt-5 w-full capitalize block'>
+            <Button
+              size={'lg'}
+              className='mt-5 w-full capitalize block sm:flex-1 sm:mt-0'
+            >
               subscribe
             </Button>
           </div>
