@@ -38,7 +38,7 @@ export default function Header() {
   };
 
   return (
-    <header className='flex justify-between items-center px-4 py-4 relative z-10 border-b xs:px-6 md:px-12 xl:px-16'>
+    <header className='flex justify-between items-center px-4 py-4 relative z-10 border-b xs:px-6 md:px-12 xl:px-16 2xl:px-20'>
       <Link href={'/'}>One Brew</Link>
 
       <div className='flex justify-between gap-16 items-center'>

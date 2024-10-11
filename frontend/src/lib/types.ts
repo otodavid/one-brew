@@ -12,13 +12,6 @@ export interface PopOverProps extends FocusTrapProps {
   portalId?: string;
 }
 
-export interface ICategories {
-  id: number;
-  name: string;
-  type: string;
-  image: string;
-}
-
 export interface IProduct {
   id: number;
   name: string;
@@ -70,4 +63,16 @@ export interface IContext {
   setCustomizeDetails: React.Dispatch<React.SetStateAction<ICustomizeDetails>>;
   cartItem: ICartItem;
   setCartItem: React.Dispatch<React.SetStateAction<ICartItem>>;
+}
+
+export interface ICategoryItem {
+  id: number;
+  name: string;
+  image: string;
+  type: string;
+}
+
+export interface ICategories {
+  drinks: ICategoryItem[];
+  food: ICategoryItem[];
 }

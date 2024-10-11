@@ -8,7 +8,7 @@ import {
 
 export const Footer = () => {
   return (
-    <footer className=''>
+    <footer className='border-t'>
       <div className='max-w-8xl mx-auto py-12 px-4 xs:px-6 md:px-12 md:flex md:items-start md:justify-between md:pb-6 xl:px-16 2xl:px-20'>
         <div className=' grid gap-x-16 gap-y-8 justify-center text-center xs:grid-cols-[repeat(3,auto)] xs:justify-start xs:text-left md:mx-0'>
           <div>
