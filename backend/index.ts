@@ -26,6 +26,7 @@ interface IProduct {
   id: number;
   name: string;
   categoryName: string;
+  categoryId: number;
   description: string;
   image: string;
   price: number;
@@ -55,17 +56,24 @@ app.get('/categories/:categoryName', async (req: Request, res: Response) => {
     const { categoryName } = req.params;
     const result = await conn.query(query, [categoryName]);
 
-    const products: IProduct[] = result.rows.map((product: any) => ({
-      id: product.product_id,
-      name: product.product_name,
-      description: product.product_description,
-      price: product.product_price,
-      image: product.product_image,
-      categoryId: product.category_id,
-      categoryName: product.category_name,
-    }));
+    const products: IProduct[] = result.rows.map(
+      (product) =>
+        ({
+          id: product.product_id,
+          name: product.product_name,
+          description: product.product_description,
+          price: parseFloat(product.product_price),
+          image: product.product_image,
+          categoryId: product.category_id,
+          categoryName: product.category_name,
+        } as IProduct)
+    );
 
     res.json(products);
+
+    // const test = res.json(result.rows);
+
+    // console.log(test);
   } catch (err: any) {
     console.error(err.message);
     res.status(500).json({ error: 'Internal Server Error' });
