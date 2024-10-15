@@ -154,34 +154,33 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
 
   return (
     <>
-      <section className='px-4 py-6'>
+      <section className='px-4 py-6 pb-12 max-w-8xl mx-auto xs:px-6 md:px-12 xl:px-16 lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16 2xl:px-20'>
         <Link
           href={`/menu/${product.categoryName}`}
-          className='normal-case flex gap-1 items-center text-sm mb-6'
+          className='normal-case flex gap-1 items-center text-sm mb-6 md:w-4/5 md:mx-auto lg:col-span-2 lg:w-full'
         >
           <FaLongArrowAltLeft /> Go back
         </Link>
 
-        <div className='grid grid-cols-1 pb-12'>
-          <div className='mb-8'>
-            <div className='w-full relative h-80 mx-auto rounded-lg overflow-hidden'>
-              <Image
-                src={product.image}
-                alt='Espresso Coffee'
-                fill={true}
-                className='object-cover'
-              />
-            </div>
-            <div className='flex justify-between items-center flex-wrap pt-6 gap-x-3 gap-y-2'>
-              <h2 className='capitalize'>{product.name}</h2>
-              <span className='text-primary text-xl font-medium'>
-                ${product.price}
-              </span>
-              <p className='text-sm flex-[1_1_100%]'>{product.description}</p>
-            </div>
+        <div className='w-full relative h-80 mx-auto rounded-lg overflow-hidden md:h-max md:aspect-video md:w-4/5 md:mx-auto lg:aspect-square lg:w-full'>
+          <Image
+            src={product.image}
+            alt='Espresso Coffee'
+            fill={true}
+            className='object-cover'
+          />
+        </div>
+
+        <div className='grid grid-cols-1 md:max-w-md md:mx-auto lg:pr-8 xl:max-w-xl '>
+          <div className='flex justify-between items-center flex-wrap pt-6 gap-x-3 gap-y-2'>
+            <h2 className='capitalize'>{product.name}</h2>
+            <span className='text-primary text-xl font-medium'>
+              ${product.price}
+            </span>
+            <p className='text-sm flex-[1_1_100%]'>{product.description}</p>
           </div>
 
-          <form>
+          <form className='mt-6'>
             {/* sizing options */}
             {product.sizes[0].name != '' && (
               <div>

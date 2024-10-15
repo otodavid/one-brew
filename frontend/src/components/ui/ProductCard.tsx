@@ -20,14 +20,7 @@ export const ProductCard = ({
   description,
   image,
   price,
-}: {
-  id: number;
-  name: string;
-  categoryName: string;
-  description: string;
-  image: string;
-  price: number;
-}) => {
+}: IProduct) => {
   return (
     <Card>
       <Link

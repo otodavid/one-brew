@@ -25,10 +25,6 @@ export interface IProduct {
   coffeeBlend: boolean;
 }
 
-export interface IProductCard extends IProduct {}
-
-export interface IProductItem extends IProduct {}
-
 interface ISizes {
   name: string;
   price: number;

@@ -83,7 +83,7 @@ const config = {
         '8xl': '90rem',
       },
       gridTemplateColumns: {
-        'cards-list': 'repeat(auto-fit, minmax(280px, 1fr))',
+        'cards-list': 'repeat(auto-fill, minmax(16rem, 1fr))',
       },
     },
   },

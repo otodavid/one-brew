@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { StoreProvider } from './StoreProvider';
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
@@ -19,17 +20,19 @@ export default function RootLayout({
 }>) {
   return (
     <StoreProvider>
-      <html lang='en'>
-        <body className={inter.className}>
-          <div className='overflow-hidden mx-auto'>
-            <Header />
+      <UserProvider>
+        <html lang='en'>
+          <body className={inter.className}>
+            <div className='overflow-hidden mx-auto'>
+              <Header />
 
-            <main>{children}</main>
+              <main>{children}</main>
 
-            <Footer />
-          </div>
-        </body>
-      </html>
+              <Footer />
+            </div>
+          </body>
+        </html>
+      </UserProvider>
     </StoreProvider>
   );
 }
