@@ -40,6 +40,10 @@ export default function Home() {
                   description={item.description}
                   price={item.price}
                   categoryName={item.categoryName}
+                  categoryId={item.categoryId}
+                  addons={item.addons}
+                  sizes={item.sizes}
+                  coffeeBlend={item.coffeeBlend}
                 />
               ))
           ) : (
