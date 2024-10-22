@@ -29,7 +29,7 @@ const data = {
   navMain: [
     {
       title: 'Overview',
-      url: '/products',
+      url: '/overview',
       icon: GrOverview,
       isActive: true,
       items: [],
@@ -120,7 +120,7 @@ export default function App() {
                     </Collapsible>
                   ) : (
                     <SidebarMenuItem>
-                      <Link to='/'>
+                      <Link to='/overview'>
                         <SidebarMenuButton tooltip={item.title}>
                           {item.icon && <item.icon />}
                           <span className='text-base font-semibold'>
@@ -137,7 +137,7 @@ export default function App() {
         </Sidebar>
         <SidebarInset className='p-4'>
           <div className='flex shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 flex-wrap'>
-            <SidebarTrigger className='' />
+            <SidebarTrigger />
 
             <Outlet />
           </div>
