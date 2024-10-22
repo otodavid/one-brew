@@ -70,10 +70,6 @@ app.get('/categories/:categoryName', async (req: Request, res: Response) => {
     );
 
     res.json(products);
-
-    // const test = res.json(result.rows);
-
-    // console.log(test);
   } catch (err: any) {
     console.error(err.message);
     res.status(500).json({ error: 'Internal Server Error' });
