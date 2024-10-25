@@ -32,6 +32,10 @@ interface IProduct {
   price: number;
 }
 
+app.get('/', async (_, res: Response) => {
+  res.json({ message: 'Welcome to the one brew app' });
+});
+
 app.get('/categories', async (req: Request, res: Response) => {
   try {
     const query = 'SELECT * FROM categories';
