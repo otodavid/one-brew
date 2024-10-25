@@ -2,9 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { ProductList } from './ProductList';
+import { IProduct } from '@/lib/types';
+import { MenuSidebar } from './MenuSidebar';
+import { useFetchCategories } from '@/hooks/useFetchCategories';
+import { convertToText } from '@/lib/helpers';
 
 export const CategoryProducts = ({ category }: { category: string }) => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<IProduct[]>([]);
+  const categories = useFetchCategories();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -19,15 +24,20 @@ export const CategoryProducts = ({ category }: { category: string }) => {
     };
 
     getProducts();
-
-    console.log(products);
   }, []);
 
   return (
-    <>
-      <div className='grid grid-cols-[repeat(auto-fill,_minmax(210px,_1fr))] gap-y-6 gap-x-4 pt-4'>
-        <ProductList productList={products} />
+    <div className='lg:grid lg:grid-cols-[10rem_1fr] lg:gap-20 xl:gap-32'>
+      <MenuSidebar categories={categories} />
+
+      <div>
+        <h2 className='capitalize font-bold text-xl'>
+          {convertToText(category)}
+        </h2>
+        <div className='grid gap-y-6 sm:gap-x-4 sm:grid-cols-cards-list pt-4 sm:pt-6'>
+          <ProductList productList={products} />
+        </div>
       </div>
-    </>
+    </div>
   );
 };

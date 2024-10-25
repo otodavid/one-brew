@@ -13,7 +13,7 @@ export const CallOutSection = ({
   children,
 }: CallOutSectionProps) => {
   return (
-    <div className='relative px-4 w-full py-20 overflow-hidden isolate'>
+    <div className='relative px-4 w-full py-20 overflow-hidden isolate xs:px-6 md:py-28 md:px-12 lg:px-28'>
       <Image
         src={bgImagePath}
         alt={imageDesc}

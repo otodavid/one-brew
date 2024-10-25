@@ -1,0 +1,316 @@
+[
+  {
+    "type": "espresso-based-coffee",
+    "data": [
+      {
+        "name": "espresso",
+        "description": "A strong, full-bodied coffee shot made from finely-ground coffee beans.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "espresso based coffee"
+      },
+      {
+        "name": "latte",
+        "description": "Creamy and rich, made with espresso and steamed milk, topped with a thin layer of foam.",
+        "imageSrc": "/img/latte.jpg",
+        "price": 15.0,
+        "category": "espresso based coffee"
+      },
+      {
+        "name": "cappuccino",
+        "description": "A balanced blend of espresso, steamed milk, and thick milk foam.",
+        "imageSrc": "/img/cappuccino.jpg",
+        "price": 15.0,
+        "category": "espresso based coffee"
+      },
+      {
+        "name": "macchiato",
+        "description": "A shot of espresso topped with a dollop of frothy steamed milk.",
+        "imageSrc": "/img/macchiato.jpg",
+        "price": 15.0,
+        "category": "espresso based coffee"
+      },
+      {
+        "name": "Flat white",
+        "description": "A velvety coffee with a higher ratio of espresso to steamed milk, topped with a thin layer of microfoam.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "espresso based coffee"
+      },
+      {
+        "name": "mocha",
+        "description": "A chocolate-flavored coffee drink made with espresso, steamed milk, and chocolate syrup.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "espresso based coffee"
+      },
+      {
+        "name": "cortado",
+        "description": "A balanced coffee drink with equal parts espresso and steamed milk.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "espresso based coffee"
+      },
+      {
+        "name": "americano",
+        "description": "A smooth coffee drink made by diluting espresso with hot water.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "espresso based coffee"
+      }
+    ]
+  },
+
+  {
+    "type": "cold-brew-and-iced-coffee",
+    "data": [
+      {
+        "name": "classic cold brew",
+        "description": "Smooth and refreshing, steeped slowly in cold water for a full-bodied flavor.",
+        "imageSrc": "/img/cold-brew.jpg",
+        "price": 15.0,
+        "category": "cold brew and iced coffee"
+      },
+      {
+        "name": "Iced americano",
+        "description": "A chilled version of the classic Americano, with espresso and cold water over ice.",
+        "imageSrc": "/img/iced-americano.jpg",
+        "price": 15.0,
+        "category": "cold brew and iced coffee"
+      },
+      {
+        "name": "Iced latte",
+        "description": "Espresso combined with chilled milk and served over ice for a creamy, refreshing taste.",
+        "imageSrc": "/img/iced-latte.jpg",
+        "price": 15.0,
+        "category": "cold brew and iced coffee"
+      },
+      {
+        "name": "Iced cappuccino",
+        "description": "A frothy iced coffee made with espresso, cold milk, and ice, topped with foam.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "cold brew and iced coffee"
+      },
+      {
+        "name": "nitro cold brew",
+        "description": "Cold brew infused with nitrogen for a creamy texture and rich, velvety taste.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "cold brew and iced coffee"
+      },
+      {
+        "name": "iced mocha",
+        "description": "A chilled coffee drink made with espresso, milk, ice, and chocolate syrup.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "cold brew and iced coffee"
+      },
+      {
+        "name": "iced caramel macchiato",
+        "description": "Layers of espresso, vanilla-flavored milk, and ice, topped with caramel drizzle.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "cold brew and iced coffee"
+      },
+      {
+        "name": "cold brew lemonade",
+        "description": "A unique blend of cold brew coffee and lemonade, offering a refreshing twist.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "cold brew and iced coffee"
+      }
+    ]
+  },
+
+  {
+    "type": "bottled-beverages",
+    "data": [
+      {
+        "name": "orange juice",
+        "description": "Freshly squeezed, pure orange juice for a refreshing and vitamin-rich drink.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "bottled beverages"
+      },
+      {
+        "name": "apple juice",
+        "description": "Crisp and sweet, made from fresh apples for a wholesome beverage.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "bottled beverages"
+      },
+      {
+        "name": "lemonade",
+        "description": "Classic lemonade made with real lemons, offering a perfect balance of sweet and tart flavors.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "bottled beverages"
+      },
+      {
+        "name": "berry blend juice",
+        "description": "A delicious mix of berries including strawberries, blueberries, and raspberries for a fruity treat.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "bottled beverages"
+      },
+      {
+        "name": "tropical punch",
+        "description": "A vibrant blend of tropical fruits such as pineapple, mango, and passionfruit.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "bottled beverages"
+      },
+      {
+        "name": "pomegranate juice",
+        "description": "Rich and tangy, made from 100% pomegranate for a healthy boost.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "bottled beverages"
+      },
+      {
+        "name": "coconut water",
+        "description": "Naturally hydrating and refreshing, sourced from fresh coconuts.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "bottled beverages"
+      },
+      {
+        "name": "green juice",
+        "description": "A nutritious blend of leafy greens, apples, and a hint of lemon for a healthy, revitalizing drink.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "bottled beverages"
+      }
+    ]
+  },
+
+  {
+    "type": "bakery",
+    "data": [
+      {
+        "id": 36,
+        "name": "croissant",
+        "description": "A flaky, buttery pastry perfect for pairing with coffee.",
+        "price": 12.99,
+        "image": "https://api.slingacademy.com/public/sample-photos/21.jpeg",
+        "categoryId": 2,
+        "categoryName": "bakery",
+        "coffeeBlend": false,
+        "sizes": [{ "name": "", "price": 0 }],
+        "addons": [{ "type": "", "items": [] }]
+      },
+      {
+        "name": "muffin",
+        "description": "Moist and delicious, available in various flavors like blueberry, chocolate chip, and banana nut.",
+        "imageSrc": "/img/muffin.jpg",
+        "price": 15.0,
+        "category": "bakery"
+      },
+      {
+        "name": "scone",
+        "description": "A crumbly, slightly sweet pastry, often with fruit or chocolate chips.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "bakery"
+      },
+      {
+        "name": "danish",
+        "description": "A sweet pastry with a variety of fillings such as cream cheese, fruit, or almond paste.",
+        "imageSrc": "/img/danish.jpg",
+        "price": 15.0,
+        "category": "bakery"
+      },
+      {
+        "name": "cinnamon roll",
+        "description": "Soft, sweet dough rolled with cinnamon and sugar, topped with icing.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "bakery"
+      },
+      {
+        "name": "bagel",
+        "description": "Chewy and versatile, available plain or with toppings like sesame seeds, poppy seeds, and everything seasoning.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "bakery"
+      },
+      {
+        "name": "banana bread",
+        "description": "Moist and flavorful, made with ripe bananas and sometimes nuts or chocolate chips.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "bakery"
+      },
+      {
+        "name": "pain au chocolat",
+        "description": "A buttery pastry filled with rich chocolate, perfect for a sweet treat.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "bakery"
+      }
+    ]
+  },
+
+  {
+    "type": "snacks-and-sweets",
+    "data": [
+      {
+        "name": "chocolate chip cookie",
+        "description": "Classic cookie filled with rich chocolate chips.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "snacks and sweets"
+      },
+      {
+        "name": "brownie",
+        "description": "Dense and fudgy, perfect for a chocolate lover's treat.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "snacks and sweets"
+      },
+      {
+        "name": "granola bar",
+        "description": "A healthy and satisfying snack, often made with oats, nuts, and dried fruit.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "snacks and sweets"
+      },
+      {
+        "name": "macaron",
+        "description": "Delicate French cookies with a crisp shell and soft interior, available in various flavors.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "snacks and sweets"
+      },
+      {
+        "name": "fruit cup",
+        "description": "A refreshing mix of seasonal fruits, perfect for a light snack.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "snacks and sweets"
+      },
+      {
+        "name": "energy bites",
+        "description": "Bite-sized snacks made with ingredients like oats, peanut butter, and honey, providing a quick energy boost.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "snacks and sweets"
+      },
+      {
+        "name": "yogurt parfait",
+        "description": "Layers of creamy yogurt, crunchy granola, and fresh fruit.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "snacks and sweets"
+      },
+      {
+        "name": "rice krispies treat",
+        "description": "A sweet, crispy snack made with puffed rice cereal and marshmallows.",
+        "imageSrc": "/img/espresso.jpg",
+        "price": 15.0,
+        "category": "snacks and sweets"
+      }
+    ]
+  }
+]

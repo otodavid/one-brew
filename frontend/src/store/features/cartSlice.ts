@@ -1,10 +1,10 @@
-import { IProduct } from '@/lib/types';
+import { ICartItem, IProduct } from '@/lib/types';
 import { createAppSlice } from '../createAppSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 interface ICart {
-  cartItems: IProduct[];
+  cartItems: ICartItem[];
 }
 
 const initialState: ICart = {
@@ -16,13 +16,19 @@ export const cartSlice = createAppSlice({
   initialState,
 
   reducers: {
-    addToCart: (state: ICart, action: PayloadAction<IProduct>) => {
+    addToCart: (state: ICart, action: PayloadAction<ICartItem>) => {
       state.cartItems.push(action.payload);
+    },
+    removeFromCart: (state: ICart, action: PayloadAction<number>) => {
+      state.cartItems.splice(action.payload, 1);
+      // state.cartItems.filter(
+      //   (item, index) => state.cartItems[index] != action.payload
+      // );
     },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
 

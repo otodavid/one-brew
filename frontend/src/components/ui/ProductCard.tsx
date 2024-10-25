@@ -20,35 +20,29 @@ export const ProductCard = ({
   description,
   image,
   price,
-}: {
-  id: number;
-  name: string;
-  categoryName: string;
-  description: string;
-  image: string;
-  price: number;
-}) => {
+}: IProduct) => {
   return (
-    <Link href={`/menu/${categoryName}/${convertToLink(name)}/${id}`}>
-      <Card>
+    <Card>
+      <Link
+        href={`/menu/${categoryName}/${convertToLink(name)}/${id}`}
+        className='grid'
+      >
         <CardImage imageSrc={image} alt={name} />
 
-        <CardHeader>
+        <CardHeader className='py-0 pt-6'>
           <CardTitle className='capitalize'>{convertToText(name)}</CardTitle>
-          <CardDescription>{description}</CardDescription>
+          <CardDescription className='capitalize font-light'>
+            {convertToText(categoryName)}
+          </CardDescription>
         </CardHeader>
 
-        <CardContent className='flex justify-between  items-center flex-wrap gap-3 mt-2'>
-          <p className='font-bold'>
-            <span className='text-xs font-extralight'>Starts at </span>${price}
-          </p>
-          <Button asChild={true}>
-            <Link href={`/menu/${categoryName}/${convertToLink(name)}/${id}`}>
-              <BiSolidMagicWand size={'16'} className='mr-1.5' /> Customize
-            </Link>
+        <CardContent className='flex justify-between items-center flex-wrap pt-6'>
+          <p className=''>${price.toFixed(2)}</p>
+          <Button>
+            <BiSolidMagicWand size={'16'} className='mr-1.5' /> Customize
           </Button>
         </CardContent>
-      </Card>
-    </Link>
+      </Link>
+    </Card>
   );
 };
