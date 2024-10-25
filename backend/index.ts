@@ -5,15 +5,11 @@ import conn from './config/db';
 
 dotenv.config();
 const app: Express = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('Express + Typescript');
-});
 
 interface CData {
   id: number;
@@ -33,7 +29,7 @@ interface IProduct {
 }
 
 app.get('/', async (_, res: Response) => {
-  res.json({ message: 'Welcome to the one brew app' });
+  res.send('Welcome to the one brew app');
 });
 
 app.get('/categories', async (req: Request, res: Response) => {
