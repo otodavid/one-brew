@@ -6,7 +6,7 @@
     "price": 12.99,
     "image": "https://res.cloudinary.com/oloruntomidavid/image/upload/v1726646490/onebrew/seqgo6don3dtwsgjghkb.jpg",
     "categoryId": 2,
-    "categoryName": "bakery",
+    "categoryName": "bakery", 
     "coffeeBlend": false,
     "sizes": [
       {
