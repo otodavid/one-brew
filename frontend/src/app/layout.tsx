@@ -3,8 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { StoreProvider } from './StoreProvider';
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+import Providers from './providers';
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
@@ -19,20 +18,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <StoreProvider>
-      <UserProvider>
-        <html lang='en'>
-          <body className={inter.className}>
-            <div className='overflow-hidden mx-auto'>
-              <Header />
+    <html lang='en'>
+      <body className={inter.className}>
+        <Providers>
+          <div className='overflow-hidden mx-auto'>
+            <Header />
 
-              <main>{children}</main>
+            <main>{children}</main>
 
-              <Footer />
-            </div>
-          </body>
-        </html>
-      </UserProvider>
-    </StoreProvider>
+            <Footer />
+          </div>
+        </Providers>
+      </body>
+    </html>
   );
 }
