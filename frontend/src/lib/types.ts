@@ -17,27 +17,6 @@ export interface ICustomizeDetails {
   addons: { name: string; quantity: number; price: number }[];
 }
 
-export interface ICartItem {
-  name: string;
-  categoryName: string;
-  description: string;
-  id: number;
-  image: string;
-  price: number;
-  categoryId: number;
-  size: { name: string; price: number };
-  addons: { name: string; quantity: number; price: number }[];
-  coffeeBlend: boolean;
-  totalPrice: number;
-}
-
-export interface IContext {
-  customizeDetails: ICustomizeDetails;
-  setCustomizeDetails: React.Dispatch<React.SetStateAction<ICustomizeDetails>>;
-  cartItem: ICartItem;
-  setCartItem: React.Dispatch<React.SetStateAction<ICartItem>>;
-}
-
 export interface ICategoryItem {
   id: number;
   name: string;
@@ -67,19 +46,19 @@ export interface Categories {
   image: string;
 }
 
-interface AddonItem {
+export interface AddonItem {
   id: number;
   name: string;
   price: number;
 }
 
-interface Addon {
+export interface Addon {
   id: number;
   type: string;
   items: AddonItem[];
 }
 
-interface Size {
+export interface Size {
   name: string;
   price: number;
 }
@@ -87,4 +66,16 @@ interface Size {
 export interface Product extends ProductSummary {
   addons: Addon[];
   sizes: Size[];
+}
+export interface CartItem extends ProductSummary {
+  size: Size;
+  addons: { name: string; quantity: number; price: number }[];
+  totalPrice: number;
+}
+
+export interface IContext {
+  customizeDetails: ICustomizeDetails;
+  setCustomizeDetails: React.Dispatch<React.SetStateAction<ICustomizeDetails>>;
+  cartItem: CartItem;
+  setCartItem: React.Dispatch<React.SetStateAction<CartItem>>;
 }

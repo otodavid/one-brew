@@ -8,17 +8,32 @@ import { Community } from '@/components/Community';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ProductCard } from '@/components/ui/ProductCard';
-import { useEffect, useState } from 'react';
-import { IProduct } from '@/lib/types';
-import data from '@/lib/data.json';
+import { ProductSummary } from '@/lib/types';
 import { ProductList } from '@/components/ProductList';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Home() {
-  const [productList, setProductList] = useState<IProduct[] | null>(null);
+  const {
+    data: products,
+    isError,
+    isLoading,
+  } = useQuery({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const res = await fetch('http://localhost:5000/products');
+      return await res.json();
+    },
+  });
 
-  useEffect(() => {
-    setProductList(data);
-  }, []);
+  if (isError && !isLoading) {
+    return <div>An Error occured</div>;
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  
 
   return (
     <div className='relative'>
@@ -28,27 +43,18 @@ export default function Home() {
         subheading='Discover the blends our customers love the most.'
       >
         <div className='mb-6 mt-10 grid gap-6 grid-cols-cards-list'>
-          {productList !== null ? (
-            productList
-              .slice(4)
-              .map((item) => (
-                <ProductCard
-                  key={item.name}
-                  id={item.id}
-                  image={item.image}
-                  name={item.name}
-                  description={item.description}
-                  price={item.price}
-                  categoryName={item.categoryName}
-                  categoryId={item.categoryId}
-                  addons={item.addons}
-                  sizes={item.sizes}
-                  coffeeBlend={item.coffeeBlend}
-                />
-              ))
-          ) : (
-            <div>Loading...</div>
-          )}
+          {products.slice(0, 4).map((product: ProductSummary) => (
+            <ProductCard
+              key={product.id}
+              id={product.id}
+              image={product.image}
+              name={product.name}
+              description={product.description}
+              price={product.price}
+              categoryName={product.categoryName}
+              categoryType={product.categoryType}
+            />
+          ))}
         </div>
       </Featured>
 
@@ -63,7 +69,7 @@ export default function Home() {
             size={'lg'}
             className='mt-7 mx-auto lg:mx-0'
           >
-            <Link href={'/products'}>Explore our products</Link>
+            <Link href={'/menu'}>Explore our products</Link>
           </Button>
         </div>
       </CallOutSection>
@@ -73,11 +79,7 @@ export default function Home() {
         subheading='Perfect companions for your coffee moments, made fresh daily. Take a pick from our special baked foods.'
       >
         <div className='grid gap-8 mb-6 mt-10 grid-cols-cards-list'>
-          {productList !== null ? (
-            <ProductList productList={productList.slice(0, 4)} />
-          ) : (
-            <div>Loading...</div>
-          )}
+          {<ProductList productList={products.slice(0, 4)} />}
         </div>
       </Featured>
 

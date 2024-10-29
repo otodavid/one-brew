@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function convertToText(text: string) {
-  return text.replaceAll('-', ' ');
+  return text.replaceAll('-', ' ').toLowerCase();
 }
 
 export function convertToLink(text: string) {

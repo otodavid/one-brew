@@ -1,43 +1,49 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { ProductList } from './ProductList';
-import { IProduct } from '@/lib/types';
+import { ProductSummary } from '@/lib/types';
 import { MenuSidebar } from './MenuSidebar';
-import { useFetchCategories } from '@/hooks/useFetchCategories';
 import { convertToText } from '@/lib/helpers';
+import { useQuery } from '@tanstack/react-query';
 
-export const CategoryProducts = ({ category }: { category: string }) => {
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const categories = useFetchCategories();
+interface Props {
+  categoryName: string;
+  categoryId: string;
+}
 
-  useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const res = await fetch(`http://localhost:5000/categories/${category}`);
-        const products = await res.json();
+export const CategoryProducts = ({ categoryName, categoryId }: Props) => {
+  const {
+    data: products,
+    isError,
+    isLoading,
+  } = useQuery({
+    queryKey: ['categoryProducts', categoryId],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/products/c/${categoryId}`);
+      return await res.json();
+    },
+  });
 
-        setProducts(products);
-      } catch (err) {
-        console.log('could not fetch data');
-      }
-    };
+  if (isError && !isLoading) {
+    return <div>An Error occured</div>;
+  }
 
-    getProducts();
-  }, []);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className='lg:grid lg:grid-cols-[10rem_1fr] lg:gap-20 xl:gap-32'>
-      <MenuSidebar categories={categories} />
-
-      <div>
-        <h2 className='capitalize font-bold text-xl'>
-          {convertToText(category)}
-        </h2>
-        <div className='grid gap-y-6 sm:gap-x-4 sm:grid-cols-cards-list pt-4 sm:pt-6'>
-          <ProductList productList={products} />
-        </div>
-      </div>
+    <div>
+      {!isLoading && products && (
+        <>
+          <h2 className='capitalize font-bold text-xl'>
+            {convertToText(categoryName)}
+          </h2>
+          <div className='grid gap-y-6 sm:gap-x-4 sm:grid-cols-cards-list pt-4 sm:pt-6'>
+            <ProductList productList={products} />
+          </div>
+        </>
+      )}
     </div>
   );
 };
