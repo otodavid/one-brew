@@ -12,29 +12,6 @@ export interface PopOverProps extends FocusTrapProps {
   portalId?: string;
 }
 
-export interface IProduct {
-  id: number;
-  name: string;
-  categoryName: string;
-  description: string;
-  image: string;
-  price: number;
-  categoryId: number;
-  sizes: ISizes[];
-  addons: IAddons[];
-  coffeeBlend: boolean;
-}
-
-interface ISizes {
-  name: string;
-  price: number;
-}
-
-interface IAddons {
-  type: string;
-  items: { name: string; price: number }[];
-}
-
 export interface ICustomizeDetails {
   size: string;
   addons: { name: string; quantity: number; price: number }[];
@@ -71,4 +48,43 @@ export interface ICategoryItem {
 export interface ICategories {
   drinks: ICategoryItem[];
   food: ICategoryItem[];
+}
+
+export interface ProductSummary {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  categoryName: string;
+  categoryType: string;
+}
+
+export interface Categories {
+  id: string;
+  name: string;
+  type: string;
+  image: string;
+}
+
+interface AddonItem {
+  id: number;
+  name: string;
+  price: number;
+}
+
+interface Addon {
+  id: number;
+  type: string;
+  items: AddonItem[];
+}
+
+interface Size {
+  name: string;
+  price: number;
+}
+
+export interface Product extends ProductSummary {
+  addons: Addon[];
+  sizes: Size[];
 }
