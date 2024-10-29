@@ -3,7 +3,7 @@ export const queryAllCategories = () => {
 };
 
 export const queryProductsByCategoryId = () => {
-  return `SELECT product.id, product.name, product.image_url, product.description, product.price, categories.id, categories.name AS category_name, categories.type
+  return `SELECT product.id, product.name, product.image_url, product.description, product.price, categories.id AS category_id, categories.name AS category_name, categories.type
       FROM product 
       INNER JOIN categories ON product.category_id=categories.id 
       WHERE categories.id=$1`;
@@ -16,7 +16,7 @@ export const queryAllProducts = () => {
       product.image_url,
       product.description,
       product.price,
-      categories.id,
+      categories.id AS category_id,
       categories.name AS category_name,
       categories.type
 FROM
