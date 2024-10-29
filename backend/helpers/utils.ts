@@ -7,7 +7,7 @@ export function transformProductSummaryData(data: any): ProductSummary {
     name: data.name,
     image: data.image_url,
     description: data.description,
-    price: data.price,
+    price: parseFloat(data.price),
     categoryName: data.category_name,
     categoryType: data.type,
   };
@@ -27,7 +27,7 @@ export function transformProductData(data: any): Product {
     id: data.id,
     name: data.name,
     description: data.description,
-    price: data.price,
+    price: parseFloat(data.price),
     image: data.image_url,
     categoryName: data.category_name,
     categoryType: data.type,
