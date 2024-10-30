@@ -24,7 +24,7 @@ app.get('/categories', getAllCategories);
 
 app.get('/products', getAllProducts);
 
-app.get('/products/:categoryId', getProductsByCategoryId);
+app.get('/products/c/:categoryId', getProductsByCategoryId);
 
 app.get('/products/:productId', getProductById);
 
