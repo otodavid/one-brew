@@ -2,42 +2,26 @@
 
 import { FaMinus, FaPlus } from 'react-icons/fa6';
 import { Button } from './ui/button';
-import { useContext, useEffect, useState } from 'react';
-import { CustomizeContext } from './DisplayProduct';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { ICustomizeDetails } from '@/lib/types';
+import { useCounter } from '@/hooks/useCustomizeDetails';
 
 interface CustomizationItemProps {
   name: string;
   maxValue: number;
   price: number;
+  setCustomizeDetails: Dispatch<SetStateAction<ICustomizeDetails>>;
 }
 
 export const CustomizationItem = ({
   name,
   maxValue,
   price,
+  setCustomizeDetails,
 }: CustomizationItemProps) => {
-  const [quantity, setQuantity] = useState<number>(0);
-  const context = useContext(CustomizeContext);
-
-  if (!context) {
-    throw new Error('Context Provider is undefined');
-  }
-
-  const { customizeDetails, setCustomizeDetails, cartItem, setCartItem } =
-    context;
-
-  const handleAdd = () => {
-    setQuantity((prev) => prev + 1);
-  };
-
-  const handleSubstract = () => {
-    setQuantity((prev) => prev - 1);
-  };
+  const { quantity, handleAdd, handleSubstract } = useCounter();
 
   useEffect(() => {
-    console.log(quantity);
-
     if (quantity > 0) {
       setCustomizeDetails((prev: ICustomizeDetails) => {
         const itemExists = prev.addons.some((item) => item.name === name);
@@ -57,29 +41,7 @@ export const CustomizationItem = ({
         }
       });
     }
-  }, [quantity, name]);
-
-  useEffect(() => {
-    console.log(customizeDetails.addons);
-    setCartItem((prev) => ({
-      ...prev,
-
-      addons: customizeDetails.addons,
-    }));
-  }, [customizeDetails.addons]);
-
-  useEffect(() => {
-    const totalAddons = customizeDetails.addons.reduce(
-      (acc, item) => acc + item.price * item.quantity,
-      0
-    );
-
-    setCartItem((prev) => ({
-      ...prev,
-
-      totalPrice: prev.size.price + totalAddons,
-    }));
-  }, [customizeDetails.addons]);
+  }, [quantity, name, price, setCustomizeDetails]);
 
   return (
     <div>

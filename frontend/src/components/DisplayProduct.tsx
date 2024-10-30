@@ -1,7 +1,7 @@
 'use client';
 
-import { convertToText } from '@/lib/helpers';
-import { IContext, ICustomizeDetails, IProduct } from '@/lib/types';
+import { convertToText, handleProductSizeVolume } from '@/lib/helpers';
+import { CartItem, IContext, ICustomizeDetails, Product } from '@/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { createContext, FormEvent, useEffect, useState } from 'react';
@@ -19,170 +19,133 @@ import { addToCart, selectCart } from '@/store/features/cartSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { CoffeeIconSize } from './CoffeeIconSize';
 import { CustomizationItem } from './CustomizationItem';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 export const CustomizeContext = createContext<IContext | undefined>(undefined);
 
 export const DisplayProduct = ({ productId }: { productId: string }) => {
-  const [product, setProduct] = useState<IProduct>({
-    name: '',
-    categoryName: '',
-    description: '',
-    id: 0,
-    image: '',
-    price: 0.0,
-    categoryId: 0,
-    sizes: [{ name: '', price: 0 }],
-    addons: [{ type: '', items: [{ name: '', price: 0.0 }] }],
-    coffeeBlend: true,
+  // fetch product data
+  const {
+    data: product,
+    isError,
+    isLoading,
+  } = useQuery({
+    queryKey: ['product'],
+    queryFn: async (): Promise<Product> => {
+      const res = await fetch(`http://localhost:5000/products/${productId}`);
+      return await res.json();
+    },
   });
 
-  const [cartItem, setCartItem] = useState({
-    name: '',
-    categoryName: '',
-    description: '',
-    id: 0,
-    image: '',
-    price: 0,
-    categoryId: 0,
-    size: { name: '', price: 0 },
-    addons: [] as { name: string; quantity: number; price: number }[],
-    coffeeBlend: false,
-    totalPrice: 0,
-  });
+  const [cartItem, setCartItem] = useState<CartItem | null>(null);
+  const router = useRouter();
 
   const [customizeDetails, setCustomizeDetails] = useState<ICustomizeDetails>({
-    size: '',
+    size: { name: '', price: 0 },
     addons: [],
   });
-
-  // fetch data from API
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const res = await fetch(`http://localhost:5000/products/${productId}`);
-        const data = await res.json();
-
-        setProduct(data);
-      } catch (err) {
-        console.log('could not fetch data');
-      }
-    };
-
-    fetchProduct();
-  }, []);
-
-  // update cartItm
-  useEffect(() => {
-    let sizeInfo = { name: '', price: 0 };
-
-    if (product.sizes[0].name !== '') {
-      sizeInfo = { name: product.sizes[0].name, price: product.sizes[0].price };
-    }
-
-    setCartItem((prev) => ({
-      ...prev,
-
-      name: product.name,
-      categoryName: product.categoryName,
-      description: product.description,
-      id: product.id,
-      image: product.image,
-      price: product.price,
-      categoryId: product.categoryId,
-      size: { name: sizeInfo.name, price: sizeInfo.price },
-      addons: [],
-      coffeeBlend: product.coffeeBlend,
-      totalPrice: 0,
-    }));
-  }, [product]);
-
-  // update total price
-  useEffect(() => {
-    setCartItem((prev) => ({
-      ...prev,
-
-      totalPrice: prev.size.price,
-    }));
-  }, [cartItem.size]);
-
-  const handleProductSizeVolume = (size: string) => {
-    let volume;
-
-    switch (size.toLowerCase()) {
-      case 'small':
-        volume = '250ml';
-        break;
-      case 'medium':
-        volume = '350ml';
-        break;
-      case 'large':
-        volume = '550ml';
-        break;
-    }
-
-    return volume;
-  };
 
   const dispatch = useAppDispatch();
 
   const handleSizeDetails = (value: string) => {
+    let getPrice: number = 0;
+    if (product) {
+      product.sizes.forEach(
+        (size) => size.name === value && (getPrice = size.price)
+      );
+    }
+
     setCustomizeDetails((prev) => ({
       ...prev,
 
-      size: value,
+      size: { name: value, price: getPrice },
     }));
   };
 
   useEffect(() => {
-    handleSizeDetails(product.sizes[0].name);
-  }, []);
+    if (product) {
+      setCustomizeDetails((prev) => ({
+        ...prev,
+
+        size: { name: product.sizes[0].name, price: product.sizes[0].price },
+      }));
+    }
+  }, [product]);
+
+  console.log(customizeDetails);
+
+  const handleCart = () => {
+    if (product) {
+      setCartItem({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        description: product.description,
+        categoryName: product.categoryName,
+        categoryType: product.categoryType,
+        size: {
+          name: customizeDetails.size.name,
+          price: customizeDetails.size.price,
+        },
+        addons: [...customizeDetails.addons],
+        totalPrice:
+          customizeDetails.size.price +
+          customizeDetails.addons.reduce((prev, curr) => {
+            const total = curr.price * curr.quantity;
+            return prev + total;
+          }, 0),
+      });
+    }
+  };
 
   useEffect(() => {
-    let price: number;
-    product.sizes.forEach((size) => {
-      if (size.name === customizeDetails.size) {
-        price = size.price;
-      }
-    });
+    dispatch(addToCart(cartItem));
+    console.log(cartItem);
+  }, [cartItem, dispatch]);
 
-    setCartItem((prev) => ({
-      ...prev,
+  if (isError && !isLoading) {
+    return <div>An Error occured</div>;
+  }
 
-      size: { name: customizeDetails.size, price: price },
-    }));
-  }, [customizeDetails.size]);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
-      <section className='px-4 py-6 pb-12 max-w-8xl mx-auto xs:px-6 md:px-12 xl:px-16 lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16 2xl:px-20'>
-        <Link
-          href={`/menu/${product.categoryName}`}
-          className='normal-case flex gap-1 items-center text-sm mb-6 md:w-4/5 md:mx-auto lg:col-span-2 lg:w-full'
-        >
-          <FaLongArrowAltLeft /> Go back
-        </Link>
+      {product && (
+        <section className='px-4 py-6 pb-12 max-w-8xl mx-auto xs:px-6 md:px-12 xl:px-16 lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16 2xl:px-20'>
+          <Button
+            onClick={() => router.back()}
+            className='normal-case flex gap-1 items-center text-sm mb-6 md:w-4/5 md:mx-auto lg:col-span-2 lg:w-full'
+          >
+            <FaLongArrowAltLeft /> Go back
+          </Button>
 
-        <div className='w-full relative h-80 mx-auto rounded-lg overflow-hidden md:h-max md:aspect-video md:w-4/5 md:mx-auto lg:aspect-square lg:w-full'>
-          <Image
-            src={product.image}
-            alt='Espresso Coffee'
-            fill={true}
-            className='object-cover'
-          />
-        </div>
+          <div className='w-full relative h-80 mx-auto rounded-lg overflow-hidden md:h-max md:aspect-video md:w-4/5 md:mx-auto lg:aspect-square lg:w-full'>
+            <Image
+              src={product.image}
+              alt='Espresso Coffee'
+              fill={true}
+              className='object-cover'
+            />
+          </div>
 
-        <div className='grid grid-cols-1 md:max-w-md md:mx-auto lg:pr-8 xl:max-w-xl '>
-          <div className='flex justify-between items-center flex-wrap pt-6 gap-x-3 gap-y-2'>
-            <h2 className='capitalize'>{product.name}</h2>
-            <span className='text-primary text-xl font-medium'>
-              ${product.price}
-            </span>
-            <p className='text-sm flex-[1_1_100%]'>{product.description}</p>
+          <div className='grid grid-cols-1 md:max-w-md md:mx-auto lg:pr-8 xl:max-w-xl '>
+            <div className='flex justify-between items-center flex-wrap pt-6 gap-x-3 gap-y-2'>
+              <h2 className='capitalize'>{product.name}</h2>
+              <span className='text-primary text-xl font-medium'>
+                ${product.price}
+              </span>
+              <p className='text-sm flex-[1_1_100%]'>{product.description}</p>
+            </div>
           </div>
 
           <form className='mt-6'>
             {/* sizing options */}
-            {product.sizes[0].name != '' && (
+            {product.sizes.length > 0 && (
               <div>
                 <p className='font-semibold'>Sizing Options</p>
 
@@ -222,104 +185,87 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
             )}
 
             {/* Customize */}
-            <CustomizeContext.Provider
-              value={{
-                customizeDetails: customizeDetails,
-                setCustomizeDetails: setCustomizeDetails,
-                cartItem: cartItem,
-                setCartItem: setCartItem,
-              }}
-            >
-              {(product.coffeeBlend || product.addons[0].type != '') && (
-                <div className='mt-20'>
-                  <p className='font-semibold'>Customize</p>
+            {product.addons.length > 0 && (
+              <div className='mt-20'>
+                <p className='font-semibold'>Customize</p>
 
-                  <Accordion type='multiple' className='w-full pt-1'>
-                    {product.coffeeBlend && (
-                      <AccordionItem value='coffee-blend'>
-                        <AccordionTrigger>Coffee Blend</AccordionTrigger>
-                        <AccordionContent>
-                          <RadioGroup
-                            defaultValue='medium-roast'
-                            className='*:mb-6 last:mb-0'
-                          >
-                            <div className='flex flex-row-reverse justify-between'>
-                              <RadioGroupItem
-                                value='light-roast'
-                                id='light-roast'
-                              />
-                              <Label
-                                className='font-normal'
-                                htmlFor='light-roast'
-                              >
-                                light roast
-                              </Label>
-                            </div>
-                            <div className='flex flex-row-reverse justify-between'>
-                              <RadioGroupItem
-                                value='medium-roast'
-                                id='medium-roast'
-                              />
-                              <Label
-                                className='font-normal'
-                                htmlFor='medium-roast'
-                              >
-                                medium roast
-                              </Label>
-                            </div>
-                            <div className='flex flex-row-reverse justify-between'>
-                              <RadioGroupItem
-                                value='dark-roast'
-                                id='dark-roast'
-                              />
-                              <Label
-                                className='font-normal'
-                                htmlFor='dark-roast'
-                              >
-                                dark roast
-                              </Label>
-                            </div>
-                            <div className='flex flex-row-reverse justify-between'>
-                              <RadioGroupItem value='decaf' id='decaf' />
-                              <Label className='font-normal' htmlFor='decaf'>
-                                decaf
-                              </Label>
-                            </div>
-                          </RadioGroup>
-                        </AccordionContent>
-                      </AccordionItem>
-                    )}
+                <Accordion type='multiple' className='w-full pt-1'>
+                  {product.addons.map((addon) => (
+                    // <AccordionItem value='coffee-blend'>
+                    //   <AccordionTrigger>Coffee Blend</AccordionTrigger>
+                    //   <AccordionContent>
+                    //     <RadioGroup
+                    //       defaultValue='medium-roast'
+                    //       className='*:mb-6 last:mb-0'
+                    //     >
+                    //       <div className='flex flex-row-reverse justify-between'>
+                    //         <RadioGroupItem
+                    //           value='light-roast'
+                    //           id='light-roast'
+                    //         />
+                    //         <Label
+                    //           className='font-normal'
+                    //           htmlFor='light-roast'
+                    //         >
+                    //           light roast
+                    //         </Label>
+                    //       </div>
+                    //       <div className='flex flex-row-reverse justify-between'>
+                    //         <RadioGroupItem
+                    //           value='medium-roast'
+                    //           id='medium-roast'
+                    //         />
+                    //         <Label
+                    //           className='font-normal'
+                    //           htmlFor='medium-roast'
+                    //         >
+                    //           medium roast
+                    //         </Label>
+                    //       </div>
+                    //       <div className='flex flex-row-reverse justify-between'>
+                    //         <RadioGroupItem
+                    //           value='dark-roast'
+                    //           id='dark-roast'
+                    //         />
+                    //         <Label className='font-normal' htmlFor='dark-roast'>
+                    //           dark roast
+                    //         </Label>
+                    //       </div>
+                    //       <div className='flex flex-row-reverse justify-between'>
+                    //         <RadioGroupItem value='decaf' id='decaf' />
+                    //         <Label className='font-normal' htmlFor='decaf'>
+                    //           decaf
+                    //         </Label>
+                    //       </div>
+                    //     </RadioGroup>
+                    //   </AccordionContent>
+                    // </AccordionItem>
 
-                    {product.addons[0].type != '' &&
-                      product.addons.map((addon) => (
-                        <AccordionItem value={addon.type} key={addon.type}>
-                          <AccordionTrigger>{addon.type}</AccordionTrigger>
-                          <AccordionContent className='flex flex-col gap-y-6'>
-                            {addon.items.map((item) => (
-                              <CustomizationItem
-                                name={item.name}
-                                maxValue={6}
-                                key={item.name}
-                                price={item.price}
-                              />
-                            ))}
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                  </Accordion>
-                </div>
-              )}
-            </CustomizeContext.Provider>
+                    <AccordionItem value={addon.type} key={addon.type}>
+                      <AccordionTrigger>{addon.type}</AccordionTrigger>
+                      <AccordionContent className='flex flex-col gap-y-6'>
+                        {addon.items.map((item) => (
+                          <CustomizationItem
+                            key={item.name}
+                            name={item.name}
+                            maxValue={6}
+                            price={item.price}
+                            setCustomizeDetails={setCustomizeDetails}
+                          />
+                        ))}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            )}
           </form>
 
-          <Button
-            onClick={() => dispatch(addToCart(cartItem))}
-            className='mt-8'
-          >
+          <Button onClick={handleCart} className='mt-8'>
             Add to Cart
           </Button>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   );
 };
