@@ -1,13 +1,13 @@
-import { ICartItem, IProduct } from '@/lib/types';
+import { CartItem, Product } from '@/lib/types';
 import { createAppSlice } from '../createAppSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
-interface ICart {
-  cartItems: ICartItem[];
+interface Cart {
+  cartItems: CartItem[];
 }
 
-const initialState: ICart = {
+const initialState: Cart = {
   cartItems: [],
 };
 
@@ -16,10 +16,10 @@ export const cartSlice = createAppSlice({
   initialState,
 
   reducers: {
-    addToCart: (state: ICart, action: PayloadAction<ICartItem>) => {
-      state.cartItems.push(action.payload);
+    addToCart: (state: Cart, action: PayloadAction<CartItem | null>) => {
+      if (action.payload !== null) state.cartItems.push(action.payload);
     },
-    removeFromCart: (state: ICart, action: PayloadAction<number>) => {
+    removeFromCart: (state: Cart, action: PayloadAction<number>) => {
       state.cartItems.splice(action.payload, 1);
       // state.cartItems.filter(
       //   (item, index) => state.cartItems[index] != action.payload

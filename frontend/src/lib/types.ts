@@ -13,7 +13,7 @@ export interface PopOverProps extends FocusTrapProps {
 }
 
 export interface ICustomizeDetails {
-  size: string;
+  size: { name: string; price: number };
   addons: { name: string; quantity: number; price: number }[];
 }
 
