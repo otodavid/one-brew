@@ -4,7 +4,8 @@ import { FaMinus, FaPlus } from 'react-icons/fa6';
 import { Button } from './ui/button';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { ICustomizeDetails } from '@/lib/types';
-import { useCounter } from '@/hooks/useCustomizeDetails';
+import { useCounter } from '@/hooks/useCounter';
+import { Counter } from './Counter';
 
 interface CustomizationItemProps {
   name: string;
@@ -19,7 +20,7 @@ export const CustomizationItem = ({
   price,
   setCustomizeDetails,
 }: CustomizationItemProps) => {
-  const { quantity, handleAdd, handleSubstract } = useCounter();
+  const { quantity, handleAdd, handleSubtract } = useCounter();
 
   useEffect(() => {
     if (quantity > 0) {
@@ -48,29 +49,11 @@ export const CustomizationItem = ({
       <div className='flex justify-between items-center'>
         <p className='capitalize'>{name}</p>
         <div className='flex items-center gap-2'>
-          <Button
-            type='button'
-            disabled={quantity === 0 ? true : false}
-            variant={'outline'}
-            size={'icon'}
-            className={`w-5 h-5 ${quantity === 0 && 'disabled:opacity-30'}`}
-            onClick={handleSubstract}
-          >
-            <FaMinus size={'14px'} />
-          </Button>
-          <span>{quantity}</span>
-          <Button
-            type='button'
-            disabled={quantity === maxValue ? true : false}
-            variant={'outline'}
-            size={'icon'}
-            className={`w-5 h-5 ${
-              quantity === maxValue && 'disabled:opacity-30'
-            }`}
-            onClick={handleAdd}
-          >
-            <FaPlus size={'14px'} />
-          </Button>
+          <Counter
+            quantity={quantity}
+            handleAdd={handleAdd}
+            handleSubtract={handleSubtract}
+          />
         </div>
       </div>
     </div>

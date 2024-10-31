@@ -70,6 +70,7 @@ export interface Product extends ProductSummary {
 export interface CartItem extends ProductSummary {
   size: Size;
   addons: { name: string; quantity: number; price: number }[];
+  quantity?: number;
   totalPrice: number;
 }
 

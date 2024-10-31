@@ -5,7 +5,7 @@ import { CartItem, IContext, ICustomizeDetails, Product } from '@/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { createContext, FormEvent, useEffect, useState } from 'react';
-import { FaLongArrowAltLeft } from 'react-icons/fa';
+import { FaLongArrowAltLeft, FaMinus, FaPlus } from 'react-icons/fa';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
 import {
@@ -21,6 +21,8 @@ import { CoffeeIconSize } from './CoffeeIconSize';
 import { CustomizationItem } from './CustomizationItem';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { Counter } from './Counter';
+import { useCounter } from '@/hooks/useCounter';
 
 export const CustomizeContext = createContext<IContext | undefined>(undefined);
 
@@ -45,6 +47,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     size: { name: '', price: 0 },
     addons: [],
   });
+  const { quantity, handleAdd, handleSubtract } = useCounter({ startValue: 1 });
 
   const dispatch = useAppDispatch();
 
@@ -64,7 +67,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   };
 
   useEffect(() => {
-    if (product) {
+    if (product && product.sizes.length !== 0) {
       setCustomizeDetails((prev) => ({
         ...prev,
 
@@ -73,9 +76,20 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     }
   }, [product]);
 
-  console.log(customizeDetails);
-
   const handleCart = () => {
+    let totalPrice = 0;
+
+    if (product?.addons.length !== 0 && product?.sizes.length !== 0) {
+      totalPrice =
+        customizeDetails.size.price +
+        customizeDetails.addons.reduce((prev, curr) => {
+          const total = curr.price * curr.quantity;
+          return prev + total;
+        }, 0);
+    } else {
+      totalPrice = product.price * quantity;
+    }
+
     if (product) {
       setCartItem({
         id: product.id,
@@ -90,12 +104,8 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
           price: customizeDetails.size.price,
         },
         addons: [...customizeDetails.addons],
-        totalPrice:
-          customizeDetails.size.price +
-          customizeDetails.addons.reduce((prev, curr) => {
-            const total = curr.price * curr.quantity;
-            return prev + total;
-          }, 0),
+        quantity: quantity,
+        totalPrice: totalPrice,
       });
     }
   };
@@ -137,7 +147,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
             <div className='flex justify-between items-center flex-wrap pt-6 gap-x-3 gap-y-2'>
               <h2 className='capitalize'>{product.name}</h2>
               <span className='text-primary text-xl font-medium'>
-                ${product.price}
+                &#36; {product.price}
               </span>
               <p className='text-sm flex-[1_1_100%]'>{product.description}</p>
             </div>
@@ -191,56 +201,6 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
 
                 <Accordion type='multiple' className='w-full pt-1'>
                   {product.addons.map((addon) => (
-                    // <AccordionItem value='coffee-blend'>
-                    //   <AccordionTrigger>Coffee Blend</AccordionTrigger>
-                    //   <AccordionContent>
-                    //     <RadioGroup
-                    //       defaultValue='medium-roast'
-                    //       className='*:mb-6 last:mb-0'
-                    //     >
-                    //       <div className='flex flex-row-reverse justify-between'>
-                    //         <RadioGroupItem
-                    //           value='light-roast'
-                    //           id='light-roast'
-                    //         />
-                    //         <Label
-                    //           className='font-normal'
-                    //           htmlFor='light-roast'
-                    //         >
-                    //           light roast
-                    //         </Label>
-                    //       </div>
-                    //       <div className='flex flex-row-reverse justify-between'>
-                    //         <RadioGroupItem
-                    //           value='medium-roast'
-                    //           id='medium-roast'
-                    //         />
-                    //         <Label
-                    //           className='font-normal'
-                    //           htmlFor='medium-roast'
-                    //         >
-                    //           medium roast
-                    //         </Label>
-                    //       </div>
-                    //       <div className='flex flex-row-reverse justify-between'>
-                    //         <RadioGroupItem
-                    //           value='dark-roast'
-                    //           id='dark-roast'
-                    //         />
-                    //         <Label className='font-normal' htmlFor='dark-roast'>
-                    //           dark roast
-                    //         </Label>
-                    //       </div>
-                    //       <div className='flex flex-row-reverse justify-between'>
-                    //         <RadioGroupItem value='decaf' id='decaf' />
-                    //         <Label className='font-normal' htmlFor='decaf'>
-                    //           decaf
-                    //         </Label>
-                    //       </div>
-                    //     </RadioGroup>
-                    //   </AccordionContent>
-                    // </AccordionItem>
-
                     <AccordionItem value={addon.type} key={addon.type}>
                       <AccordionTrigger>{addon.type}</AccordionTrigger>
                       <AccordionContent className='flex flex-col gap-y-6'>
@@ -259,9 +219,32 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
                 </Accordion>
               </div>
             )}
+
+            {/* Quantity */}
+            {product.categoryType === 'food' && (
+              <div>
+                <Accordion type='multiple' className='w-full pt-1'>
+                  <AccordionItem value={'quantity'} key='quantity'>
+                    <AccordionTrigger>Select quantity</AccordionTrigger>
+                    <AccordionContent className='flex justify-between'>
+                      <p>Quantity</p>
+                      <div className='flex items-center gap-4'>
+                        <Counter
+                          quantity={quantity}
+                          handleAdd={handleAdd}
+                          handleSubtract={handleSubtract}
+                          maxValue={10}
+                          startValue={1}
+                        />
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </div>
+            )}
           </form>
 
-          <Button onClick={handleCart} className='mt-8'>
+          <Button onClick={handleCart} className='mt-8 w-full'>
             Add to Cart
           </Button>
         </section>
