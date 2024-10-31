@@ -33,7 +33,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     isError,
     isLoading,
   } = useQuery({
-    queryKey: ['product'],
+    queryKey: ['product', productId],
     queryFn: async (): Promise<Product> => {
       const res = await fetch(`http://localhost:5000/products/${productId}`);
       return await res.json();
