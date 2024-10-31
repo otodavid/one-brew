@@ -138,7 +138,7 @@ export default function Cart() {
           </div>
 
           <Button asChild className='w-full block text-center mt-10'>
-            <Link href={'/shipping'}>Continue to Shipping</Link>
+            <Link href={'/checkout'}>Continue to Checkout</Link>
           </Button>
         </div>
         <p className='text-xs text-slate-500 mt-6'>

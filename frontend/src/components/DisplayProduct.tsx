@@ -112,7 +112,6 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
 
   useEffect(() => {
     dispatch(addToCart(cartItem));
-    console.log(cartItem);
   }, [cartItem, dispatch]);
 
   if (isError && !isLoading) {
