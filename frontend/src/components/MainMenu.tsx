@@ -42,7 +42,7 @@ export const MainMenu = ({ categories }: { categories: Categories[] }) => {
       <section className='py-6'>
         <h4 className='border-b pb-2'>Food</h4>
 
-        <div className='grid grid-cols-[repeat(auto-fit_minmax(auto_1fr))] gap-8 pt-6'>
+        <div className='grid grid-cols-[repeat(auto-fill,minmax(18rem,_1fr))] gap-8 pt-6'>
           {categories.map(
             (category) =>
               category.type === 'food' && (

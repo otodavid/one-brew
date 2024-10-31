@@ -126,15 +126,18 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   return (
     <>
       {product && (
-        <section className='px-4 py-6 pb-12 max-w-8xl mx-auto xs:px-6 md:px-12 xl:px-16 lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16 2xl:px-20'>
-          <Button
-            onClick={() => router.back()}
-            className='normal-case flex gap-1 items-center text-sm mb-6 md:w-4/5 md:mx-auto lg:col-span-2 lg:w-full'
-          >
-            <FaLongArrowAltLeft /> Go back
-          </Button>
+        <section className='px-4 py-6 pb-12 mx-auto xs:px-6 md:px-12 md:max-w-xl lg:max-w-8xl xl:px-16 lg:grid lg:grid-cols-2 lg:gap-x-8 xl:gap-x-16 2xl:px-20'>
+          <div className='lg:col-span-2'>
+            <Button
+              onClick={() => router.back()}
+              variant={'link'}
+              className='normal-case flex gap-1 items-center text-sm mb-6'
+            >
+              <FaLongArrowAltLeft /> Go back
+            </Button>
+          </div>
 
-          <div className='w-full relative h-80 mx-auto rounded-lg overflow-hidden md:h-max md:aspect-video md:w-4/5 md:mx-auto lg:aspect-square lg:w-full'>
+          <div className='w-full relative h-80 mx-auto rounded-lg overflow-hidden md:h-max md:aspect-video md:mx-auto lg:max-w-none lg:aspect-square lg:w-full'>
             <Image
               src={product.image}
               alt='Espresso Coffee'
@@ -143,110 +146,112 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
             />
           </div>
 
-          <div className='grid grid-cols-1 md:max-w-md md:mx-auto lg:pr-8 xl:max-w-xl '>
-            <div className='flex justify-between items-center flex-wrap pt-6 gap-x-3 gap-y-2'>
-              <h2 className='capitalize'>{product.name}</h2>
-              <span className='text-primary text-xl font-medium'>
-                &#36; {product.price}
+          <div className='grid grid-cols-1 content-start md:mx-auto lg:pr-8 xl:max-w-xl '>
+            <div className='flex justify-between items-center flex-wrap pt-6 gap-x-3 gap-y-2 lg:pt-0'>
+              <span className='uppercase text-xs text-primary/80 flex-[1_1_100%] w-full tracking-wider'>
+                {product.categoryType}
               </span>
-              <p className='text-sm flex-[1_1_100%]'>{product.description}</p>
+              <h2 className='capitalize'>{product.name}</h2>
+              <h2 className='text-primary'>&#36; {product.price}</h2>
+              <p className='text-sm flex-[1_1_100%] lg:mt-3'>
+                {product.description}
+              </p>
             </div>
-          </div>
+            <form className='mt-6'>
+              {/* sizing options */}
+              {product.sizes.length > 0 && (
+                <div>
+                  <p className='font-semibold'>Sizing Options</p>
 
-          <form className='mt-6'>
-            {/* sizing options */}
-            {product.sizes.length > 0 && (
-              <div>
-                <p className='font-semibold'>Sizing Options</p>
-
-                <RadioGroup
-                  defaultValue={product.sizes[0].name}
-                  className='flex gap-8 pt-4'
-                  onValueChange={(value) => handleSizeDetails(value)}
-                >
-                  {product.sizes
-                    .sort((a, b) => a.price - b.price)
-                    .map((size) => (
-                      <div
-                        className='flex flex-col items-center relative isolate'
-                        key={size.name}
-                      >
-                        <RadioGroupItem
-                          value={size.name}
-                          id={size.name}
-                          className='absolute left-4 top-2 -z-10 opacity-0 peer'
-                        />
-                        <Label
-                          htmlFor={size.name}
-                          className='relative flex flex-col gap-2 items-center justify-center bg-primary/5 rounded-full w-16 h-16 border-2 border-transparent peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-background'
+                  <RadioGroup
+                    defaultValue={product.sizes[0].name}
+                    className='flex gap-8 pt-4'
+                    onValueChange={(value) => handleSizeDetails(value)}
+                  >
+                    {product.sizes
+                      .sort((a, b) => a.price - b.price)
+                      .map((size) => (
+                        <div
+                          className='flex flex-col items-center relative isolate'
+                          key={size.name}
                         >
-                          <CoffeeIconSize size={size.name} />
-                          <p className='absolute -translate-x-2/4 left-2/4 -bottom-11 flex flex-col items-center gap-1.5 font-normal text-foreground capitalize'>
-                            {size.name}
-                            <span className='font-light'>
-                              {handleProductSizeVolume(size.name)}
-                            </span>
-                          </p>
-                        </Label>
-                      </div>
-                    ))}
-                </RadioGroup>
-              </div>
-            )}
-
-            {/* Customize */}
-            {product.addons.length > 0 && (
-              <div className='mt-20'>
-                <p className='font-semibold'>Customize</p>
-
-                <Accordion type='multiple' className='w-full pt-1'>
-                  {product.addons.map((addon) => (
-                    <AccordionItem value={addon.type} key={addon.type}>
-                      <AccordionTrigger>{addon.type}</AccordionTrigger>
-                      <AccordionContent className='flex flex-col gap-y-6'>
-                        {addon.items.map((item) => (
-                          <CustomizationItem
-                            key={item.name}
-                            name={item.name}
-                            maxValue={6}
-                            price={item.price}
-                            setCustomizeDetails={setCustomizeDetails}
+                          <RadioGroupItem
+                            value={size.name}
+                            id={size.name}
+                            className='absolute left-4 top-2 -z-10 opacity-0 peer'
                           />
-                        ))}
+                          <Label
+                            htmlFor={size.name}
+                            className='relative flex flex-col gap-2 items-center justify-center bg-primary/5 rounded-full w-16 h-16 border-2 border-transparent peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-background'
+                          >
+                            <CoffeeIconSize size={size.name} />
+                            <p className='absolute -translate-x-2/4 left-2/4 -bottom-11 flex flex-col items-center gap-1.5 font-normal text-foreground capitalize'>
+                              {size.name}
+                              <span className='font-light'>
+                                {handleProductSizeVolume(size.name)}
+                              </span>
+                            </p>
+                          </Label>
+                        </div>
+                      ))}
+                  </RadioGroup>
+                </div>
+              )}
+
+              {/* Customize */}
+              {product.addons.length > 0 && (
+                <div className='mt-20'>
+                  <p className='font-semibold'>Customize</p>
+
+                  <Accordion type='multiple' className='w-full pt-1'>
+                    {product.addons.map((addon) => (
+                      <AccordionItem value={addon.type} key={addon.type}>
+                        <AccordionTrigger>{addon.type}</AccordionTrigger>
+                        <AccordionContent className='flex flex-col gap-y-6'>
+                          {addon.items.map((item) => (
+                            <CustomizationItem
+                              key={item.name}
+                              name={item.name}
+                              maxValue={6}
+                              price={item.price}
+                              setCustomizeDetails={setCustomizeDetails}
+                            />
+                          ))}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </div>
+              )}
+
+              {/* Quantity */}
+              {product.categoryType === 'food' && (
+                <div>
+                  <Accordion type='multiple' className='w-full pt-1'>
+                    <AccordionItem value={'quantity'} key='quantity'>
+                      <AccordionTrigger>Select quantity</AccordionTrigger>
+                      <AccordionContent className='flex justify-between'>
+                        <p>Quantity</p>
+                        <div className='flex items-center gap-4'>
+                          <Counter
+                            quantity={quantity}
+                            handleAdd={handleAdd}
+                            handleSubtract={handleSubtract}
+                            maxValue={10}
+                            startValue={1}
+                          />
+                        </div>
                       </AccordionContent>
                     </AccordionItem>
-                  ))}
-                </Accordion>
-              </div>
-            )}
+                  </Accordion>
+                </div>
+              )}
+            </form>
 
-            {/* Quantity */}
-            {product.categoryType === 'food' && (
-              <div>
-                <Accordion type='multiple' className='w-full pt-1'>
-                  <AccordionItem value={'quantity'} key='quantity'>
-                    <AccordionTrigger>Select quantity</AccordionTrigger>
-                    <AccordionContent className='flex justify-between'>
-                      <p>Quantity</p>
-                      <div className='flex items-center gap-4'>
-                        <Counter
-                          quantity={quantity}
-                          handleAdd={handleAdd}
-                          handleSubtract={handleSubtract}
-                          maxValue={10}
-                          startValue={1}
-                        />
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </div>
-            )}
-          </form>
-
-          <Button onClick={handleCart} className='mt-8 w-full'>
-            Add to Cart
-          </Button>
+            <Button onClick={handleCart} className='mt-8 w-full block'>
+              Add to Cart
+            </Button>
+          </div>
         </section>
       )}
     </>

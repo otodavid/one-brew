@@ -26,7 +26,7 @@ export default function Cart() {
           </h3>
         )}
 
-        <div className='grid grid-cols-1 mt-6'>
+        <div className='mt-6 md:px-4'>
           {cart.map((item, index) => (
             <div
               key={index}
@@ -42,7 +42,12 @@ export default function Cart() {
               </div>
               <div className='flex-1 items-center'>
                 <div className='flex justify-between items-center mb-1'>
-                  <p className='capitalize font-medium'>{item.name}</p>
+                  <Link
+                    href={`/products/${item.id}`}
+                    className='capitalize font-medium'
+                  >
+                    {item.name}
+                  </Link>
 
                   <span className='font-semibold'>&#36; {item.price}</span>
                 </div>
@@ -53,7 +58,9 @@ export default function Cart() {
                   </p>
                   {item.addons.length > 0 && (
                     <>
-                      <p className='text-xs capitalize'>{item.size.name}</p>
+                      <p className='text-xs capitalize mb-2'>
+                        {item.size.name}
+                      </p>
                       {item.addons.map((addon) => (
                         <div
                           key={addon.name}
@@ -63,7 +70,7 @@ export default function Cart() {
                             {addon.name}
                           </p>
                           <div className='border-b border-dotted'></div>
-                          <span className='font-bold'>
+                          <span className='font-semibold'>
                             + &#36; {(addon.price * addon.quantity).toFixed(2)}
                           </span>
                         </div>
@@ -73,7 +80,7 @@ export default function Cart() {
 
                   <div className='text-xs flex justify-between mt-3'>
                     <p>Quantity</p>
-                    <p>x{item.quantity}</p>
+                    <p className='font-semibold'>x{item.quantity}</p>
                   </div>
                 </div>
               </div>
@@ -96,31 +103,41 @@ export default function Cart() {
       </div>
 
       <div>
-        <div className='shadow-sm rounded-lg px-4 py-5 bg-card mt-4 space-y-4 md:mt-0'>
-          <div className='flex flex-wrap items-center gap-4 text-sm'>
-            <p>Subtotal:</p>
-            <span className='uppercase'>
-              &#36;{' '}
-              {cart
-                .reduce((accumulator, item) => accumulator + item.totalPrice, 0)
-                .toFixed(2)}
-            </span>
-          </div>
-          <div className='flex flex-wrap items-center gap-4 text-sm'>
-            <p>Delivery:</p>
-            <span className='capitalize italic text-sm'>to be calculated</span>
-          </div>
-          <div className='flex flex-wrap items-center gap-4'>
-            <p className='font-bold'>Total:</p>
-            <span className='font-bold'>
-              &#36;{' '}
-              {cart
-                .reduce((accumulator, item) => accumulator + item.totalPrice, 0)
-                .toFixed(2)}
-            </span>
+        <div className='shadow-sm rounded-lg px-4 py-6 mt-4 bg-card md:mt-0 lg:px-6'>
+          <div className='space-y-4'>
+            <div className='flex flex-wrap gap-4 text-sm'>
+              <p>Subtotal:</p>
+              <span className='uppercase'>
+                &#36;{' '}
+                {cart
+                  .reduce(
+                    (accumulator, item) => accumulator + item.totalPrice,
+                    0
+                  )
+                  .toFixed(2)}
+              </span>
+            </div>
+            <div className='flex flex-wrap gap-4 text-sm'>
+              <p>Delivery:</p>
+              <span className='capitalize italic text-sm'>
+                to be calculated
+              </span>
+            </div>
+            <div className='flex flex-wrap gap-4'>
+              <p className='font-bold'>Total:</p>
+              <span className='font-bold'>
+                &#36;{' '}
+                {cart
+                  .reduce(
+                    (accumulator, item) => accumulator + item.totalPrice,
+                    0
+                  )
+                  .toFixed(2)}
+              </span>
+            </div>
           </div>
 
-          <Button asChild className='w-full mt-8'>
+          <Button asChild className='w-full block text-center mt-10'>
             <Link href={'/shipping'}>Continue to Shipping</Link>
           </Button>
         </div>
