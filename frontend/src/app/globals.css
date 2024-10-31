@@ -82,6 +82,10 @@
     @apply bg-background text-foreground;
   }
 
+  p {
+    @apply font-normal;
+  }
+
   h1 {
     @apply text-4xl font-bold xs:text-[2.5rem] sm:leading-none lg:text-5xl xl:text-6xl;
   }
