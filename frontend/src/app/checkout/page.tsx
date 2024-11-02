@@ -16,19 +16,7 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-
-interface Countries {
-  id: string;
-  name: string;
-  phoneCode: string;
-}
+import { StripeWrapper } from '@/components/StripeWrapper';
 
 const formSchema = z.object({
   email: z
@@ -68,7 +56,7 @@ export default function Shipping() {
             className='w-full space-y-6'
           >
             <div>
-              <h4 className='pt-8 pb-4'>Contact Information</h4>
+              <h4 className='pt-8 pb-4'>My Information</h4>
 
               <div className='space-y-4'>
                 <FormField
@@ -175,18 +163,89 @@ export default function Shipping() {
             </div>
 
             <div>
+              <h4 className='pt-8 pb-4'>Shipping Address</h4>
+
+              <div className='space-y-4'>
+                <FormField
+                  control={form.control}
+                  name='address'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Address</FormLabel>
+                      <FormControl>
+                        <Input placeholder='Street address' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='city'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>City</FormLabel>
+                      <FormControl>
+                        <Input placeholder='' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='postalCode'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Postal Code</FormLabel>
+                      <FormControl>
+                        <Input placeholder='' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='state'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Province/State</FormLabel>
+                      <FormControl>
+                        <Input placeholder='' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='country'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Country</FormLabel>
+                      <FormControl>
+                        <Input placeholder='' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            <div>
               <h4 className='pt-8 pb-4'>Payment Method</h4>
 
-              <div className='pt-8 pb-4'>
-
-              </div>
+              <div className='pt-8 pb-4'></div>
             </div>
 
             <Button type='submit'>Submit</Button>
           </form>
         </Form>
 
-        <form></form>
+        <StripeWrapper />
       </div>
     </section>
   );
