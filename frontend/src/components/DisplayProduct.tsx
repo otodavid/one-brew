@@ -1,7 +1,12 @@
 'use client';
 
 import { convertToText, handleProductSizeVolume } from '@/lib/helpers';
-import { CartItem, IContext, ICustomizeDetails, Product } from '@/lib/types';
+import {
+  CartItemProps,
+  IContext,
+  ICustomizeDetails,
+  Product,
+} from '@/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { createContext, FormEvent, useEffect, useState } from 'react';
@@ -40,7 +45,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     },
   });
 
-  const [cartItem, setCartItem] = useState<CartItem | null>(null);
+  const [cartItem, setCartItem] = useState<CartItemProps | null>(null);
   const router = useRouter();
 
   const [customizeDetails, setCustomizeDetails] = useState<ICustomizeDetails>({

@@ -67,7 +67,7 @@ export interface Product extends ProductSummary {
   addons: Addon[];
   sizes: Size[];
 }
-export interface CartItem extends ProductSummary {
+export interface CartItemProps extends ProductSummary {
   size: Size;
   addons: { name: string; quantity: number; price: number }[];
   quantity?: number;
@@ -77,6 +77,6 @@ export interface CartItem extends ProductSummary {
 export interface IContext {
   customizeDetails: ICustomizeDetails;
   setCustomizeDetails: React.Dispatch<React.SetStateAction<ICustomizeDetails>>;
-  cartItem: CartItem;
-  setCartItem: React.Dispatch<React.SetStateAction<CartItem>>;
+  cartItem: CartItemProps;
+  setCartItem: React.Dispatch<React.SetStateAction<CartItemProps>>;
 }
