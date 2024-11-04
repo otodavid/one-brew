@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-export const handlePayment = async (req: Request, res: Response) =>  {
+export const handlePayment = async (req: Request, res: Response) => {
   try {
-    const { amount } = await req.body;
+    const { amount } = req.body;
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: 1099,
+      amount: amount * 100,
       currency: 'cad',
       automatic_payment_methods: { enabled: true },
     });
@@ -14,13 +14,7 @@ export const handlePayment = async (req: Request, res: Response) =>  {
     return res.json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
     console.error('Internal Error:', error);
-    // Handle other errors (e.g., network issues, parsing errors)
-    return req.body.json(
-      { error: `Internal Server Error: ${error}` },
-      { status: 500 }
-    );
+    res.status(500);
+    return res.json({ error: `Internal Server Error: ${error}` });
   }
 };
-
-
-
