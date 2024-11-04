@@ -3,6 +3,9 @@ import { loadStripe } from '@stripe/stripe-js';
 import { PaymentForm } from './PaymentForm';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { getTotalAmount } from '@/lib/helpers';
+import { useAppSelector } from '@/store/hooks';
+import { selectCart } from '@/store/features/cartSlice';
 
 if (process.env.NEXT_PUBLIC_STRIPE_PK === undefined) {
   throw new Error(`${process.env.NEXT_PUBLIC_STRIPE_PK} is undefined`);
@@ -12,23 +15,28 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PK);
 
 export const StripeWrapper = () => {
   const [clientSecret, setClientSecret] = useState<string | undefined>('');
+  const cart = useAppSelector(selectCart);
+  const deliveryFee = 2;
+  const totalAmount = getTotalAmount(cart) + deliveryFee;
 
   useEffect(() => {
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/stripe/checkout`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/process-payment`,
         {
-          amount: 100,
+          amount: totalAmount,
         },
         {
           headers: {
             'Content-Type': 'application/json',
           },
-          // body: JSON.stringify({ amount: 100 }),
         }
       )
       .then(({ data }: any) => setClientSecret(data.clientSecret))
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        alert('An error occured. Please refresh the page and try again');
+      });
   }, []);
 
   return (
@@ -38,12 +46,9 @@ export const StripeWrapper = () => {
           stripe={stripePromise}
           options={{
             clientSecret: clientSecret,
-            // amount: 100,
-            // currency: 'cad',
           }}
         >
           <PaymentForm />
-          <button type='button'>Submit</button>
         </Elements>
       )}
     </>

@@ -10,13 +10,14 @@ import { useAppDispatch } from '@/store/hooks';
 interface Props {
   item: CartItemProps;
   index: number;
+  isEditable?: boolean;
 }
 
-export const CartItem = ({ item, index }: Props) => {
+export const CartItem = ({ item, index, isEditable = true }: Props) => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className='flex flex-wrap gap-4 py-4 border-t last-of-type:border-b-0'>
+    <div className='flex flex-wrap gap-4 py-4 border-t first:border-t-0 last-of-type:border-b-0'>
       <div className='self-start relative h-20 w-20 rounded-full overflow-hidden'>
         <Image
           src={item.image}
@@ -39,9 +40,20 @@ export const CartItem = ({ item, index }: Props) => {
 
         <div className='grid gap-1.5 font-medium'>
           <p className='text-xs capitalize font-light'>{item.categoryName}</p>
+
+          {item.size.name && (
+            <div className='text-xs grid grid-cols-[auto_1fr_auto]  gap-2 mt-2'>
+              <p className='text-xs capitalize flex-1 font-normal'>
+                {item.size.name}
+              </p>
+              <div className='border-b border-dotted'></div>
+              <span className='font-semibold'>
+                + &#36; {(item.size.price - item.price).toFixed(2)}
+              </span>
+            </div>
+          )}
           {item.addons.length > 0 && (
             <>
-              <p className='text-xs capitalize mb-2'>{item.size.name}</p>
               {item.addons.map((addon) => (
                 <div
                   key={addon.name}
@@ -64,15 +76,17 @@ export const CartItem = ({ item, index }: Props) => {
         </div>
       </div>
 
-      <div className='flex-[1_1_100%] flex justify-end gap-2 pt-2'>
-        <Button
-          variant={'ghost'}
-          size={'icon'}
-          onClick={() => dispatch(removeFromCart(index))}
-        >
-          <MdOutlineDeleteOutline size={'18'} className='text-primary' />
-        </Button>
-      </div>
+      {isEditable && (
+        <div className='flex-[1_1_100%] flex justify-end gap-2 pt-2'>
+          <Button
+            variant={'ghost'}
+            size={'icon'}
+            onClick={() => dispatch(removeFromCart(index))}
+          >
+            <MdOutlineDeleteOutline size={'18'} className='text-primary' />
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

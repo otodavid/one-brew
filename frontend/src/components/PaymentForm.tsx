@@ -2,15 +2,21 @@ import {
   useStripe,
   useElements,
   PaymentElement,
-  AddressElement,
 } from '@stripe/react-stripe-js';
 import { useEffect, useState } from 'react';
+import { Button } from './ui/button';
 
 export const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!stripe) {
+      return;
+    }
+  }, [stripe]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -63,12 +69,12 @@ export const PaymentForm = () => {
         {errorMessage && <div>{errorMessage}</div>}
 
         <PaymentElement />
-        <button
+        <Button
           disabled={!stripe || loading}
-          className='text-white w-full p-5 bg-black mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse'
+          className='w-full mt-4 disabled:opacity-50 disabled:animate-pulse'
         >
-          {!loading ? `Pay 100` : 'Processing...'}
-        </button>
+          {!loading ? `Complete Purchase` : 'Processing...'}
+        </Button>
       </form>
     </>
   );

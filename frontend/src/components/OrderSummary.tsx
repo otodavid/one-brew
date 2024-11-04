@@ -1,19 +1,28 @@
 import { selectCart } from '@/store/features/cartSlice';
 import { useAppSelector } from '@/store/hooks';
 import { ReactNode } from 'react';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from './ui/card';
+import { getTotalAmount } from '@/lib/helpers';
 
 interface Props {
   children?: ReactNode;
+  deliveryFee?: number;
 }
 
-export const OrderSummary = ({ children }: Props) => {
+export const OrderSummary = ({ children, deliveryFee }: Props) => {
   const cart = useAppSelector(selectCart);
   return (
-    <div className='shadow-sm rounded-lg px-4 py-6 mt-8 bg-card md:mt-0 lg:px-6'>
-      <p className='text-lg capitalize font-semibold mb-4 text-center'>
-        order summary
-      </p>
-      <div className='space-y-4'>
+    <Card>
+      <CardHeader>
+        <CardTitle>order summary</CardTitle>
+      </CardHeader>
+      <CardContent className='space-y-2'>
         <div className='flex flex-wrap gap-4 text-sm'>
           <p>Subtotal:</p>
           <span className='uppercase'>
@@ -25,20 +34,23 @@ export const OrderSummary = ({ children }: Props) => {
         </div>
         <div className='flex flex-wrap gap-4 text-sm'>
           <p>Delivery:</p>
-          <span className='capitalize italic text-sm'>to be calculated</span>
+          {deliveryFee ? (
+            <span className='text-sm'>&#36; {deliveryFee?.toFixed(2)}</span>
+          ) : (
+            <span className='capitalize italic text-sm'>to be calculated</span>
+          )}
         </div>
         <div className='flex flex-wrap gap-4'>
           <p className='font-bold'>Total:</p>
           <span className='font-bold'>
-            &#36;{' '}
-            {cart
-              .reduce((accumulator, item) => accumulator + item.totalPrice, 0)
-              .toFixed(2)}
+            &#36;
+            {deliveryFee
+              ? parseFloat((getTotalAmount(cart) + deliveryFee).toFixed(2))
+              : getTotalAmount(cart)}
           </span>
         </div>
-      </div>
-
-      {children}
-    </div>
+      </CardContent>
+      {children && <CardFooter>{children}</CardFooter>}
+    </Card>
   );
 };

@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { CartItemProps } from './types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -29,4 +30,12 @@ export const handleProductSizeVolume = (size: string) => {
   }
 
   return volume;
+};
+
+export const getTotalAmount = (cart: CartItemProps[]): number => {
+  const total = cart.reduce(
+    (accumulator, item) => accumulator + item.totalPrice,
+    0
+  );
+  return parseFloat(total.toFixed(2));
 };

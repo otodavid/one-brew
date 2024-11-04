@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { groups } from './constants';
 
 export interface FocusTrapProps {
   isComponentOpen: boolean;
@@ -79,4 +80,11 @@ export interface IContext {
   setCustomizeDetails: React.Dispatch<React.SetStateAction<ICustomizeDetails>>;
   cartItem: CartItemProps;
   setCartItem: React.Dispatch<React.SetStateAction<CartItemProps>>;
+}
+
+export interface FormValues {
+  [key: string]: {
+    group: keyof typeof groups;
+    value: string;
+  };
 }
