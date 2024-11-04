@@ -29,7 +29,7 @@ app.get('/products/c/:categoryId', getProductsByCategoryId);
 
 app.get('/products/:productId', getProductById);
 
-app.post('/stripe/checkout', handlePayment);
+app.post('/process-payment', handlePayment);
 
 app.listen(port, () => {
   console.log(`Backend server is running`);
