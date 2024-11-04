@@ -31,9 +31,9 @@ export default function Cart() {
         </div>
       </div>
 
-      <div>
+      <div className='mt-6 md:mt-0'>
         <OrderSummary>
-          <Button asChild className='w-full block text-center mt-10'>
+          <Button asChild className='w-full block text-center mt-6'>
             <Link href={'/checkout'}>Continue to Checkout</Link>
           </Button>
         </OrderSummary>
