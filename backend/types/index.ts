@@ -36,3 +36,15 @@ export interface Product extends ProductSummary {
   addons: Addon[];
   sizes: Size[]
 }
+
+export interface UserInfo {
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  adress: string;
+  city: string;
+  postalCode: string;
+  province: string;
+  country: string;
+}

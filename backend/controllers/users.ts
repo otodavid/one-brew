@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { queryAddUserInfo } from '../queries';
 import conn from '../config/db';
+import { queryAddUserInfo } from '../queries/users';
 
 export async function addUserInfo(req: Request, res: Response) {
   try {

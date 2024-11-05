@@ -10,7 +10,7 @@ import {
   queryAllProducts,
   queryProductById,
   queryProductsByCategoryId,
-} from '../queries';
+} from '../queries/products';
 
 export async function getAllProducts(req: Request, res: Response) {
   try {
