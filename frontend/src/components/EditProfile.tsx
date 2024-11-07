@@ -18,8 +18,16 @@ import {
   FormLabel,
   FormMessage,
 } from './ui/form';
+import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { UserInfo } from '@/lib/types';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
-export const EditProfile = () => {
+interface Prop {
+  setIsDialogOpen?: Dispatch<SetStateAction<boolean>>;
+}
+
+export const EditProfile = ({ setIsDialogOpen }: Prop) => {
   const userInfo = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
@@ -38,8 +46,30 @@ export const EditProfile = () => {
     },
   });
 
+  const { mutate } = useMutation({
+    mutationFn: (newUserInfo: UserInfo) => {
+      return axios.put(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/update`,
+        newUserInfo
+      );
+    },
+    onSuccess: (data: AxiosResponse) => {
+      // Update Redux state 
+      dispatch(addUserInfo(data.data));
+
+      console.log(data.data)
+    },
+    onError: (error: AxiosError) => {
+      console.error('Error adding user:', error);
+    },
+  });
+
   const handleAddUserInfo = (values: z.infer<typeof formSchema>) => {
-    dispatch(addUserInfo(values));
+    mutate(values);
+
+    if (setIsDialogOpen) {
+      setIsDialogOpen(false);
+    }
   };
 
   return (

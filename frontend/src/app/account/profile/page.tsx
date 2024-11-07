@@ -4,6 +4,7 @@ import { EditProfile } from '@/components/EditProfile';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -22,6 +23,7 @@ import { useState } from 'react';
 
 export default function Profile() {
   const [userInfo, setUserInfo] = useState<UserInfo>();
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   // const { data } = useQuery({
   //   queryKey: ['user'],
   //   queryFn: async (): Promise<void> => {
@@ -38,20 +40,19 @@ export default function Profile() {
 
   const user = useAppSelector(selectUser);
 
-  console.log(user);
-
   return (
     <div className=''>
-      <div className='flex justify-between items-center'>
-        <h3>Profile</h3>
-        <Button variant={'default'}>Update all information</Button>
-      </div>
+      <h3 className='mb-4'>Profile</h3>
 
-      {/* <EditProfile /> */}
-
-      <Dialog>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
-          <Button variant='outline'>Edit Profile</Button>
+          <Button
+            variant='outline'
+            className='mr-0 ml-auto'
+            onClick={() => setIsDialogOpen(true)}
+          >
+            Edit Profile
+          </Button>
         </DialogTrigger>
         <DialogContent className='max-w-[90vw] sm:max-w-[425px] max-h-[80vh] overflow-auto rounded-md'>
           <DialogHeader>
@@ -61,10 +62,12 @@ export default function Profile() {
             </DialogDescription>
           </DialogHeader>
 
-          <EditProfile />
-          
+          <EditProfile setIsDialogOpen={setIsDialogOpen} />
+
           <DialogFooter>
-            <Button type='submit'>Save changes</Button>
+            <DialogClose>
+              <Button type='submit'>Save changes</Button>
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
