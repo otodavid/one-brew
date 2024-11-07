@@ -62,3 +62,10 @@ export const queryUpdateUserInfo = ({
 
   return { query, params };
 };
+
+export const queryGetUserInfo = () => {
+  const query = `SELECT * FROM user_info 
+      WHERE email = $1;`;
+
+  return query;
+};
