@@ -8,18 +8,26 @@ import axios from 'axios';
 import { NextPage } from 'next';
 import { ReactNode, useEffect, useState } from 'react';
 
-export default function UserInfoProvider({ children }: { children: ReactNode }) {
+export default function UserInfoProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const dispatch = useAppDispatch();
-  const { user, isLoading, error } = useUser();
+  const { user, isLoading: isUserLoading, error } = useUser();
   const [currentUser, setCurrentUser] = useState<string>('');
 
   useEffect(() => {
-    if (user?.email && !isLoading && !error) {
+    if (user?.email && !isUserLoading && !error) {
       setCurrentUser(user.email);
     }
-  }, [user, isLoading, error]);
+  }, [user, isUserLoading, error]);
 
-  const { data: userData, isSuccess } = useQuery({
+  const {
+    data: userData,
+    isSuccess,
+    isLoading,
+  } = useQuery({
     queryKey: ['userInfo'],
     queryFn: async () => {
       const { data } = await axios.get(
@@ -35,6 +43,10 @@ export default function UserInfoProvider({ children }: { children: ReactNode }) 
       dispatch(addUserInfo(userData));
     }
   }, [isSuccess, userData]);
+
+  // if (isUserLoading && isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return <>{children}</>;
 }

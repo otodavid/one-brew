@@ -21,7 +21,6 @@ export const ProductCard = ({
   image,
   price,
 }: ProductSummary) => {
-  console.log(typeof price);
   return (
     <Card>
       <Link href={`/products/${id}`} className='grid'>

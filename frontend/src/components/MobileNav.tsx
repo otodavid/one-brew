@@ -19,6 +19,8 @@ import { Button } from './ui/button';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { FiUser } from 'react-icons/fi';
 import { FaBoxOpen } from 'react-icons/fa6';
+import { useAppSelector } from '@/store/hooks';
+import { selectUser } from '@/store/features/userSlice';
 
 const MotionButton = motion(Button);
 
@@ -29,6 +31,7 @@ export function MobileNav({
 }: FocusTrapProps) {
   const ref = useClickOutside({ isComponentOpen, closeComponent });
   const { user } = useUser();
+  const userInfo = useAppSelector(selectUser);
 
   useEffect(() => {
     const bodyElement = document.querySelector('body') as HTMLBodyElement;
@@ -92,7 +95,9 @@ export function MobileNav({
         {user && (
           <div className='fixed bottom-0 right-0 left-0 border-t px-6 py-4 bg-black/5'>
             <h3>My Account</h3>
-            <p className='pt-2 pb-6'>Hey, {user.email}</p>
+            <p className='pt-2 pb-6'>
+              Hey, {userInfo.firstName ?? userInfo.email ?? user.name}
+            </p>
             <ul>
               <li>
                 <Link

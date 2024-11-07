@@ -12,33 +12,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { formFields } from '@/lib/constants';
-import { UserInfo } from '@/lib/types';
 import { selectUser } from '@/store/features/userSlice';
 import { useAppSelector } from '@/store/hooks';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { useState } from 'react';
 
 export default function Profile() {
-  const [userInfo, setUserInfo] = useState<UserInfo>();
+  const userInfo = useAppSelector(selectUser);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  // const { data } = useQuery({
-  //   queryKey: ['user'],
-  //   queryFn: async (): Promise<void> => {
-  //     await axios.post(`${process.env.BACKEND_URL}/user/add`, userInfo);
-  //   },
-  // });
 
-  const handleAdd = async () => {
-    const res = await axios.post(
-      `${process.env.BACKEND_URL}/user/add`,
-      userInfo
-    );
-  };
+  const { user, isLoading } = useUser();
 
-  const user = useAppSelector(selectUser);
+  if (isLoading && !user && !userInfo) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className=''>
@@ -85,7 +73,7 @@ export default function Profile() {
                       {label}
                     </p>
 
-                    <p className='font-medium'>{user[name]}</p>
+                    <p className='font-medium'>{userInfo[name]}</p>
                   </div>
                 ))}
               </div>

@@ -1,5 +1,7 @@
 'use client';
 
+import { selectUser } from '@/store/features/userSlice';
+import { useAppSelector } from '@/store/hooks';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -14,6 +16,7 @@ export default function AccountLayout({
 }: Readonly<{ children: ReactNode }>) {
   const { user } = useUser();
   const pathname = usePathname();
+  const userInfo = useAppSelector(selectUser);
 
   return (
     <div className='lg:relative lg:flex lg:gap-16 px-4 mt-6 mb-10 xs:px-6 md:px-12 xl:px-16 2xl:px-20 max-w-8xl mx-auto'>
@@ -25,8 +28,10 @@ export default function AccountLayout({
             </div>
             <div className='break-words'>
               <p className='break-all font-semibold tracking-tight'>
-                <span className='text-xs font-light block'>Hi, </span>
-                {user?.email}
+                <span className='text-xs font-light block capitalize'>
+                  Hi,{' '}
+                </span>
+                {userInfo.firstName ?? userInfo.email ?? user?.email}
               </p>
             </div>
           </div>

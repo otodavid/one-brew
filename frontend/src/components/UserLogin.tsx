@@ -15,9 +15,12 @@ import {
 import { Button } from './ui/button';
 import { FaBoxOpen } from 'react-icons/fa6';
 import { CiLogout } from 'react-icons/ci';
+import { useAppSelector } from '@/store/hooks';
+import { selectUser } from '@/store/features/userSlice';
 
 export const UserLogin = () => {
   const { user, error, isLoading } = useUser();
+  const userInfo = useAppSelector(selectUser);
 
   if (error) return <div>{error.message}</div>;
 
@@ -57,7 +60,8 @@ export const UserLogin = () => {
                 className='text-white hover:no-underline text-sm'
               >
                 {' '}
-                <FiUser className='mr-2' /> Hey, {user.name}
+                <FiUser className='mr-2' /> Hey,{' '}
+                {userInfo.firstName ?? userInfo.email ?? user.name}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className='w-56 text-foreground text-sm'>
