@@ -1,8 +1,9 @@
 import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
 import { cartSlice } from './features/cartSlice';
+import { userSlice } from './features/userSlice';
 
-const rootReducer = combineSlices(cartSlice);
+const rootReducer = combineSlices(cartSlice, userSlice);
 export type RootState = ReturnType<typeof rootReducer>;
 
 // `makeStore` encapsulates the store configuration to allow

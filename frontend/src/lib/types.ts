@@ -88,3 +88,36 @@ export interface FormValues {
     value: string;
   };
 }
+
+export interface UserInfo {
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  phone: string | null;
+  address: string | null;
+  city: string | null;
+  postalCode: string | null;
+  province: string | null;
+  country: string | null;
+}
+
+export type UserFields =
+  | 'email'
+  | 'firstName'
+  | 'lastName'
+  | 'phone'
+  | 'address'
+  | 'country'
+  | 'province'
+  | 'city'
+  | 'postalCode';
+
+export interface FormFieldDetails {
+  name: UserFields;
+  label: string;
+}
+
+
+export type GroupName = (typeof groups)[keyof typeof groups];
+
+export type FormFieldsByGroup = Record<GroupName, FormFieldDetails[]>;
