@@ -50,42 +50,40 @@ export const UserLogin = () => {
             <p>Loading...</p>
           </>
         ) : user ? (
-          <>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant={'link'}
-                  className='text-white hover:no-underline text-sm'
-                >
-                  {' '}
-                  <FiUser className='mr-2' /> Hey, {user.name}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className='w-56 text-foreground text-sm'>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator className='bg-foreground/5' />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-primary'>
-                    <FiUser className='mr-2 h-4 w-4' />
-                    <Link href={'account/profile'}>Profile</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-primary'>
-                    <FaBoxOpen className='mr-2 h-4 w-4' />
-                    <Link href={'orders'}>My Orders</Link>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator className='bg-foreground/5' />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant={'link'}
+                className='text-white hover:no-underline text-sm'
+              >
+                {' '}
+                <FiUser className='mr-2' /> Hey, {user.name}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className='w-56 text-foreground text-sm'>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator className='bg-foreground/5' />
+              <DropdownMenuGroup>
                 <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-primary'>
-                  <CiLogout className='mr-2 h-4 w-4' />
-                  <Link legacyBehavior href='/api/auth/logout' passHref>
-                    <a className='hover:text-primary'>Log out</a>
-                  </Link>
+                  <FiUser className='mr-2 h-4 w-4' />
+                  <Link href={'account/profile'}>Profile</Link>
                 </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </>
+                <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-primary'>
+                  <FaBoxOpen className='mr-2 h-4 w-4' />
+                  <Link href={'orders'}>My Orders</Link>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator className='bg-foreground/5' />
+              <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-primary'>
+                <CiLogout className='mr-2 h-4 w-4' />
+                <Link legacyBehavior href='/api/auth/logout' passHref>
+                  <a className='hover:text-primary'>Log out</a>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         ) : (
-          <div className='flex gap-2 items-center'>
+          <div className='flex gap-2 items-center text-sm'>
             <Link legacyBehavior href='/api/auth/login' passHref>
               <a className='text-primary bg-white rounded-full px-5 py-1 my-1'>
                 Log in

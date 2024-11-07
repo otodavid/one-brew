@@ -11,15 +11,8 @@ export default function Dropdown({ trigger, menuItems }: dropdownProps) {
 
   const handleDropdown = () => {
     setIsOpen(!isOpen);
-
-    // if (isOpen) {
-    //   document.body.setAttribute('tabIndex', '-1'); // Trap focus within Dropdown
-    // } else {
-    //   document.body.removeAttribute('tabIndex'); // Restore normal focus flow
-    // }
   };
 
-  //   useEffect(() => {
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key == 'Escape') {
       setIsOpen(false);
@@ -62,7 +55,7 @@ export default function Dropdown({ trigger, menuItems }: dropdownProps) {
 
   return (
     <div>
-      <button onClick={handleDropdown} onKeyDown={(e) => handleKeyDown(e)}>
+      <button onClick={handleDropdown} onKeyDown={(e) => handleKeyDown}>
         {trigger}
       </button>
 
