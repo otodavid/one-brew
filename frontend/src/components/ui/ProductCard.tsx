@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from './card';
 import { BiSolidMagicWand } from 'react-icons/bi';
-import { convertToLink, convertToText } from '@/lib/helpers';
+import { convertToLink, convertToText } from '@/lib/utils';
 import Link from 'next/link';
 import { ProductSummary } from '@/lib/types';
 

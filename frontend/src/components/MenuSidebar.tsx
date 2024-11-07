@@ -1,6 +1,6 @@
 'use client';
 
-import { convertToLink } from '@/lib/helpers';
+import { convertToLink } from '@/lib/utils';
 import { Categories } from '@/lib/types';
 import Link from 'next/link';
 

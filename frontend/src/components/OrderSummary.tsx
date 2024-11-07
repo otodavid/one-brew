@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/card';
-import { getTotalAmount } from '@/lib/helpers';
+import { getTotalAmount } from '@/lib/utils';
 
 interface Props {
   children?: ReactNode;

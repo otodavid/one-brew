@@ -1,5 +1,5 @@
 import { Label } from './label';
-import { cn } from '@/lib/helpers';
+import { cn } from '@/lib/utils';
 
 interface RadioGroupProps {
   value: string;

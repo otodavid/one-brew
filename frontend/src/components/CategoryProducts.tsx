@@ -3,7 +3,7 @@
 import { ProductList } from './ProductList';
 import { ProductSummary } from '@/lib/types';
 import { MenuSidebar } from './MenuSidebar';
-import { convertToText } from '@/lib/helpers';
+import { convertToText } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 
 interface Props {

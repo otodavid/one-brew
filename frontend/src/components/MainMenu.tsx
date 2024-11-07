@@ -1,4 +1,4 @@
-import { convertToLink, convertToText } from '@/lib/helpers';
+import { convertToLink, convertToText } from '@/lib/utils';
 import { Categories, ICategories } from '@/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';

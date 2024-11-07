@@ -8,7 +8,7 @@ import { Community } from '@/components/Community';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ProductCard } from '@/components/ui/ProductCard';
-import { ProductSummary } from '@/lib/types';
+import { ProductSummary, UserInfo } from '@/lib/types';
 import { ProductList } from '@/components/ProductList';
 import { useQuery } from '@tanstack/react-query';
 

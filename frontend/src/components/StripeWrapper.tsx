@@ -3,7 +3,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { PaymentForm } from './PaymentForm';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { getTotalAmount } from '@/lib/helpers';
+import { getTotalAmount } from '@/lib/utils';
 import { useAppSelector } from '@/store/hooks';
 import { selectCart } from '@/store/features/cartSlice';
 
@@ -37,7 +37,7 @@ export const StripeWrapper = () => {
         console.error(error);
         alert('An error occured. Please refresh the page and try again');
       });
-  }, []);
+  }, [totalAmount]);
 
   return (
     <>
