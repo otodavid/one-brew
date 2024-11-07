@@ -42,7 +42,7 @@ export interface UserInfo {
   firstName: string;
   lastName: string;
   phone: string;
-  adress: string;
+  address: string;
   city: string;
   postalCode: string;
   province: string;
