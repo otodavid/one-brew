@@ -10,7 +10,16 @@ import Link from 'next/link';
 import { ProductCard } from '@/components/ui/ProductCard';
 import { ProductSummary, UserInfo } from '@/lib/types';
 import { ProductList } from '@/components/ProductList';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import {
+  addUserInfo,
+  selectUser,
+  updateUserInfo,
+} from '@/store/features/userSlice';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { useEffect } from 'react';
 
 export default function Home() {
   const {
@@ -25,6 +34,40 @@ export default function Home() {
     },
   });
 
+  const { user } = useUser();
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector(selectUser);
+
+  const { mutate } = useMutation({
+    mutationFn: (newUserInfo: UserInfo) => {
+      return axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/add`,
+        newUserInfo
+      );
+    },
+    onSuccess: (data: AxiosResponse) => {
+      // Update Redux state if needed
+      dispatch(addUserInfo(data.data));
+    },
+    onError: (error: AxiosError) => {
+      console.error('Error adding user:', error);
+    },
+  });
+
+  // Dispatch Redux action to update user info if `user.email` exists
+  useEffect(() => {
+    if (typeof user?.email === 'string') {
+      dispatch(updateUserInfo({ key: 'email', value: user.email }));
+    }
+  }, [user, dispatch]);
+
+  // Trigger the mutation with updated `userInfo` when `userInfo.email` is updated
+  useEffect(() => {
+    if (userInfo.email) {
+      mutate(userInfo);
+    }
+  }, [userInfo.email, mutate]);
+
   if (isError && !isLoading) {
     return <div>An Error occured</div>;
   }
@@ -32,8 +75,6 @@ export default function Home() {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
-  
 
   return (
     <div className='relative'>
