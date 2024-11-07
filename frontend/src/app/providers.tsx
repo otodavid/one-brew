@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { getQueryClient } from '@/app/get-query-client';
 import { ReduxProvider } from './reduxProvider';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
+import UserInfoProvider from '@/components/UserInfoProvider';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
@@ -11,7 +12,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ReduxProvider>
-        <UserProvider>{children}</UserProvider>
+        <UserProvider>
+          <UserInfoProvider>{children}</UserInfoProvider>
+        </UserProvider>
       </ReduxProvider>
 
       <ReactQueryDevtools initialIsOpen={false} />
