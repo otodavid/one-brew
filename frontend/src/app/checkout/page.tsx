@@ -12,9 +12,6 @@ import { OrderSummary } from '@/components/OrderSummary';
 
 export default function Shipping() {
   const [isFormFilled, setIsFormFilled] = useState<boolean>(false);
-  const [formValues, setFormValues] = useState<FormValues | undefined>(
-    undefined
-  );
 
   return (
     <section className='px-4 py-6 pb-20 xs:px-6 md:px-12 xl:px-16 2xl:px-20'>
@@ -23,16 +20,11 @@ export default function Shipping() {
       <div className='mt-8 space-y-6'>
         {!isFormFilled ? (
           <CheckoutForm
-            formValues={formValues}
-            setFormValues={setFormValues}
             isFormFilled={isFormFilled}
             setIsFormFilled={setIsFormFilled}
           />
         ) : (
-          <CompletedCheckoutForm
-            formValues={formValues}
-            setIsFormFilled={setIsFormFilled}
-          />
+          <CompletedCheckoutForm setIsFormFilled={setIsFormFilled} />
         )}
 
         {isFormFilled && (

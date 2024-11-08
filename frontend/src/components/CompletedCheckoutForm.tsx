@@ -9,36 +9,47 @@ import {
 import { Button } from './ui/button';
 import { set } from 'react-hook-form';
 import { Dispatch, SetStateAction } from 'react';
-import { groups } from '@/lib/constants';
+import { formFields, groups } from '@/lib/constants';
+import { useAppSelector } from '@/store/hooks';
+import { selectUser } from '@/store/features/userSlice';
 
 interface Prop {
-  formValues: FormValues | undefined;
   setIsFormFilled: Dispatch<SetStateAction<boolean>>;
 }
 
-export const CompletedCheckoutForm = ({
-  formValues,
-  setIsFormFilled,
-}: Prop) => {
+export const CompletedCheckoutForm = ({ setIsFormFilled }: Prop) => {
+  const userInfo = useAppSelector(selectUser);
+
   return (
     <div>
       <Card>
-        {Object.entries(groups).map(([key, groupLabel]) => (
-          <div key={key}>
-            <CardHeader>
-              <CardTitle>{groupLabel}</CardTitle>
-            </CardHeader>
+        <div>
+          <CardHeader>
+            <CardTitle>Contact Information</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p>{userInfo.email}</p>
+            <p>{userInfo.firstName + ' ' + userInfo.lastName}</p>
+            <p>{userInfo.phone}</p>
+          </CardContent>
+        </div>
 
-            <CardContent>
-              {formValues &&
-                Object.entries(formValues)
-                  .filter(([_, details]) => details.group === key)
-                  .map(([_, details]) => (
-                    <p key={details.value}>{details.value}</p>
-                  ))}
-            </CardContent>
-          </div>
-        ))}
+        <div>
+          <CardHeader>
+            <CardTitle>Shipping Address</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p>{userInfo.address}</p>
+            <p>
+              {userInfo.city +
+                ', ' +
+                userInfo.postalCode +
+                ', ' +
+                userInfo.province}
+            </p>
+            <p>{userInfo.country}</p>
+          </CardContent>
+        </div>
 
         <CardFooter>
           <Button variant={'link'} onClick={() => setIsFormFilled(false)}>

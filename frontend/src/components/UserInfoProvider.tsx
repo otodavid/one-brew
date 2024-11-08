@@ -44,9 +44,9 @@ export default function UserInfoProvider({
     }
   }, [isSuccess, userData]);
 
-  // if (isUserLoading && isLoading) {
-  //   return <div>Loading...</div>;
-  // }
+  if (isUserLoading && isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return <>{children}</>;
 }
