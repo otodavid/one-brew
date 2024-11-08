@@ -11,7 +11,7 @@ export const CategoriesList = () => {
     isError,
     isLoading,
   } = useQuery({
-    queryKey: ['products'],
+    queryKey: ['categories'],
     queryFn: async () => {
       const res = await fetch('http://localhost:5000/categories');
       return await res.json();

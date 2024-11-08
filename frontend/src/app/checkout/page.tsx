@@ -4,13 +4,10 @@ import { useState } from 'react';
 import { StripeWrapper } from '@/components/StripeWrapper';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CompletedCheckoutForm } from '@/components/CompletedCheckoutForm';
-import { FormValues } from '@/lib/types';
 import { CheckoutForm } from '@/components/CheckoutForm';
-import { selectCart } from '@/store/features/cartSlice';
-import { useAppSelector } from '@/store/hooks';
 import { OrderSummary } from '@/components/OrderSummary';
 
-export default function Shipping() {
+export default function Page() {
   const [isFormFilled, setIsFormFilled] = useState<boolean>(false);
 
   return (

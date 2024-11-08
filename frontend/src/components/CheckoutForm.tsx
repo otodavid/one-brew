@@ -66,7 +66,7 @@ export const CheckoutForm = ({ isFormFilled, setIsFormFilled }: Prop) => {
         country: userInfo.country ?? '',
       });
     }
-  }, [userInfo]);
+  }, [userInfo, form]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     setIsFormFilled(true);
