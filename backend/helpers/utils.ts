@@ -71,3 +71,7 @@ export function transformUserData(data: any): UserInfo {
     country: data.country,
   };
 }
+
+export function convertToCents(amount: number) {
+  return Number((amount * 100).toFixed(0));
+}

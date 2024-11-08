@@ -17,7 +17,7 @@ export const StripeWrapper = () => {
   const [clientSecret, setClientSecret] = useState<string | undefined>('');
   const cart = useAppSelector(selectCart);
   const deliveryFee = 2;
-  const totalAmount = getTotalAmount(cart) + deliveryFee;
+  const totalAmount = Number((getTotalAmount(cart) + deliveryFee).toFixed(2));
 
   useEffect(() => {
     axios
