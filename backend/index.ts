@@ -1,4 +1,10 @@
-import express, { Express, query, Request, Response } from 'express';
+import express, {
+  Express,
+  NextFunction,
+  query,
+  Request,
+  Response,
+} from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import {
@@ -7,7 +13,7 @@ import {
   getProductById,
   getProductsByCategoryId,
 } from './controllers/products';
-import { handlePayment } from './controllers/payment';
+import { handleConfirmTransaction, handlePayment } from './controllers/stripe';
 import { addUserInfo, getUserInfo, updateUserInfo } from './controllers/users';
 
 dotenv.config();
@@ -16,11 +22,21 @@ const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
-app.use(express.json());
 
 app.get('/', async (_, res: Response) => {
   res.json({ message: 'Welcome to the one brew app' });
 });
+
+// have webhook here so that express.json() does not interfer with express.raw
+app.post(
+  '/webhook',
+  express.raw({ type: 'application/json' }),
+  handleConfirmTransaction
+);
+
+app.use(express.json());
+
+app.post('/process-payment', handlePayment);
 
 app.get('/categories', getAllCategories);
 
@@ -29,8 +45,6 @@ app.get('/products', getAllProducts);
 app.get('/products/c/:categoryId', getProductsByCategoryId);
 
 app.get('/products/:productId', getProductById);
-
-app.post('/process-payment', handlePayment);
 
 app.get('/user/me', getUserInfo);
 

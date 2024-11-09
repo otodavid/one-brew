@@ -75,3 +75,7 @@ export function transformUserData(data: any): UserInfo {
 export function convertToCents(amount: number) {
   return Number((amount * 100).toFixed(0));
 }
+
+export function convertFromCents(amount: number) {
+  return Number((amount / 100).toFixed(2));
+}
