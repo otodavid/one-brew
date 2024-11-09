@@ -38,7 +38,7 @@ export const PaymentForm = () => {
       elements,
       // clientSecret,
       confirmParams: {
-        return_url: `${process.env.NEXT_PUBLIC_APP}/payment-success?amount=100`,
+        return_url: `${process.env.NEXT_PUBLIC_APP}/payment-success`,
       },
     });
 

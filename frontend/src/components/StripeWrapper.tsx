@@ -6,6 +6,7 @@ import axios from 'axios';
 import { getTotalAmount } from '@/lib/utils';
 import { useAppSelector } from '@/store/hooks';
 import { selectCart } from '@/store/features/cartSlice';
+import { selectUser } from '@/store/features/userSlice';
 
 if (process.env.NEXT_PUBLIC_STRIPE_PK === undefined) {
   throw new Error(`${process.env.NEXT_PUBLIC_STRIPE_PK} is undefined`);
@@ -18,6 +19,7 @@ export const StripeWrapper = () => {
   const cart = useAppSelector(selectCart);
   const deliveryFee = 2;
   const totalAmount = Number((getTotalAmount(cart) + deliveryFee).toFixed(2));
+  const userInfo = useAppSelector(selectUser);
 
   useEffect(() => {
     axios
@@ -25,6 +27,8 @@ export const StripeWrapper = () => {
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/process-payment`,
         {
           amount: totalAmount,
+          order: cart,
+          userEmail: userInfo.email,
         },
         {
           headers: {
