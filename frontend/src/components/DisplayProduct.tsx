@@ -28,6 +28,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { Counter } from './Counter';
 import { useCounter } from '@/hooks/useCounter';
+import { toast } from 'sonner';
 
 export const CustomizeContext = createContext<IContext | undefined>(undefined);
 
@@ -116,7 +117,13 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   };
 
   useEffect(() => {
-    dispatch(addToCart(cartItem));
+    if (cartItem) {
+      dispatch(addToCart(cartItem));
+
+      toast.success('added to cart', {
+        className: 'toast-style',
+      });
+    }
   }, [cartItem, dispatch]);
 
   if (isError && !isLoading) {

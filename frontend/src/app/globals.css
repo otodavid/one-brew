@@ -112,3 +112,11 @@
     text-wrap: balance;
   }
 }
+
+.toast-style :where([data-title])::first-letter {
+  @apply capitalize;
+}
+
+.toast-style [data-close-button] {
+  @apply text-primary;
+}

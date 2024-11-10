@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import Providers from './providers';
+import { Toaster } from '@/components/ui/sonner';
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
@@ -27,6 +28,12 @@ export default function RootLayout({
             <main>{children}</main>
 
             <Footer />
+
+            <Toaster
+              position='top-right'
+              offset={'2rem'}
+              closeButton={true}
+            />
           </div>
         </Providers>
       </body>
