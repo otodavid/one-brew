@@ -1,14 +1,15 @@
-import { CartItemProps, Product } from '@/lib/types';
+import { CartItemProps } from '@/lib/types';
 import { createAppSlice } from '../createAppSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
+import { loadLocalStorage, saveTolocalStorage } from '@/lib/utils';
 
 interface Cart {
   cartItems: CartItemProps[];
 }
 
 const initialState: Cart = {
-  cartItems: [],
+  cartItems: loadLocalStorage() ?? [],
 };
 
 export const cartSlice = createAppSlice({
@@ -17,7 +18,11 @@ export const cartSlice = createAppSlice({
 
   reducers: {
     addToCart: (state: Cart, action: PayloadAction<CartItemProps | null>) => {
-      if (action.payload !== null) state.cartItems.push(action.payload);
+      if (action.payload !== null) {
+        state.cartItems.push(action.payload);
+      }
+
+      saveTolocalStorage(state.cartItems);
     },
     removeFromCart: (state: Cart, action: PayloadAction<number>) => {
       state.cartItems.splice(action.payload, 1);

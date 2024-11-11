@@ -39,3 +39,26 @@ export const getTotalAmount = (cart: CartItemProps[]): number => {
   );
   return parseFloat(total.toFixed(2));
 };
+
+export const loadLocalStorage = () => {
+  try {
+    const serializedState = localStorage.getItem('cart');
+    if (serializedState === null) {
+      return undefined;
+    } else {
+      return JSON.parse(serializedState);
+    }
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+};
+
+export const saveTolocalStorage = (state: any) => {
+  try {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('cart', serializedState);
+  } catch (error) {
+    console.log(error);
+  }
+};
