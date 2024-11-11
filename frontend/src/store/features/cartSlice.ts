@@ -26,14 +26,22 @@ export const cartSlice = createAppSlice({
     },
     removeFromCart: (state: Cart, action: PayloadAction<number>) => {
       state.cartItems.splice(action.payload, 1);
-      // state.cartItems.filter(
-      //   (item, index) => state.cartItems[index] != action.payload
-      // );
+
+      saveTolocalStorage(state.cartItems);
+    },
+    syncCart: (state: Cart, action: PayloadAction<CartItemProps[] | null>) => {
+      if (action.payload !== null) {
+        action.payload.forEach((item) => {
+          state.cartItems.push(item);
+        });
+      }
+
+      saveTolocalStorage(state.cartItems);
     },
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, syncCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
 

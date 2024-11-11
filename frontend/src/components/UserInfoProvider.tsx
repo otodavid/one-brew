@@ -1,11 +1,12 @@
 'use client';
 
+import { useCartSync } from '@/hooks/useCartSync';
+import { selectCart } from '@/store/features/cartSlice';
 import { addUserInfo } from '@/store/features/userSlice';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { NextPage } from 'next';
 import { ReactNode, useEffect, useState } from 'react';
 
 export default function UserInfoProvider({
@@ -16,6 +17,8 @@ export default function UserInfoProvider({
   const dispatch = useAppDispatch();
   const { user, isLoading: isUserLoading, error } = useUser();
   const [currentUser, setCurrentUser] = useState<string>('');
+  const cart = useAppSelector(selectCart);
+  useCartSync({ user });
 
   useEffect(() => {
     if (user?.email && !isUserLoading && !error) {
@@ -23,12 +26,13 @@ export default function UserInfoProvider({
     }
   }, [user, isUserLoading, error]);
 
+  // fetch all user info from database
   const {
     data: userData,
     isSuccess,
     isLoading,
   } = useQuery({
-    queryKey: ['userInfo'],
+    queryKey: ['userInfo', currentUser],
     queryFn: async () => {
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/me`,
@@ -36,13 +40,15 @@ export default function UserInfoProvider({
       );
       return data;
     },
+    enabled: !!currentUser,
   });
 
   useEffect(() => {
+    // update app with user data
     if (isSuccess && userData) {
       dispatch(addUserInfo(userData));
     }
-  }, [isSuccess, userData]);
+  }, [isSuccess, userData, dispatch]);
 
   if (isUserLoading && isLoading) {
     return <div>Loading...</div>;
