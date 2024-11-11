@@ -2,7 +2,9 @@ import { Request, Response } from 'express';
 import conn from '../config/db';
 import {
   queryAddUserInfo,
+  queryGetUserCart,
   queryGetUserInfo,
+  queryInsertEmptyUserCart,
   queryUpdateUserInfo,
 } from '../queries/users';
 import { transformUserData } from '../helpers/utils';
@@ -81,5 +83,34 @@ export async function getUserInfo(req: Request, res: Response) {
   } catch (error) {
     console.error('Error inserting data:', error);
     res.status(500).json({ error: 'Error inserting data:' });
+  }
+}
+
+export async function getUserCart(req: Request, res: Response) {
+  const { email } = req.query;
+
+  try {
+    const isUserCartExists = await conn.query(
+      'SELECT EXISTS(SELECT 1 FROM cart WHERE cart_owner = $1);',
+      [email]
+    );
+
+    if (isUserCartExists.rows[0].exists) {
+      const query = queryGetUserCart();
+      const result = await conn.query(query, [email]);
+      const cart = result.rows[0];
+
+      res.status(200).json(cart.items);
+    } else {
+      const query = queryInsertEmptyUserCart();
+      const result = await conn.query(query, [email]);
+      const cart = result.rows[0];
+
+      console.log(result.rows);
+      res.status(200).json(cart.items);
+    }
+  } catch (error) {
+    console.error('Error inserting data:', error);
+    res.status(500).json({ message: 'Error retrieving data' });
   }
 }

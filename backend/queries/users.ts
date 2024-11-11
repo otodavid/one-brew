@@ -69,3 +69,11 @@ export const queryGetUserInfo = () => {
 
   return query;
 };
+
+export const queryGetUserCart = () => {
+  return 'SELECT * FROM cart WHERE cart_owner = $1;';
+};
+
+export const queryInsertEmptyUserCart = () => {
+  return "INSERT INTO cart(cart_owner, items) VALUES($1, '[]') RETURNING *;";
+};

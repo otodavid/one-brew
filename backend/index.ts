@@ -14,7 +14,12 @@ import {
   getProductsByCategoryId,
 } from './controllers/products';
 import { handleConfirmTransaction, handlePayment } from './controllers/stripe';
-import { addUserInfo, getUserInfo, updateUserInfo } from './controllers/users';
+import {
+  addUserInfo,
+  getUserCart,
+  getUserInfo,
+  updateUserInfo,
+} from './controllers/users';
 
 dotenv.config();
 const app: Express = express();
@@ -51,6 +56,8 @@ app.get('/user/me', getUserInfo);
 app.post('/user/add', addUserInfo);
 
 app.put('/user/update', updateUserInfo);
+
+app.get('/user/cart', getUserCart);
 
 app.listen(port, () => {
   console.log(`Backend server is running`);
