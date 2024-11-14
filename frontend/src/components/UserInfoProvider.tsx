@@ -1,6 +1,6 @@
 'use client';
 
-import { useCartSync } from '@/hooks/useCartSync';
+import { useCartMerge } from '@/hooks/useCartMerge';
 import { selectCart } from '@/store/features/cartSlice';
 import { addUserInfo } from '@/store/features/userSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -18,7 +18,8 @@ export default function UserInfoProvider({
   const { user, isLoading: isUserLoading, error } = useUser();
   const [currentUser, setCurrentUser] = useState<string>('');
   const cart = useAppSelector(selectCart);
-  useCartSync({ user });
+
+  useCartMerge();
 
   useEffect(() => {
     if (user?.email && !isUserLoading && !error) {
@@ -51,8 +52,8 @@ export default function UserInfoProvider({
   }, [isSuccess, userData, dispatch]);
 
   if (isUserLoading && isLoading) {
-    return <div>Loading...</div>;
+    return <>Loading...</>;
   }
 
-  return <>{children}</>;
+  return <div>{children}</div>;
 }

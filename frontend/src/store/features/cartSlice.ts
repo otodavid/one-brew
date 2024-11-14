@@ -29,7 +29,7 @@ export const cartSlice = createAppSlice({
 
       saveTolocalStorage(state.cartItems);
     },
-    syncCart: (state: Cart, action: PayloadAction<CartItemProps[] | null>) => {
+    mergeCart: (state: Cart, action: PayloadAction<CartItemProps[] | null>) => {
       if (action.payload !== null) {
         action.payload.forEach((item) => {
           state.cartItems.push(item);
@@ -41,7 +41,7 @@ export const cartSlice = createAppSlice({
   },
 });
 
-export const { addToCart, removeFromCart, syncCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, mergeCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
 
