@@ -1,6 +1,6 @@
 'use client';
 
-import { convertToText, handleProductSizeVolume } from '@/lib/utils';
+import { handleProductSizeVolume } from '@/lib/utils';
 import {
   CartItemProps,
   IContext,
