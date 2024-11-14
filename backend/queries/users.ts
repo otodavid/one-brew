@@ -72,6 +72,10 @@ export const queryInsertNewUserCart = () => {
 };
 
 export const queryAddToUserCart = () => {
+  return `UPDATE cart SET items = items || $2::jsonb WHERE cart_owner = $1 RETURNING *;`;
+};
+
+export const queryMergeUserCart = () => {
   return `UPDATE cart SET items = items || $2 WHERE cart_owner = $1 RETURNING *;`;
 };
 
