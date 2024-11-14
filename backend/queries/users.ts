@@ -64,17 +64,16 @@ export const queryUpdateUserInfo = ({
 };
 
 export const queryGetUserInfo = () => {
-  return `SELECT * FROM user_info WHERE email = $1;`;
+  const query = `SELECT * FROM user_info 
+      WHERE email = $1;`;
+
+  return query;
 };
 
-export const queryInsertNewUserCart = () => {
-  return 'INSERT INTO cart(cart_owner, items) VALUES($1, $2) RETURNING *;';
+export const queryGetUserCart = () => {
+  return 'SELECT * FROM cart WHERE cart_owner = $1;';
 };
 
-export const queryAddToUserCart = () => {
-  return `UPDATE cart SET items = items || $2 WHERE cart_owner = $1 RETURNING *;`;
-};
-
-export const queryGetUserOrders = () => {
-  return 'SELECT * FROM customer_order WHERE user_email = $1';
+export const queryInsertEmptyUserCart = () => {
+  return "INSERT INTO cart(cart_owner, items) VALUES($1, '[]') RETURNING *;";
 };
