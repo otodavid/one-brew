@@ -26,7 +26,7 @@ export default function Cart() {
 
         <div className='mt-6 md:px-4'>
           {cart.map((item, index) => (
-            <CartItem item={item} index={index} key={item.id+index} />
+            <CartItem item={item} index={index} key={item.id + index} />
           ))}
         </div>
       </div>
