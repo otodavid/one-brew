@@ -1,10 +1,4 @@
-import express, {
-  Express,
-  NextFunction,
-  query,
-  Request,
-  Response,
-} from 'express';
+import express, { Express, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import {
@@ -15,9 +9,10 @@ import {
 } from './controllers/products';
 import { handleConfirmTransaction, handlePayment } from './controllers/stripe';
 import {
+  addToUserCart,
   addUserInfo,
-  getUserCart,
   getUserInfo,
+  getUserOrders,
   updateUserInfo,
 } from './controllers/users';
 
@@ -57,7 +52,9 @@ app.post('/user/add', addUserInfo);
 
 app.put('/user/update', updateUserInfo);
 
-app.get('/user/cart', getUserCart);
+app.post('/user/cart', addToUserCart);
+
+app.get('/user/orders', getUserOrders);
 
 app.listen(port, () => {
   console.log(`Backend server is running`);
