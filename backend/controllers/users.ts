@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import conn from '../config/db';
 import {
+  queryAddToUserCart,
   queryAddUserInfo,
-  queryGetUserCart,
   queryGetUserInfo,
-  queryInsertEmptyUserCart,
+  queryGetUserOrders,
+  queryInsertNewUserCart,
   queryUpdateUserInfo,
 } from '../queries/users';
 import { transformUserData } from '../helpers/utils';
@@ -86,31 +87,47 @@ export async function getUserInfo(req: Request, res: Response) {
   }
 }
 
-export async function getUserCart(req: Request, res: Response) {
-  const { email } = req.query;
+export async function addToUserCart(req: Request, res: Response) {
+  const { userEmail, cart } = req.body;
 
   try {
     const isUserCartExists = await conn.query(
       'SELECT EXISTS(SELECT 1 FROM cart WHERE cart_owner = $1);',
-      [email]
+      [userEmail]
     );
 
     if (isUserCartExists.rows[0].exists) {
-      const query = queryGetUserCart();
-      const result = await conn.query(query, [email]);
-      const cart = result.rows[0];
+      const query = queryAddToUserCart();
 
-      res.status(200).json(cart.items);
+      const result = await conn.query(query, [userEmail, JSON.stringify(cart)]);
+      const newCart = result.rows[0];
+
+      res.status(200).json(newCart);
     } else {
-      const query = queryInsertEmptyUserCart();
-      const result = await conn.query(query, [email]);
-      const cart = result.rows[0];
+      const query = queryInsertNewUserCart();
+      const result = await conn.query(query, [userEmail, JSON.stringify(cart)]);
 
-      console.log(result.rows);
-      res.status(200).json(cart.items);
+      const newCart = result.rows[0];
+
+      res.status(200).json(newCart);
     }
   } catch (error) {
     console.error('Error inserting data:', error);
-    res.status(500).json({ message: 'Error retrieving data' });
+    res.status(500).json({ message: 'Error inserting data' });
   }
 }
+
+export const getUserOrders = async (req: Request, res: Response) => {
+  const { email } = req.query;
+  const query = queryGetUserOrders();
+
+  try {
+    const result = await conn.query(query, [email]);
+    const orders = result.rows;
+
+    res.status(200).json(orders);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Error retrieving order' });
+  }
+};
