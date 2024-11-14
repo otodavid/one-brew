@@ -15,6 +15,7 @@ import {
 } from './controllers/products';
 import { handleConfirmTransaction, handlePayment } from './controllers/stripe';
 import {
+  addToUserCart,
   addUserInfo,
   getUserCart,
   getUserInfo,
@@ -57,7 +58,7 @@ app.post('/user/add', addUserInfo);
 
 app.put('/user/update', updateUserInfo);
 
-app.get('/user/cart', getUserCart);
+app.get('/user/cart', addToUserCart);
 
 app.listen(port, () => {
   console.log(`Backend server is running`);
