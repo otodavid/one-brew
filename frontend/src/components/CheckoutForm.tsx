@@ -21,7 +21,7 @@ import {
 } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectCart } from '@/store/features/cartSlice';
-import { CartItem } from '@/components/CartItem';
+import { CartItemComponent } from '@/components/CartItemComponent';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FormValues } from '@/lib/types';
 import { addUserInfo, selectUser } from '@/store/features/userSlice';
@@ -108,7 +108,7 @@ export const CheckoutForm = ({ isFormFilled, setIsFormFilled }: Prop) => {
           </CardHeader>
           <CardContent className='space-y-4'>
             {cart.map((item, index) => (
-              <CartItem
+              <CartItemComponent
                 item={item}
                 index={index}
                 key={item.id}

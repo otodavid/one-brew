@@ -68,7 +68,7 @@ export interface Product extends ProductSummary {
   addons: Addon[];
   sizes: Size[];
 }
-export interface CartItemProps extends ProductSummary {
+export interface CartItem extends ProductSummary {
   size: Size;
   addons: { name: string; quantity: number; price: number }[];
   quantity?: number;

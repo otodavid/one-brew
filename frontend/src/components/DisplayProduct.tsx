@@ -1,7 +1,7 @@
 'use client';
 
 import { handleProductSizeVolume, saveTolocalStorage } from '@/lib/utils';
-import { CartItemProps, ICustomizeDetails, Product } from '@/lib/types';
+import { CartItem, ICustomizeDetails, Product } from '@/lib/types';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { FaLongArrowAltLeft } from 'react-icons/fa';
@@ -40,7 +40,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     },
   });
 
-  const [cartItem, setCartItem] = useState<CartItemProps | null>(null);
+  const [cartItem, setCartItem] = useState<CartItem | null>(null);
   const router = useRouter();
   const cart = useAppSelector(selectCart);
 
@@ -54,13 +54,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   const userInfo = useAppSelector(selectUser);
 
   const { mutate } = useMutation({
-    mutationFn: async ({
-      email,
-      item,
-    }: {
-      email: string;
-      item: CartItemProps;
-    }) => {
+    mutationFn: async ({ email, item }: { email: string; item: CartItem }) => {
       const data = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/cart/add`,
         {
@@ -149,7 +143,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   };
 
   const handleAddToCart = useCallback(
-    (cartItem: CartItemProps) => {
+    (cartItem: CartItem) => {
       // if user is signed in, add to db data, else save to local storage
       if (userInfo.email) {
         mutate({ email: userInfo.email, item: cartItem });

@@ -1,6 +1,6 @@
 'use client';
 
-import { CartItem } from '@/components/CartItem';
+import { CartItemComponent } from '@/components/CartItemComponent';
 import { EmptyCart } from '@/components/EmptyCart';
 import { OrderSummary } from '@/components/OrderSummary';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,11 @@ export default function Cart() {
 
         <div className='mt-6 md:px-4'>
           {cart.map((item, index) => (
-            <CartItem item={item} index={index} key={item.id + index} />
+            <CartItemComponent
+              item={item}
+              index={index}
+              key={item.id + index}
+            />
           ))}
         </div>
       </div>

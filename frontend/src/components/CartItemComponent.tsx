@@ -1,4 +1,4 @@
-import { CartItemProps } from '@/lib/types';
+import { CartItem } from '@/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from './ui/button';
@@ -8,12 +8,16 @@ import { useDispatch } from 'react-redux';
 import { useAppDispatch } from '@/store/hooks';
 
 interface Props {
-  item: CartItemProps;
+  item: CartItem;
   index: number;
   isEditable?: boolean;
 }
 
-export const CartItem = ({ item, index, isEditable = true }: Props) => {
+export const CartItemComponent = ({
+  item,
+  index,
+  isEditable = true,
+}: Props) => {
   const dispatch = useAppDispatch();
 
   return (

@@ -1,4 +1,4 @@
-import { CartItemProps } from '@/lib/types';
+import { CartItem } from '@/lib/types';
 import { createAppSlice } from '../createAppSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
@@ -9,7 +9,7 @@ import {
 } from '@/lib/utils';
 
 interface Cart {
-  cartItems: CartItemProps[];
+  cartItems: CartItem[];
 }
 
 const initialState: Cart = {
@@ -21,7 +21,7 @@ export const cartSlice = createAppSlice({
   initialState,
 
   reducers: {
-    addToCart: (state: Cart, action: PayloadAction<CartItemProps | null>) => {
+    addToCart: (state: Cart, action: PayloadAction<CartItem | null>) => {
       if (action.payload !== null) {
         state.cartItems.push(action.payload);
       }
@@ -32,7 +32,7 @@ export const cartSlice = createAppSlice({
       saveTolocalStorage(state.cartItems);
     },
     // this should only be called when user signs in
-    mergeCart: (state: Cart, action: PayloadAction<CartItemProps[] | null>) => {
+    mergeCart: (state: Cart, action: PayloadAction<CartItem[] | null>) => {
       if (action.payload !== null) {
         action.payload.forEach((item) => {
           state.cartItems.push(item);

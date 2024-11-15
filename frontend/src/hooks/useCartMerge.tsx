@@ -1,4 +1,4 @@
-import { CartItemProps } from '@/lib/types';
+import { CartItem } from '@/lib/types';
 import { selectCart, mergeCart } from '@/store/features/cartSlice';
 import { selectUser } from '@/store/features/userSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -9,7 +9,7 @@ import { useEffect, useRef } from 'react';
 
 interface NewCart {
   userEmail: string;
-  cart: CartItemProps[];
+  cart: CartItem[];
 }
 
 export const useCartMerge = () => {
