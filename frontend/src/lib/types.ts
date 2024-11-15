@@ -75,13 +75,6 @@ export interface CartItemProps extends ProductSummary {
   totalPrice: number;
 }
 
-export interface IContext {
-  customizeDetails: ICustomizeDetails;
-  setCustomizeDetails: React.Dispatch<React.SetStateAction<ICustomizeDetails>>;
-  cartItem: CartItemProps;
-  setCartItem: React.Dispatch<React.SetStateAction<CartItemProps>>;
-}
-
 export interface FormValues {
   [key: string]: {
     group: keyof typeof groups;
@@ -116,7 +109,6 @@ export interface FormFieldDetails {
   name: UserFields;
   label: string;
 }
-
 
 export type GroupName = (typeof groups)[keyof typeof groups];
 

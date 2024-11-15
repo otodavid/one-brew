@@ -62,3 +62,11 @@ export const saveTolocalStorage = (state: any) => {
     console.log(error);
   }
 };
+
+export const clearlocalStorage = () => {
+  try {
+    localStorage.removeItem('cart');
+  } catch (error) {
+    console.log(error);
+  }
+};

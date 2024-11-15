@@ -2,7 +2,11 @@ import { CartItemProps } from '@/lib/types';
 import { createAppSlice } from '../createAppSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { loadLocalStorage, saveTolocalStorage } from '@/lib/utils';
+import {
+  clearlocalStorage,
+  loadLocalStorage,
+  saveTolocalStorage,
+} from '@/lib/utils';
 
 interface Cart {
   cartItems: CartItemProps[];
@@ -21,14 +25,13 @@ export const cartSlice = createAppSlice({
       if (action.payload !== null) {
         state.cartItems.push(action.payload);
       }
-
-      saveTolocalStorage(state.cartItems);
     },
     removeFromCart: (state: Cart, action: PayloadAction<number>) => {
       state.cartItems.splice(action.payload, 1);
 
       saveTolocalStorage(state.cartItems);
     },
+    // this should only be called when user signs in
     mergeCart: (state: Cart, action: PayloadAction<CartItemProps[] | null>) => {
       if (action.payload !== null) {
         action.payload.forEach((item) => {
@@ -36,7 +39,7 @@ export const cartSlice = createAppSlice({
         });
       }
 
-      saveTolocalStorage(state.cartItems);
+      clearlocalStorage();
     },
   },
 });

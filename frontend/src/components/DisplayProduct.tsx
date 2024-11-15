@@ -1,16 +1,10 @@
 'use client';
 
-import { handleProductSizeVolume } from '@/lib/utils';
-import {
-  CartItemProps,
-  IContext,
-  ICustomizeDetails,
-  Product,
-} from '@/lib/types';
+import { handleProductSizeVolume, saveTolocalStorage } from '@/lib/utils';
+import { CartItemProps, ICustomizeDetails, Product } from '@/lib/types';
 import Image from 'next/image';
-import Link from 'next/link';
-import { createContext, FormEvent, useEffect, useState } from 'react';
-import { FaLongArrowAltLeft, FaMinus, FaPlus } from 'react-icons/fa';
+import { useCallback, useEffect, useState } from 'react';
+import { FaLongArrowAltLeft } from 'react-icons/fa';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
 import {
@@ -24,13 +18,13 @@ import { addToCart, selectCart } from '@/store/features/cartSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { CoffeeIconSize } from './CoffeeIconSize';
 import { CustomizationItem } from './CustomizationItem';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { Counter } from './Counter';
 import { useCounter } from '@/hooks/useCounter';
 import { toast } from 'sonner';
-
-export const CustomizeContext = createContext<IContext | undefined>(undefined);
+import axios from 'axios';
+import { selectUser } from '@/store/features/userSlice';
 
 export const DisplayProduct = ({ productId }: { productId: string }) => {
   // fetch product data
@@ -48,6 +42,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
 
   const [cartItem, setCartItem] = useState<CartItemProps | null>(null);
   const router = useRouter();
+  const cart = useAppSelector(selectCart);
 
   const [customizeDetails, setCustomizeDetails] = useState<ICustomizeDetails>({
     size: { name: '', price: 0 },
@@ -56,6 +51,43 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   const { quantity, handleAdd, handleSubtract } = useCounter({ startValue: 1 });
 
   const dispatch = useAppDispatch();
+  const userInfo = useAppSelector(selectUser);
+
+  const { mutate } = useMutation({
+    mutationFn: async ({
+      email,
+      item,
+    }: {
+      email: string;
+      item: CartItemProps;
+    }) => {
+      const data = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/cart/add`,
+        {
+          email,
+          item,
+        }
+      );
+
+      return data.data;
+    },
+
+    onSuccess: () => {
+      dispatch(addToCart(cartItem));
+
+      toast.success('added to cart', {
+        className: 'toast-style',
+      });
+    },
+
+    onError: (error) => {
+      toast.error('Something went wrong. Please refresh and try again', {
+        className: 'toast-style',
+      });
+
+      console.log(error);
+    },
+  });
 
   const handleSizeDetails = (value: string) => {
     let getPrice: number = 0;
@@ -82,7 +114,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     }
   }, [product]);
 
-  const handleCart = () => {
+  const handleCartState = () => {
     let totalPrice = 0;
 
     if (product?.addons.length !== 0 && product?.sizes.length !== 0) {
@@ -99,7 +131,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     if (product) {
       setCartItem({
         id: product.id,
-        name: product.name,
+        name: product.name ?? '',
         price: product.price,
         image: product.image,
         description: product.description,
@@ -116,15 +148,26 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     }
   };
 
-  useEffect(() => {
-    if (cartItem) {
-      dispatch(addToCart(cartItem));
+  const handleAddToCart = useCallback(
+    (cartItem: CartItemProps) => {
+      // if user is signed in, add to db data, else save to local storage
+      if (userInfo.email) {
+        mutate({ email: userInfo.email, item: cartItem });
+      } else {
+        dispatch(addToCart(cartItem));
 
-      toast.success('added to cart', {
-        className: 'toast-style',
-      });
+        saveTolocalStorage(cart);
+      }
+    },
+    [cart, dispatch, mutate, userInfo.email]
+  );
+
+  useEffect(() => {
+    let item = cartItem;
+    if (item) {
+      handleAddToCart(item);
     }
-  }, [cartItem, dispatch]);
+  }, [cartItem]);
 
   if (isError && !isLoading) {
     return <div>An Error occured</div>;
@@ -159,7 +202,10 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
 
           <div className='grid grid-cols-1 content-start md:mx-auto lg:pr-8 xl:max-w-xl '>
             <div className='flex justify-between items-center flex-wrap pt-6 gap-x-3 gap-y-2 lg:pt-0'>
-              <span className='uppercase text-xs text-primary/80 flex-[1_1_100%] w-full tracking-wider'>
+              <span
+                className='uppercase text-xs text-primary/80 flex-[1_1_100%] w-full tracking-wider'
+                defaultValue={product.categoryType}
+              >
                 {product.categoryType}
               </span>
               <h2 className='capitalize'>{product.name}</h2>
@@ -168,7 +214,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
                 {product.description}
               </p>
             </div>
-            <form className='mt-6'>
+            <div className='mt-6'>
               {/* sizing options */}
               {product.sizes.length > 0 && (
                 <div>
@@ -257,9 +303,9 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
                   </Accordion>
                 </div>
               )}
-            </form>
+            </div>
 
-            <Button onClick={handleCart} className='mt-8 w-full block'>
+            <Button onClick={handleCartState} className='mt-8 w-full block'>
               Add to Cart
             </Button>
           </div>
