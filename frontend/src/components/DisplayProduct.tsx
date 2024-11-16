@@ -25,6 +25,7 @@ import { useCounter } from '@/hooks/useCounter';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { selectUser } from '@/store/features/userSlice';
+import { v4 as uuidv4 } from 'uuid';
 
 export const DisplayProduct = ({ productId }: { productId: string }) => {
   // fetch product data
@@ -138,6 +139,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
         addons: [...customizeDetails.addons],
         quantity: quantity,
         totalPrice: totalPrice,
+        cartProductID: uuidv4(),
       });
     }
   };
@@ -157,10 +159,11 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   );
 
   useEffect(() => {
-    let item = cartItem;
-    if (item) {
-      handleAddToCart(item);
+    if (cartItem) {
+      handleAddToCart(cartItem);
     }
+
+    console.log(cartItem);
   }, [cartItem]);
 
   if (isError && !isLoading) {

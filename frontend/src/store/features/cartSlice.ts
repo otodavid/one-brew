@@ -26,10 +26,10 @@ export const cartSlice = createAppSlice({
         state.cartItems.push(action.payload);
       }
     },
-    removeFromCart: (state: Cart, action: PayloadAction<number>) => {
-      state.cartItems.splice(action.payload, 1);
-
-      saveTolocalStorage(state.cartItems);
+    removeFromCart: (state: Cart, action: PayloadAction<string>) => {
+      state.cartItems.filter((item) => {
+        return item.cartProductID !== action.payload;
+      });
     },
     // this should only be called when user signs in
     mergeCart: (state: Cart, action: PayloadAction<CartItem[] | null>) => {

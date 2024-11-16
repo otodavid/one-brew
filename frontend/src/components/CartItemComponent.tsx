@@ -2,23 +2,68 @@ import { CartItem } from '@/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from './ui/button';
-import { removeFromCart } from '@/store/features/cartSlice';
+import { removeFromCart, selectCart } from '@/store/features/cartSlice';
 import { MdOutlineDeleteOutline } from 'react-icons/md';
-import { useDispatch } from 'react-redux';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+import { selectUser } from '@/store/features/userSlice';
+import { toast } from 'sonner';
+import { saveTolocalStorage } from '@/lib/utils';
 
 interface Props {
   item: CartItem;
-  index: number;
   isEditable?: boolean;
 }
 
-export const CartItemComponent = ({
-  item,
-  index,
-  isEditable = true,
-}: Props) => {
+export const CartItemComponent = ({ item, isEditable = true }: Props) => {
   const dispatch = useAppDispatch();
+  const userInfo = useAppSelector(selectUser);
+  const cart = useAppSelector(selectCart);
+
+  const { mutate } = useMutation({
+    mutationFn: async ({
+      email,
+      cartProductID,
+    }: {
+      email: string;
+      cartProductID: string;
+    }) => {
+      const data = await axios.put(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/cart/delete-item`,
+        {
+          email,
+          cartProductID,
+        }
+      );
+
+      return data.data;
+    },
+
+    onSuccess: (data) => {
+      dispatch(removeFromCart(item.cartProductID));
+
+      toast.success('Item removed successfully', {
+        className: 'toast-style',
+      });
+    },
+
+    onError: (error) => {
+      console.log(item.cartProductID);
+      toast.error('Could not remove item from cart', {
+        className: 'toast-style',
+      });
+    },
+  });
+
+  const handleDeleteFromCart = () => {
+    if (userInfo.email) {
+      mutate({ email: userInfo.email, cartProductID: item.cartProductID });
+    } else {
+      dispatch(removeFromCart(item.cartProductID));
+      saveTolocalStorage(cart);
+    }
+  };
 
   return (
     <div className='flex flex-wrap gap-4 py-4 border-t first:border-t-0 last-of-type:border-b-0'>
@@ -85,7 +130,7 @@ export const CartItemComponent = ({
           <Button
             variant={'ghost'}
             size={'icon'}
-            onClick={() => dispatch(removeFromCart(index))}
+            onClick={handleDeleteFromCart}
           >
             <MdOutlineDeleteOutline size={'18'} className='text-primary' />
           </Button>
