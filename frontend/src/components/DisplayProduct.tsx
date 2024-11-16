@@ -162,8 +162,6 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     if (cartItem) {
       handleAddToCart(cartItem);
     }
-
-    console.log(cartItem);
   }, [cartItem]);
 
   if (isError && !isLoading) {
