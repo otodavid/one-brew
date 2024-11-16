@@ -26,11 +26,7 @@ export default function Cart() {
 
         <div className='mt-6 md:px-4'>
           {cart.map((item, index) => (
-            <CartItemComponent
-              item={item}
-              index={index}
-              key={item.id + index}
-            />
+            <CartItemComponent item={item} key={item.cartProductID} />
           ))}
         </div>
       </div>

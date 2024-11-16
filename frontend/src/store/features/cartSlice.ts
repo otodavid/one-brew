@@ -27,8 +27,11 @@ export const cartSlice = createAppSlice({
       }
     },
     removeFromCart: (state: Cart, action: PayloadAction<string>) => {
-      state.cartItems.filter((item) => {
-        return item.cartProductID !== action.payload;
+      state.cartItems.forEach((item) => {
+        if (item.cartProductID === action.payload) {
+          const index = state.cartItems.indexOf(item);
+          state.cartItems.splice(index, 1);
+        }
       });
     },
     // this should only be called when user signs in
