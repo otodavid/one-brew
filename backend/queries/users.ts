@@ -79,6 +79,26 @@ export const queryMergeUserCart = () => {
   return `UPDATE cart SET items = items || $2 WHERE cart_owner = $1 RETURNING *;`;
 };
 
+export const queryDeleteFromUserCart = () => {
+  return `UPDATE cart SET items = (
+   CASE 
+        WHEN (
+            SELECT jsonb_agg(elem)
+            FROM jsonb_array_elements(items) AS elem
+            WHERE (elem ->> 'cartProductID')::uuid != $2
+        ) IS NULL THEN '[]'::jsonb
+        ELSE (
+            SELECT jsonb_agg(elem)
+            FROM jsonb_array_elements(items) AS elem
+            WHERE (elem ->> 'cartProductID')::uuid != $2
+        )
+    END
+  )
+  WHERE cart_owner = $1
+  RETURNING *
+  `;
+};
+
 export const queryGetUserOrders = () => {
   return 'SELECT * FROM customer_order WHERE user_email = $1';
 };

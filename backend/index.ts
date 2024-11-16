@@ -11,6 +11,7 @@ import { handleConfirmTransaction, handlePayment } from './controllers/stripe';
 import {
   addToUserCart,
   addUserInfo,
+  DeleteFromUserCart,
   getUserInfo,
   getUserOrders,
   mergeUserCart,
@@ -56,6 +57,8 @@ app.put('/user/update', updateUserInfo);
 app.post('/user/cart/add', addToUserCart);
 
 app.post('/user/cart/merge', mergeUserCart);
+
+app.put('/user/cart/delete-item', DeleteFromUserCart);
 
 app.get('/user/orders', getUserOrders);
 
