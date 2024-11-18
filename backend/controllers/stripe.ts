@@ -2,28 +2,20 @@ import { Request, Response } from 'express';
 import { convertFromCents, convertToCents } from '../helpers/utils';
 import Stripe from 'stripe';
 import conn from '../config/db';
+import { CartItem } from '../types';
+import { queryInsertNewOrder } from '../queries/users';
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 export const handlePayment = async (req: Request, res: Response) => {
   try {
-    const { amount, order, userEmail } = req.body;
+    const { orderAmount, orderId } = req.body;
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: convertToCents(amount),
+      amount: convertToCents(orderAmount),
       currency: 'cad',
       automatic_payment_methods: { enabled: true },
       metadata: {
-        userEmail,
-        products: JSON.stringify(
-          order.map((product: any) => ({
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            size: product.size,
-            addons: product.addons,
-            quantity: product.quantity ?? 1,
-          }))
-        ),
+        orderId,
       },
     });
 
@@ -35,6 +27,27 @@ export const handlePayment = async (req: Request, res: Response) => {
   }
 };
 
+// add order to database in 'pending' status
+export const handleAddUserOrder = async (req: Request, res: Response) => {
+  try {
+    const { orderId, orderAmount, order, userEmail } = req.body;
+    const query = queryInsertNewOrder();
+    const result = conn.query(query, [
+      orderId,
+      userEmail,
+      JSON.stringify(order),
+      orderAmount,
+    ]);
+
+    console.log('order added to the database on "pending" status');
+    res.status(200);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: 'Error adding new order to database' });
+  }
+};
+
+// confirm transaction and update status of order & amount (in whole dollars) in database
 export const handleConfirmTransaction = async (req: Request, res: Response) => {
   const sig = req.headers['stripe-signature'];
   let event;
@@ -53,18 +66,18 @@ export const handleConfirmTransaction = async (req: Request, res: Response) => {
 
   if (event.type === 'payment_intent.succeeded') {
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
-
-    // Extract customer and order details from metadata
-    const { products, userEmail } = paymentIntent.metadata;
+    const { orderId } = paymentIntent.metadata;
     const { amount } = paymentIntent;
 
     try {
       const wholeDollars = convertFromCents(amount);
 
-      // Save the order in PostgreSQL
+      // update the order in PostgreSQL
       await conn.query(
-        'INSERT INTO customer_order (user_email, payment_intent_id, products, amount) VALUES ($1, $2, $3, $4);',
-        [userEmail, paymentIntent.id, products, wholeDollars]
+        `UPDATE customer_order SET amount = $2, status = $3
+          WHERE order_id = $1;
+        `,
+        [orderId, wholeDollars, 'confirmed']
       );
 
       res.status(200).json({ received: true });

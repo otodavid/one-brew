@@ -7,7 +7,11 @@ import {
   getProductById,
   getProductsByCategoryId,
 } from './controllers/products';
-import { handleConfirmTransaction, handlePayment } from './controllers/stripe';
+import {
+  handleAddUserOrder,
+  handleConfirmTransaction,
+  handlePayment,
+} from './controllers/stripe';
 import {
   addToUserCart,
   addUserInfo,
@@ -61,6 +65,8 @@ app.post('/user/cart/merge', mergeUserCart);
 app.put('/user/cart/delete-item', DeleteFromUserCart);
 
 app.get('/user/orders', getUserOrders);
+
+app.post('/user/orders/add', handleAddUserOrder);
 
 app.listen(port, () => {
   console.log(`Backend server is running`);

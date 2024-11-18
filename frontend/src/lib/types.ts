@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 import { groups } from './constants';
 
+export type StrictOmit<T, K extends keyof T> = Omit<T, K>;
+
 export interface FocusTrapProps {
   isComponentOpen: boolean;
   closeComponent: () => void;
@@ -84,15 +86,15 @@ export interface FormValues {
 }
 
 export interface UserInfo {
-  email: string | null;
-  firstName: string | null;
-  lastName: string | null;
-  phone: string | null;
-  address: string | null;
-  city: string | null;
-  postalCode: string | null;
-  province: string | null;
-  country: string | null;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  province: string;
+  country: string;
 }
 
 export type UserFields =
@@ -114,3 +116,19 @@ export interface FormFieldDetails {
 export type GroupName = (typeof groups)[keyof typeof groups];
 
 export type FormFieldsByGroup = Record<GroupName, FormFieldDetails[]>;
+
+export interface OrderItem {
+  userEmail: string;
+  paymentID: string;
+  orderDate: Date;
+  products: StrictOmit<CartItem, 'description' | 'categoryType'>;
+  orderAmount: number;
+  status: 'pending' | 'completed';
+}
+
+export interface OrderDataOptions {
+  orderAmount: number;
+  order: CartItem[];
+  userEmail: string;
+  orderId: string;
+}

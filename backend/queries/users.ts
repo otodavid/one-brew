@@ -102,3 +102,8 @@ export const queryDeleteFromUserCart = () => {
 export const queryGetUserOrders = () => {
   return 'SELECT * FROM customer_order WHERE user_email = $1';
 };
+
+
+export const queryInsertNewOrder = () => {
+  return `INSERT INTO customer_order (order_id, user_email, products, amount) VALUES ($1, $2, $3, $4)`
+}

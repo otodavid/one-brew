@@ -4,15 +4,15 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 const initialUser: UserInfo = {
-  email: null,
-  firstName: null,
-  lastName: null,
-  phone: null,
-  address: null,
-  city: null,
-  province: null,
-  postalCode: null,
-  country: null,
+  email: '',
+  firstName: '',
+  lastName: '',
+  phone: '',
+  address: '',
+  city: '',
+  province: '',
+  postalCode: '',
+  country: '',
 };
 
 export const userSlice = createAppSlice({
@@ -25,7 +25,7 @@ export const userSlice = createAppSlice({
     },
     updateUserInfo: (
       state: UserInfo,
-      action: PayloadAction<{ key: keyof UserInfo; value: string | null }>
+      action: PayloadAction<{ key: keyof UserInfo; value: string }>
     ) => {
       const { key, value } = action.payload;
       state[key] = value;

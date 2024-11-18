@@ -5,8 +5,13 @@ import {
 } from '@stripe/react-stripe-js';
 import { useEffect, useState } from 'react';
 import { Button } from './ui/button';
+import axios from 'axios';
+import { OrderDataOptions, StrictOmit } from '@/lib/types';
+import { userInfo } from 'os';
+import { useAppSelector } from '@/store/hooks';
+import { selectUser } from '@/store/features/userSlice';
 
-export const PaymentForm = () => {
+export const PaymentForm = (orderOptions: OrderDataOptions) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -34,9 +39,22 @@ export const PaymentForm = () => {
       return;
     }
 
+    // save order to database on 'pending' status
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/orders/add`,
+        orderOptions
+      )
+      .then((data) => {
+        console.log(data.status);
+        console.log('added successfully');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     const { error } = await stripe.confirmPayment({
       elements,
-      // clientSecret,
       confirmParams: {
         return_url: `${process.env.NEXT_PUBLIC_APP}/payment-success`,
       },

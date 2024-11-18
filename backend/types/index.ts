@@ -1,3 +1,5 @@
+type StrictOmit<T, K extends keyof T> = Omit<T, K>;
+
 export interface ProductSummary {
   id: string;
   name: string;
@@ -34,7 +36,7 @@ interface Size {
 
 export interface Product extends ProductSummary {
   addons: Addon[];
-  sizes: Size[]
+  sizes: Size[];
 }
 
 export interface UserInfo {
@@ -47,4 +49,21 @@ export interface UserInfo {
   postalCode: string;
   province: string;
   country: string;
+}
+
+export interface CartItem extends ProductSummary {
+  size: Size;
+  addons: { name: string; quantity: number; price: number }[];
+  quantity?: number;
+  totalPrice: number;
+  cartProductID: string;
+}
+
+export interface OrderItem {
+  userEmail: string;
+  paymentID: string;
+  orderDate: Date;
+  products: StrictOmit<CartItem, 'description' | 'categoryType' | 'addons'>;
+  orderAmount: number;
+  status: 'pending' | 'completed';
 }
