@@ -119,9 +119,9 @@ export type FormFieldsByGroup = Record<GroupName, FormFieldDetails[]>;
 
 export interface OrderItem {
   userEmail: string;
-  paymentID: string;
+  orderId: string;
   orderDate: Date;
-  products: StrictOmit<CartItem, 'description' | 'categoryType'>;
+  products: CartItem[];
   orderAmount: number;
   status: 'pending' | 'completed';
 }

@@ -70,3 +70,23 @@ export const clearlocalStorage = () => {
     console.log(error);
   }
 };
+
+export const getFormattedTime = (date: Date) => {
+  const newDate = new Date(date);
+
+  // Format date as "YYYY-MM-DD"
+  return newDate.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};
+
+export const getFormattedDate = (date: Date) => {
+  const newDate = new Date(date);
+
+  return newDate.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+};

@@ -74,7 +74,7 @@ export const UserLogin = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-primary'>
                   <FaBoxOpen className='mr-2 h-4 w-4' />
-                  <Link href={'orders'}>My Orders</Link>
+                  <Link href={'/account/orders'}>My Orders</Link>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator className='bg-foreground/5' />
