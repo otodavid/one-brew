@@ -54,10 +54,10 @@ export const EditProfile = ({ setIsDialogOpen }: Prop) => {
       );
     },
     onSuccess: (data: AxiosResponse) => {
-      // Update Redux state 
+      // Update Redux state
       dispatch(addUserInfo(data.data));
 
-      console.log(data.data)
+      console.log(data.data);
     },
     onError: (error: AxiosError) => {
       console.error('Error adding user:', error);
@@ -73,17 +73,14 @@ export const EditProfile = ({ setIsDialogOpen }: Prop) => {
   };
 
   return (
-    <div className='px-4 py-6 mt-6'>
+    <div className='py-6'>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(handleAddUserInfo)}
-          className='space-y-4'
-        >
+        <form onSubmit={form.handleSubmit(handleAddUserInfo)} className=''>
           {Object.entries(formFields).map(([groupName, values]) => (
-            <div key={groupName} className='mb-16'>
-              <p className='text-lg mb-4'>{groupName}</p>
+            <div key={groupName} className='mb-12'>
+              <h4 className='text-lg mb-4'>{groupName}</h4>
 
-              <div>
+              <div className='space-y-6'>
                 {values.map((fieldData) => (
                   <FormField
                     key={fieldData.name}
@@ -109,7 +106,9 @@ export const EditProfile = ({ setIsDialogOpen }: Prop) => {
             </div>
           ))}
 
-          <Button type='submit'>Save Changes</Button>
+          <Button type='submit' className='block mx-auto mt-8 w-full md:w-60'>
+            Save Changes
+          </Button>
         </form>
       </Form>
     </div>
