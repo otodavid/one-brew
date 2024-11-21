@@ -56,7 +56,7 @@ export default function Profile() {
         </DialogContent>
       </Dialog>
 
-      <div className='mt-4 grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-8 [&_div:first-of-type_#target:first-child_p:last-child]:lowercase'>
+      <div className='mt-4 grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-8 items-start [&_div:first-of-type_#target:first-child_p:last-child]:lowercase'>
         {Object.entries(formFields).map(([groupName, values]) => (
           <Card key={groupName} className=''>
             <CardHeader className='border-b'>

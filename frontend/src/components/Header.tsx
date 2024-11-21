@@ -2,30 +2,20 @@
 
 import Link from 'next/link';
 import { FaShoppingBag } from 'react-icons/fa';
-import { IoMenuOutline } from 'react-icons/io5';
-import { useRef, useState } from 'react';
+import { IoBag, IoMenuOutline } from 'react-icons/io5';
+import { useMemo, useRef, useState } from 'react';
 import { MobileNav } from './MobileNav';
 import { Button } from './ui/button';
 import { NAVLINKS } from '@/lib/constants';
 import { UserLogin } from './UserLogin';
+import { useAppSelector } from '@/store/hooks';
+import { selectCart } from '@/store/features/cartSlice';
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const cart = useAppSelector(selectCart);
 
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
-
-  const handleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const openPopOver = () => {
-    setIsOpen(true);
-  };
-
-  const closePopOver = () => {
-    setIsOpen(false);
-  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -55,14 +45,13 @@ export default function Header() {
 
           <div className='relative flex gap-4'>
             <Button asChild variant={'ghost'} size={'icon'}>
-              <Link href='/cart'>
-                <FaShoppingBag size={20} />
+              <Link href='/cart' className='relative'>
+                <span className='text-background absolute bottom-1.5 text-[.5rem]'>
+                  {cart.length}
+                </span>
+                <IoBag size={20} />
               </Link>
             </Button>
-
-            {/* <button ref={userButtonRef} onClick={openPopOver}>
-            <FaRegUserCircle size={18} />
-          </button> */}
 
             <Button
               onClick={openModal}

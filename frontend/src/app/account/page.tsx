@@ -9,7 +9,9 @@ export default function Page() {
     <div>
       {userInfo.firstName || userInfo.lastName ? (
         <>
-          <h2>Hi, {userInfo.firstName + ' ' + userInfo.lastName}</h2>
+          <h2 className='capitalize mb-2'>
+            Hi, {userInfo.firstName + ' ' + userInfo.lastName}
+          </h2>
           <p>Welcome back to your account</p>
         </>
       ) : (
