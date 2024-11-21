@@ -60,10 +60,10 @@ export interface CartItem extends ProductSummary {
 }
 
 export interface OrderItem {
+  orderId: string;
   userEmail: string;
-  paymentID: string;
   orderDate: Date;
-  products: StrictOmit<CartItem, 'description' | 'categoryType' | 'addons'>;
+  products: CartItem;
   orderAmount: number;
   status: 'pending' | 'completed';
 }

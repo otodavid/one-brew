@@ -87,13 +87,15 @@ export function convertFromCents(amount: number) {
   return Number((amount / 100).toFixed(2));
 }
 
-export function transformOrderData(data: any): OrderItem {
-  return {
-    paymentID: data.payment_intent_id,
-    userEmail: data.user_email,
-    products: data.products,
-    orderAmount: data.amount,
-    orderDate: data.order_date,
-    status: data.status,
-  };
+export function transformOrderData(data: any): OrderItem[] {
+  return data.map((item: any) => {
+    return {
+      orderId: item.order_id,
+      userEmail: item.user_email,
+      products: item.products,
+      orderAmount: item.amount,
+      orderDate: item.order_date,
+      status: item.status,
+    };
+  });
 }

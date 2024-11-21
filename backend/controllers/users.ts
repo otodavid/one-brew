@@ -9,7 +9,7 @@ import {
   queryInsertNewUserCart,
   queryUpdateUserInfo,
 } from '../queries/users';
-import { transformUserData } from '../helpers/utils';
+import { transformOrderData, transformUserData } from '../helpers/utils';
 
 export async function addUserInfo(req: Request, res: Response) {
   try {
@@ -181,7 +181,7 @@ export const getUserOrders = async (req: Request, res: Response) => {
     const result = await conn.query(query, [email]);
     const orders = result.rows;
 
-    res.status(200).json(orders);
+    res.status(200).json(transformOrderData(orders));
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Error retrieving order' });
