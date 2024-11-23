@@ -13,7 +13,7 @@ interface Cart {
 }
 
 const initialState: Cart = {
-  cartItems: loadLocalStorage() ?? [],
+  cartItems: [],
 };
 
 export const cartSlice = createAppSlice({
@@ -34,7 +34,7 @@ export const cartSlice = createAppSlice({
         }
       });
     },
-    // this should only be called when user signs in
+    // this should only be called when user signs in and on initial local storage load
     mergeCart: (state: Cart, action: PayloadAction<CartItem[] | null>) => {
       if (action.payload !== null) {
         action.payload.forEach((item) => {

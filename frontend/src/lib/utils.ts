@@ -42,11 +42,17 @@ export const getTotalAmount = (cart: CartItem[]): number => {
 
 export const loadLocalStorage = () => {
   try {
-    const serializedState = localStorage.getItem('cart');
-    if (serializedState === null) {
-      return undefined;
+    let serializedState;
+    if (typeof window !== 'undefined') {
+      serializedState = localStorage.getItem('cart');
+
+      if (serializedState === null) {
+        return JSON.parse('[]');
+      } else {
+        return JSON.parse(serializedState);
+      }
     } else {
-      return JSON.parse(serializedState);
+      return JSON.parse('[]');
     }
   } catch (error) {
     console.log(error);
