@@ -22,6 +22,7 @@ export const useCartMerge = () => {
   //  return merged data
   const { mutate } = useMutation({
     mutationFn: (newCart: NewCart) => {
+      // returns merged cart data
       return axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/cart/merge`,
         newCart,
