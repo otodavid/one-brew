@@ -60,7 +60,7 @@ export const loadLocalStorage = () => {
   }
 };
 
-export const saveTolocalStorage = (state: any) => {
+export const saveToLocalStorage = (state: any) => {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem('cart', serializedState);

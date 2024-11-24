@@ -1,6 +1,6 @@
 'use client';
 import { loadLocalStorage } from '@/lib/utils';
-import { mergeCart } from '@/store/features/cartSlice';
+import { updateCartWithLocalStorage } from '@/store/features/cartSlice';
 import type { AppStore } from '@/store/store';
 import { makeStore } from '@/store/store';
 import { setupListeners } from '@reduxjs/toolkit/query';
@@ -14,15 +14,11 @@ interface Props {
 
 export const ReduxProvider = ({ children }: Props) => {
   const storeRef = useRef<AppStore | null>(null);
+  const hasComponentMounted = useRef<boolean>(true);
 
   if (!storeRef.current) {
     // Create the store instance the first time this renders
     storeRef.current = makeStore();
-
-    if (typeof window !== 'undefined') {
-      const state = loadLocalStorage();
-      storeRef.current.dispatch(mergeCart(state));
-    }
   }
 
   useEffect(() => {
@@ -31,6 +27,17 @@ export const ReduxProvider = ({ children }: Props) => {
       // optional, but required for `refetchOnFocus`/`refetchOnReconnect` behaviors
       const unsubscribe = setupListeners(storeRef.current.dispatch);
       return unsubscribe;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (storeRef.current && hasComponentMounted.current) {
+      if (typeof window !== 'undefined') {
+        const state = loadLocalStorage();
+        storeRef.current.dispatch(updateCartWithLocalStorage(state));
+      }
+
+      hasComponentMounted.current = false;
     }
   }, []);
 

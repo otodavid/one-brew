@@ -5,7 +5,7 @@ import { RootState } from '../store';
 import {
   clearlocalStorage,
   loadLocalStorage,
-  saveTolocalStorage,
+  saveToLocalStorage,
 } from '@/lib/utils';
 
 interface Cart {
@@ -34,9 +34,10 @@ export const cartSlice = createAppSlice({
         }
       });
     },
-    // this should only be called when user signs in and on initial local storage load
+    // this should only be called when user signs in
     mergeCart: (state: Cart, action: PayloadAction<CartItem[] | null>) => {
       if (action.payload !== null) {
+        state.cartItems.splice(0);
         action.payload.forEach((item) => {
           state.cartItems.push(item);
         });
@@ -44,10 +45,25 @@ export const cartSlice = createAppSlice({
 
       clearlocalStorage();
     },
+
+    // on initial app load from server, cart is [], update cart with local storage when app is loaded in client,
+    updateCartWithLocalStorage: (
+      state: Cart,
+      action: PayloadAction<CartItem[]>
+    ) => {
+      action.payload.forEach((item) => {
+        state.cartItems.push(item);
+      });
+    },
   },
 });
 
-export const { addToCart, removeFromCart, mergeCart } = cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  mergeCart,
+  updateCartWithLocalStorage,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;
 
