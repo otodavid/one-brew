@@ -1,9 +1,9 @@
 'use client';
 
-import { handleProductSizeVolume, saveTolocalStorage } from '@/lib/utils';
+import { handleProductSizeVolume, saveToLocalStorage } from '@/lib/utils';
 import { CartItem, ICustomizeDetails, Product } from '@/lib/types';
 import Image from 'next/image';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FaLongArrowAltLeft } from 'react-icons/fa';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
@@ -26,8 +26,21 @@ import { toast } from 'sonner';
 import axios from 'axios';
 import { selectUser } from '@/store/features/userSlice';
 import { v4 as uuidv4 } from 'uuid';
+import { DisplayProductSkeletonLoader } from './Loaders/DisplayProductSkeletonLoader';
 
 export const DisplayProduct = ({ productId }: { productId: string }) => {
+  const router = useRouter();
+  const cart = useAppSelector(selectCart);
+  const cartItemRef = useRef<CartItem | null>(null);
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector(selectUser);
+
+  const [customizeDetails, setCustomizeDetails] = useState<ICustomizeDetails>({
+    size: { name: '', price: 0 },
+    addons: [],
+  });
+  const { quantity, handleAdd, handleSubtract } = useCounter({ startValue: 1 });
+
   // fetch product data
   const {
     data: product,
@@ -40,19 +53,6 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
       return await res.json();
     },
   });
-
-  const [cartItem, setCartItem] = useState<CartItem | null>(null);
-  const router = useRouter();
-  const cart = useAppSelector(selectCart);
-
-  const [customizeDetails, setCustomizeDetails] = useState<ICustomizeDetails>({
-    size: { name: '', price: 0 },
-    addons: [],
-  });
-  const { quantity, handleAdd, handleSubtract } = useCounter({ startValue: 1 });
-
-  const dispatch = useAppDispatch();
-  const userInfo = useAppSelector(selectUser);
 
   const { mutate } = useMutation({
     mutationFn: async ({ email, item }: { email: string; item: CartItem }) => {
@@ -68,7 +68,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     },
 
     onSuccess: () => {
-      dispatch(addToCart(cartItem));
+      dispatch(addToCart(cartItemRef.current));
 
       toast.success('added to cart', {
         className: 'toast-style',
@@ -109,24 +109,13 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     }
   }, [product]);
 
-  const handleCartState = () => {
+  const handleAddToCart = useCallback(() => {
     let totalPrice = 0;
 
-    if (product?.addons.length !== 0 && product?.sizes.length !== 0) {
-      totalPrice =
-        customizeDetails.size.price +
-        customizeDetails.addons.reduce((prev, curr) => {
-          const total = curr.price * curr.quantity;
-          return prev + total;
-        }, 0);
-    } else {
-      totalPrice = product.price * quantity;
-    }
-
     if (product) {
-      setCartItem({
+      cartItemRef.current = {
         id: product.id,
-        name: product.name ?? '',
+        name: product.name,
         price: product.price,
         image: product.image,
         description: product.description,
@@ -140,36 +129,57 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
         quantity: quantity,
         totalPrice: totalPrice,
         cartProductID: uuidv4(),
+      };
+    }
+
+    // if product has addons and sizes, get total price using those criteria
+    if (product?.addons.length !== 0 && product?.sizes.length !== 0) {
+      totalPrice =
+        customizeDetails.size.price +
+        customizeDetails.addons.reduce((prev, curr) => {
+          const total = curr.price * curr.quantity;
+          return prev + total;
+        }, 0);
+    } else {
+      totalPrice = product.price * quantity;
+    }
+
+    // if user is signed in, add to db data, else save to local storage
+    if (userInfo.email && cartItemRef.current) {
+      mutate({
+        email: userInfo.email,
+        item: cartItemRef.current,
+      });
+    } else {
+      dispatch(addToCart(cartItemRef.current));
+
+      toast.success('added to cart', {
+        className: 'toast-style',
       });
     }
-  };
-
-  const handleAddToCart = useCallback(
-    (cartItem: CartItem) => {
-      // if user is signed in, add to db data, else save to local storage
-      if (userInfo.email) {
-        mutate({ email: userInfo.email, item: cartItem });
-      } else {
-        dispatch(addToCart(cartItem));
-
-        saveTolocalStorage(cart);
-      }
-    },
-    [cart, dispatch, mutate, userInfo.email]
-  );
+  }, [
+    dispatch,
+    mutate,
+    userInfo.email,
+    customizeDetails.addons,
+    customizeDetails.size.name,
+    customizeDetails.size.price,
+    product,
+    quantity,
+  ]);
 
   useEffect(() => {
-    if (cartItem) {
-      handleAddToCart(cartItem);
+    if (userInfo.email === '' && cartItemRef.current !== null) {
+      saveToLocalStorage(cart);
     }
-  }, [cartItem]);
+  }, [cart, userInfo.email]);
 
   if (isError && !isLoading) {
     return <div>An Error occured</div>;
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <DisplayProductSkeletonLoader />;
   }
 
   return (
@@ -300,7 +310,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
               )}
             </div>
 
-            <Button onClick={handleCartState} className='mt-8 w-full block'>
+            <Button onClick={handleAddToCart} className='mt-8 w-full block'>
               Add to Cart
             </Button>
           </div>
