@@ -1,10 +1,14 @@
 import { z } from 'zod';
 import { FormFieldsByGroup } from './types';
+import { BiCategory } from 'react-icons/bi';
+import { IconType } from 'react-icons/lib';
+import { IoHomeOutline } from 'react-icons/io5';
+import { IoMdInformationCircleOutline } from 'react-icons/io';
 
-export const NAVLINKS = [
-  { name: 'home', link: '/' },
-  { name: 'menu', link: '/menu' },
-  { name: 'about', link: '/about' },
+export const NAVLINKS: { name: string; link: string; icon: IconType }[] = [
+  { name: 'home', link: '/', icon: IoHomeOutline },
+  { name: 'menu', link: '/menu', icon: BiCategory },
+  { name: 'about', link: '/about', icon: IoMdInformationCircleOutline },
 ];
 
 export const groups = {
