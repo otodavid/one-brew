@@ -70,6 +70,8 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     onSuccess: () => {
       dispatch(addToCart(cartItemRef.current));
 
+      console.log(cartItemRef.current);
+
       toast.success('added to cart', {
         className: 'toast-style',
       });
@@ -127,21 +129,23 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
         },
         addons: [...customizeDetails.addons],
         quantity: quantity,
-        totalPrice: totalPrice,
+        totalPrice: product.price,
         cartProductID: uuidv4(),
       };
     }
 
-    // if product has addons and sizes, get total price using those criteria
-    if (product?.addons.length !== 0 && product?.sizes.length !== 0) {
-      totalPrice =
-        customizeDetails.size.price +
-        customizeDetails.addons.reduce((prev, curr) => {
-          const total = curr.price * curr.quantity;
-          return prev + total;
-        }, 0);
-    } else {
-      totalPrice = product.price * quantity;
+    if (cartItemRef.current) {
+      // if product has addons and sizes, get total price using those criteria
+      if (product?.addons.length !== 0 && product?.sizes.length !== 0) {
+        cartItemRef.current.totalPrice =
+          customizeDetails.size.price +
+          customizeDetails.addons.reduce((prev, curr) => {
+            const total = curr.price * curr.quantity;
+            return prev + total;
+          }, 0);
+      } else {
+        cartItemRef.current.totalPrice = product.price * quantity;
+      }
     }
 
     // if user is signed in, add to db data, else save to local storage
