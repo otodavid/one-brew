@@ -1,9 +1,13 @@
-import { Request, Response } from 'express';
+import { query, Request, Response } from 'express';
 import { convertFromCents, convertToCents } from '../helpers/utils';
 import Stripe from 'stripe';
 import conn from '../config/db';
 import { CartItem } from '../types';
-import { queryInsertNewOrder } from '../queries/users';
+import {
+  queryDeleteUserCart,
+  queryInsertNewOrder,
+  updateUserOrder,
+} from '../queries/users';
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 export const handlePayment = async (req: Request, res: Response) => {
@@ -73,12 +77,14 @@ export const handleConfirmTransaction = async (req: Request, res: Response) => {
       const wholeDollars = convertFromCents(amount);
 
       // update the order in PostgreSQL
-      await conn.query(
-        `UPDATE customer_order SET amount = $2, status = $3
-          WHERE order_id = $1;
-        `,
-        [orderId, wholeDollars, 'confirmed']
-      );
+      const updateQuery = updateUserOrder();
+      const result = await conn.query('', [orderId, wholeDollars, 'confirmed']);
+
+      const userEmail = result.rows[0].user_email;
+
+      // delete user cart from database
+      const deleteQuery = queryDeleteUserCart();
+      await conn.query(deleteQuery, [userEmail]);
 
       res.status(200).json({ received: true });
     } catch (error) {
