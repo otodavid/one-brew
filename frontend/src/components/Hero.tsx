@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import heroPic from '/public/img/test.jpg';
+import heroPic from '/public/img/hero-image.jpg';
 
 export default function Hero() {
 
