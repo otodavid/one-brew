@@ -75,7 +75,7 @@ export async function getUserInfo(req: Request, res: Response) {
 
     if (userExists.rows[0].exists) {
       const query = queryGetUserInfo();
-      const result = await conn.query(query, ['testing@gmail.com']);
+      const result = await conn.query(query, [email]);
 
       const newUserInfo = transformUserData(result.rows[0]);
       res.status(200).json(newUserInfo);

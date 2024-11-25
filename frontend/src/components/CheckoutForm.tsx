@@ -23,9 +23,12 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectCart } from '@/store/features/cartSlice';
 import { CartItemComponent } from '@/components/CartItemComponent';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormValues } from '@/lib/types';
+import { UserInfo } from '@/lib/types';
 import { addUserInfo, selectUser } from '@/store/features/userSlice';
 import { formFields, formSchema } from '@/lib/constants';
+import axios, { AxiosError } from 'axios';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 interface Prop {
   isFormFilled: boolean;
@@ -68,8 +71,39 @@ export const CheckoutForm = ({ isFormFilled, setIsFormFilled }: Prop) => {
     }
   }, [userInfo, form]);
 
+  const { mutate } = useMutation({
+    mutationFn: (newUserInfo: UserInfo) => {
+      return axios.put(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/update`,
+        newUserInfo
+      );
+    },
+    onSuccess: () => {
+      toast.success('Your information was updated successfully');
+    },
+    onError: (error: AxiosError) => {
+      console.error('Error updating user data:', error);
+    },
+  });
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     setIsFormFilled(true);
+
+    // check if any value in user info data state is empty
+    const isUserInfoIncomplete = Object.values(userInfo).some(
+      (value) => value === ''
+    );
+
+    // check if the values in userInfo state and form values match
+    const isUserInfoUpdated = Object.keys(values).some((key) => {
+      const typedKey = key as keyof typeof userInfo;
+      return values[typedKey] !== userInfo[typedKey];
+    });
+
+    if (isUserInfoIncomplete || isUserInfoUpdated) {
+      mutate(values);
+    }
+
     dispatch(addUserInfo(values));
   }
 
@@ -108,12 +142,7 @@ export const CheckoutForm = ({ isFormFilled, setIsFormFilled }: Prop) => {
           </CardHeader>
           <CardContent className='space-y-4'>
             {cart.map((item, index) => (
-              <CartItemComponent
-                item={item}
-                index={index}
-                key={item.id}
-                isEditable={false}
-              />
+              <CartItemComponent item={item} key={item.id} isEditable={false} />
             ))}
           </CardContent>
         </Card>
