@@ -20,6 +20,7 @@ import {
 } from '@/store/features/userSlice';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useEffect } from 'react';
+import { HomepageSkeletonLoader } from '@/components/Loaders/HomepageSkeletonLoader';
 
 export default function Home() {
   const {
@@ -66,14 +67,16 @@ export default function Home() {
     if (userInfo.email) {
       mutate(userInfo);
     }
-  }, [userInfo.email, mutate]);
+  }, [userInfo, mutate]);
 
   if (isError && !isLoading) {
     return <div>An Error occured</div>;
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <HomepageSkeletonLoader />
+    );
   }
 
   return (

@@ -1,13 +1,14 @@
 'use client';
 
 import { FullOrderDetail } from '@/components/FullOrderDetail';
+import { OrdersSkeletonLoader } from '@/components/Loaders/OrdersSkeletonLoader';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
-import { CartItem, OrderItem } from '@/lib/types';
+import { OrderItem } from '@/lib/types';
 import { getFormattedDate } from '@/lib/utils';
 import { selectUser } from '@/store/features/userSlice';
 import { useAppSelector } from '@/store/hooks';
@@ -38,7 +39,7 @@ export default function Orders() {
   });
 
   if (isPending) {
-    return <div>Loading</div>;
+    return <OrdersSkeletonLoader />;
   }
 
   if (error) {
