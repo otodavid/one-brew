@@ -71,7 +71,11 @@ export default function Profile() {
                       {label}
                     </p>
 
-                    <p className='font-normal capitalize'>{userInfo[name]}</p>
+                    {!!userInfo[name] ? (
+                      <p className='font-normal capitalize'>{userInfo[name]}</p>
+                    ) : (
+                      <p className='italic text-sm'>---</p>
+                    )}
                   </div>
                 ))}
               </div>
