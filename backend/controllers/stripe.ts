@@ -78,7 +78,11 @@ export const handleConfirmTransaction = async (req: Request, res: Response) => {
 
       // update the order in PostgreSQL
       const updateQuery = updateUserOrder();
-      const result = await conn.query('', [orderId, wholeDollars, 'confirmed']);
+      const result = await conn.query(updateQuery, [
+        orderId,
+        wholeDollars,
+        'confirmed',
+      ]);
 
       const userEmail = result.rows[0].user_email;
 
