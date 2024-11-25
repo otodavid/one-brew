@@ -3,7 +3,7 @@
 import { useCartMerge } from '@/hooks/useCartMerge';
 import { selectCart } from '@/store/features/cartSlice';
 import { addUserInfo } from '@/store/features/userSlice';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppDispatch } from '@/store/hooks';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
@@ -17,7 +17,6 @@ export default function UserInfoProvider({
   const dispatch = useAppDispatch();
   const { user, isLoading: isUserLoading, error } = useUser();
   const [currentUser, setCurrentUser] = useState<string>('');
-  const cart = useAppSelector(selectCart);
 
   useCartMerge();
 
@@ -52,7 +51,7 @@ export default function UserInfoProvider({
   }, [isSuccess, userData, dispatch]);
 
   if (isUserLoading && isLoading) {
-    return <>Loading...</>;
+    return <div>Loading...</div>;
   }
 
   return <div>{children}</div>;

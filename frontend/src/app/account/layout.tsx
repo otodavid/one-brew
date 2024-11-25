@@ -1,6 +1,5 @@
 'use client';
 
-import { Card } from '@/components/ui/card';
 import { selectUser } from '@/store/features/userSlice';
 import { useAppSelector } from '@/store/hooks';
 import { useUser } from '@auth0/nextjs-auth0/client';

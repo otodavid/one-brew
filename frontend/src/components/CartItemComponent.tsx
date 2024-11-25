@@ -9,7 +9,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { selectUser } from '@/store/features/userSlice';
 import { toast } from 'sonner';
-import { saveTolocalStorage } from '@/lib/utils';
+import { saveToLocalStorage } from '@/lib/utils';
 
 interface Props {
   item: CartItem;
@@ -61,7 +61,7 @@ export const CartItemComponent = ({ item, isEditable = true }: Props) => {
       mutate({ email: userInfo.email, cartProductID: item.cartProductID });
     } else {
       dispatch(removeFromCart(item.cartProductID));
-      saveTolocalStorage(cart);
+      saveToLocalStorage(cart);
     }
   };
 
