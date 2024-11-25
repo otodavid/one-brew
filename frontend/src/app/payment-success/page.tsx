@@ -10,11 +10,11 @@ import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
 export default function Page() {
   const router = useRouter();
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     router.replace('/');
-  //   }, 2000);
-  // }, [router]);
+  useEffect(() => {
+    setTimeout(() => {
+      router.replace('/');
+    }, 2000);
+  }, [router]);
 
   return (
     <div className='min-h-svh'>
