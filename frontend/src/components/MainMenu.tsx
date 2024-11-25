@@ -1,9 +1,33 @@
-import { convertToLink, convertToText } from '@/lib/utils';
-import { Categories, ICategories } from '@/lib/types';
+'use client';
+
+import { convertToLink } from '@/lib/utils';
+import { Categories } from '@/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
+import { MainMenuSkeletonLoader } from './Loaders/MainMenuSkeletonLoader';
 
-export const MainMenu = ({ categories }: { categories: Categories[] }) => {
+export const MainMenu = () => {
+  const {
+    data: categories,
+    isError,
+    isLoading,
+  } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async (): Promise<Categories[]> => {
+      const res = await fetch('http://localhost:5000/categories');
+      return await res.json();
+    },
+  });
+
+  if (isError && !isLoading) {
+    return <div>An Error occured</div>;
+  }
+
+  if (isLoading) {
+    return <MainMenuSkeletonLoader />;
+  }
+
   return (
     <div>
       <h2 className='mb-2 lg:mb-8'>Menu</h2>
@@ -12,7 +36,7 @@ export const MainMenu = ({ categories }: { categories: Categories[] }) => {
         <h4 className='border-b pb-2'>Drinks</h4>
 
         <div className='grid grid-cols-[repeat(auto-fill,minmax(18rem,_1fr))] gap-8 pt-6'>
-          {categories.map(
+          {categories?.map(
             (category) =>
               category.type === 'drinks' && (
                 <Link
@@ -43,7 +67,7 @@ export const MainMenu = ({ categories }: { categories: Categories[] }) => {
         <h4 className='border-b pb-2'>Food</h4>
 
         <div className='grid grid-cols-[repeat(auto-fill,minmax(18rem,_1fr))] gap-8 pt-6'>
-          {categories.map(
+          {categories?.map(
             (category) =>
               category.type === 'food' && (
                 <Link

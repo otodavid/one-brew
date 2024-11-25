@@ -1,10 +1,9 @@
 'use client';
 
 import { ProductList } from './ProductList';
-import { ProductSummary } from '@/lib/types';
-import { MenuSidebar } from './MenuSidebar';
 import { convertToText } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
+import { MenuCategoryProductsSkeletonLoader } from './Loaders/MenuCategoryProductsSkeletonLoader';
 
 interface Props {
   categoryName: string;
@@ -29,7 +28,7 @@ export const CategoryProducts = ({ categoryName, categoryId }: Props) => {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <MenuCategoryProductsSkeletonLoader />;
   }
 
   return (

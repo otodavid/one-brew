@@ -1,9 +1,9 @@
-import { CategoriesList } from '@/components/CategoriesList';
+import { MainMenu } from '@/components/MainMenu';
 
 export default function Menu() {
   return (
     <div>
-      <CategoriesList />
+      <MainMenu />
     </div>
   );
 }
