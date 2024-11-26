@@ -100,7 +100,7 @@ export const queryDeleteFromUserCart = () => {
 };
 
 export const queryGetUserOrders = () => {
-  return 'SELECT * FROM customer_order WHERE user_email = $1';
+  return 'SELECT * FROM customer_order WHERE user_email = $1 ORDER BY order_date DESC, order_time DESC ';
 };
 
 export const queryInsertNewOrder = () => {

@@ -70,8 +70,6 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     onSuccess: () => {
       dispatch(addToCart(cartItemRef.current));
 
-      console.log(cartItemRef.current);
-
       toast.success('added to cart', {
         className: 'toast-style',
       });
@@ -112,8 +110,6 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   }, [product]);
 
   const handleAddToCart = useCallback(() => {
-    let totalPrice = 0;
-
     if (product) {
       cartItemRef.current = {
         id: product.id,
