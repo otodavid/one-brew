@@ -36,15 +36,14 @@ export const handleAddUserOrder = async (req: Request, res: Response) => {
   try {
     const { orderId, orderAmount, order, userEmail } = req.body;
     const query = queryInsertNewOrder();
-    const result = conn.query(query, [
+    const result = await conn.query(query, [
       orderId,
       userEmail,
       JSON.stringify(order),
       orderAmount,
     ]);
 
-    console.log('order added to the database on "pending" status');
-    res.status(200);
+    res.status(200).json({ message: 'order added' });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: 'Error adding new order to database' });

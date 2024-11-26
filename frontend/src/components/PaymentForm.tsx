@@ -5,23 +5,38 @@ import {
 } from '@stripe/react-stripe-js';
 import { useEffect, useState } from 'react';
 import { Button } from './ui/button';
-import axios from 'axios';
-import { OrderDataOptions, StrictOmit } from '@/lib/types';
-import { userInfo } from 'os';
-import { useAppSelector } from '@/store/hooks';
-import { selectUser } from '@/store/features/userSlice';
+import axios, { AxiosError } from 'axios';
+import { OrderDataOptions } from '@/lib/types';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 export const PaymentForm = (orderOptions: OrderDataOptions) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState<string>();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (!stripe) {
       return;
     }
   }, [stripe]);
+
+  const { mutate } = useMutation({
+    mutationFn: (options: OrderDataOptions) => {
+      return axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/orders/add`,
+        options
+      );
+    },
+    onSuccess: () => {
+      console.log('order successful');
+    },
+    onError: (error: AxiosError) => {
+      toast.error('Something went wrong, try again');
+      console.log(error);
+    },
+  });
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,18 +55,7 @@ export const PaymentForm = (orderOptions: OrderDataOptions) => {
     }
 
     // save order to database on 'pending' status
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/orders/add`,
-        orderOptions
-      )
-      .then((data) => {
-        console.log(data.status);
-        console.log('added successfully');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    mutate(orderOptions);
 
     const { error } = await stripe.confirmPayment({
       elements,

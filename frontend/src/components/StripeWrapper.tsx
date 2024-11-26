@@ -1,7 +1,7 @@
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { PaymentForm } from './PaymentForm';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import axios from 'axios';
 import { getTotalAmount } from '@/lib/utils';
 import { useAppSelector } from '@/store/hooks';
@@ -10,7 +10,7 @@ import { selectUser } from '@/store/features/userSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { CartItem, OrderDataOptions, StrictOmit } from '@/lib/types';
+import { OrderDataOptions, StrictOmit } from '@/lib/types';
 
 if (process.env.NEXT_PUBLIC_STRIPE_PK === undefined) {
   throw new Error(`${process.env.NEXT_PUBLIC_STRIPE_PK} is undefined`);
@@ -59,7 +59,6 @@ export const StripeWrapper = () => {
 
   useEffect(() => {
     if (hasComponentMountend.current) {
-      console.log('debug here')
       mutate({ orderAmount, orderId });
     }
 
