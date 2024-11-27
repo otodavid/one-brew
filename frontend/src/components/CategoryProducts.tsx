@@ -4,6 +4,8 @@ import { ProductList } from './ProductList';
 import { convertToText } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import { MenuCategoryProductsSkeletonLoader } from './Loaders/MenuCategoryProductsSkeletonLoader';
+import axios from 'axios';
+import { ProductSummary } from '@/lib/types';
 
 interface Props {
   categoryName: string;
@@ -15,16 +17,16 @@ export const CategoryProducts = ({ categoryName, categoryId }: Props) => {
     data: products,
     isError,
     isLoading,
+    error,
   } = useQuery({
     queryKey: ['categoryProducts', categoryId],
-    queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/products/c/${categoryId}`);
-      return await res.json();
+    queryFn: (): Promise<ProductSummary[]> => {
+      return axios.get(`http://localhost:5000/products/c/${categoryId}`);
     },
   });
 
   if (isError && !isLoading) {
-    return <div>An Error occured</div>;
+    throw new Error(error.message || 'An unexpected error occurred');
   }
 
   if (isLoading) {

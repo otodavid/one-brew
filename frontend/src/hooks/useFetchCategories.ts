@@ -1,44 +1,43 @@
-import { ICategories, ICategoryItem } from '@/lib/types';
-import { useEffect, useState } from 'react';
+import { CategoryType, CategoryItem } from '@/lib/types';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useState } from 'react';
 
 export const useFetchCategories = () => {
-  const [categories, setCategories] = useState<ICategories>({
+  const [categories, setCategories] = useState<CategoryType>({
     drinks: [],
     food: [],
   });
-  
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await fetch('http://localhost:5000/categories', {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-        });
-        const data: ICategoryItem[] = await res.json();
 
-        const drinksData = data.filter(
-          (category) => category.type === 'drinks'
-        );
-        const foodData = data.filter((category) => category.type === 'food');
+  const { data, isError, isLoading, error } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async (): Promise<CategoryItem[]> => {
+      const { data } = await axios.get('http://localhost:5000/categories');
 
-        setCategories((prev: ICategories) => ({
-          ...prev,
+      return data;
+    },
+  });
 
-          drinks: [...drinksData],
-        }));
+  if (!isLoading && isError) {
+    throw new Error(error.message || 'An unexpected error occurred');
+  }
 
-        setCategories((prev: ICategories) => ({
-          ...prev,
+  if (data) {
+    const drinksData = data.filter((category) => category.type === 'drinks');
+    const foodData = data.filter((category) => category.type === 'food');
 
-          food: [...foodData],
-        }));
-      } catch (err) {
-        console.log('Could not fetch data');
-      }
-    };
+    setCategories((prev: CategoryType) => ({
+      ...prev,
 
-    fetchCategories();
-  }, []);
+      drinks: [...drinksData],
+    }));
+
+    setCategories((prev: CategoryType) => ({
+      ...prev,
+
+      food: [...foodData],
+    }));
+  }
 
   return categories;
 };

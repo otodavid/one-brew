@@ -6,22 +6,24 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import { MainMenuSkeletonLoader } from './Loaders/MainMenuSkeletonLoader';
+import axios from 'axios';
 
 export const MainMenu = () => {
   const {
     data: categories,
     isError,
     isLoading,
+    error,
   } = useQuery({
     queryKey: ['categories'],
     queryFn: async (): Promise<Categories[]> => {
-      const res = await fetch('http://localhost:5000/categories');
-      return await res.json();
+      return axios.get('http://localhost:5000/categories');
     },
   });
 
   if (isError && !isLoading) {
-    return <div>An Error occured</div>;
+    console.log('error in client', error);
+    throw new Error(error.message || 'An unexpected error occurred');
   }
 
   if (isLoading) {

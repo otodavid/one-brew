@@ -1,7 +1,7 @@
 'use client';
 
 import { handleProductSizeVolume, saveToLocalStorage } from '@/lib/utils';
-import { CartItem, ICustomizeDetails, Product } from '@/lib/types';
+import { CartItem, CustomizeDetails, Product } from '@/lib/types';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FaLongArrowAltLeft } from 'react-icons/fa';
@@ -35,7 +35,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector(selectUser);
 
-  const [customizeDetails, setCustomizeDetails] = useState<ICustomizeDetails>({
+  const [customizeDetails, setCustomizeDetails] = useState<CustomizeDetails>({
     size: { name: '', price: 0 },
     addons: [],
   });
@@ -46,11 +46,11 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     data: product,
     isError,
     isLoading,
+    error,
   } = useQuery({
     queryKey: ['product', productId],
     queryFn: async (): Promise<Product> => {
-      const res = await fetch(`http://localhost:5000/products/${productId}`);
-      return await res.json();
+      return axios.get(`http://localhost:5000/products/${productId}`);
     },
   });
 
@@ -79,8 +79,11 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
       toast.error('Something went wrong. Please refresh and try again', {
         className: 'toast-style',
       });
-
       console.log(error);
+
+      throw new Error(
+        error.message || 'Something went wrong. Please try again'
+      );
     },
   });
 
@@ -175,7 +178,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   }, [cart, userInfo.email]);
 
   if (isError && !isLoading) {
-    return <div>An Error occured</div>;
+    throw new Error(error.message || 'An unexpected error occurred');
   }
 
   if (isLoading) {

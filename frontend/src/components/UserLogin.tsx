@@ -23,7 +23,7 @@ export const UserLogin = () => {
   const { user, error, isLoading } = useUser();
   const userInfo = useAppSelector(selectUser);
 
-  if (error) return <div>{error.message}</div>;
+  if (error) throw new Error(error.message || 'An unexpected error occurred');
 
   return (
     <DropdownMenu>

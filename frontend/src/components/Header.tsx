@@ -22,7 +22,7 @@ export default function Header() {
 
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
 
-  if (error) return <div>{error.message}</div>;
+  if (error) throw new Error(error.message || 'An unexpected error occurred');
 
   const openModal = () => {
     setIsModalOpen(true);

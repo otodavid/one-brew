@@ -5,22 +5,23 @@ import { Categories } from '@/lib/types';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import { MenuSidebarSkeletonLoader } from './Loaders/MenuSidebarSkeletonLoader';
+import axios from 'axios';
 
 export const MenuSidebar = () => {
   const {
     data: categories,
     isError,
     isLoading,
+    error,
   } = useQuery({
     queryKey: ['categories'],
-    queryFn: async (): Promise<Categories[]> => {
-      const res = await fetch('http://localhost:5000/categories');
-      return await res.json();
+    queryFn: (): Promise<Categories[]> => {
+      return axios.get('http://localhost:5000/categories');
     },
   });
 
   if (isError && !isLoading) {
-    return <div>An Error occured</div>;
+    throw new Error(error.message || 'An unexpected error occurred');
   }
 
   if (isLoading) {

@@ -82,6 +82,7 @@ export const CheckoutForm = ({ isFormFilled, setIsFormFilled }: Prop) => {
       toast.success('Your information was updated successfully');
     },
     onError: (error: AxiosError) => {
+      toast.error('Error updating user data');
       console.error('Error updating user data:', error);
     },
   });

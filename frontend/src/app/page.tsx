@@ -27,11 +27,12 @@ export default function Home() {
     data: products,
     isError,
     isLoading,
+    error,
   } = useQuery({
     queryKey: ['products'],
-    queryFn: async () => {
-      const res = await fetch('http://localhost:5000/products');
-      return await res.json();
+    queryFn: async (): Promise<ProductSummary[]> => {
+      const { data } = await axios.get('http://localhost:5000/products');
+      return data;
     },
   });
 
@@ -52,6 +53,7 @@ export default function Home() {
     },
     onError: (error: AxiosError) => {
       console.error('Error adding user:', error);
+      throw new Error(error.message || 'There was an error Signing in');
     },
   });
 
@@ -70,13 +72,11 @@ export default function Home() {
   }, [userInfo, mutate]);
 
   if (isError && !isLoading) {
-    return <div>An Error occured</div>;
+    throw new Error(error.message || 'An unexpected error occurred');
   }
 
   if (isLoading) {
-    return (
-      <HomepageSkeletonLoader />
-    );
+    return <HomepageSkeletonLoader />;
   }
 
   return (
@@ -87,18 +87,21 @@ export default function Home() {
         subheading='Discover the blends our customers love the most.'
       >
         <div className='mb-6 mt-10 grid gap-6 grid-cols-cards-list'>
-          {products.slice(0, 4).map((product: ProductSummary) => (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              image={product.image}
-              name={product.name}
-              description={product.description}
-              price={product.price}
-              categoryName={product.categoryName}
-              categoryType={product.categoryType}
-            />
-          ))}
+          {products &&
+            products
+              .slice(0, 4)
+              .map((product: ProductSummary) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  image={product.image}
+                  name={product.name}
+                  description={product.description}
+                  price={product.price}
+                  categoryName={product.categoryName}
+                  categoryType={product.categoryType}
+                />
+              ))}
         </div>
       </Featured>
 
@@ -123,7 +126,7 @@ export default function Home() {
         subheading='Perfect companions for your coffee moments, made fresh daily. Take a pick from our special baked foods.'
       >
         <div className='grid gap-8 mb-6 mt-10 grid-cols-cards-list'>
-          {<ProductList productList={products.slice(0, 4)} />}
+          {products && <ProductList productList={products.slice(0, 4)} />}
         </div>
       </Featured>
 
