@@ -1,9 +1,7 @@
 'use client';
 
-import { FaMinus, FaPlus } from 'react-icons/fa6';
-import { Button } from './ui/button';
 import { Dispatch, SetStateAction, useEffect } from 'react';
-import { ICustomizeDetails } from '@/lib/types';
+import { CustomizeDetails } from '@/lib/types';
 import { useCounter } from '@/hooks/useCounter';
 import { Counter } from './Counter';
 
@@ -11,7 +9,7 @@ interface CustomizationItemProps {
   name: string;
   maxValue: number;
   price: number;
-  setCustomizeDetails: Dispatch<SetStateAction<ICustomizeDetails>>;
+  setCustomizeDetails: Dispatch<SetStateAction<CustomizeDetails>>;
 }
 
 export const CustomizationItem = ({
@@ -24,7 +22,7 @@ export const CustomizationItem = ({
 
   useEffect(() => {
     if (quantity > 0) {
-      setCustomizeDetails((prev: ICustomizeDetails) => {
+      setCustomizeDetails((prev: CustomizeDetails) => {
         const itemExists = prev.addons.some((item) => item.name === name);
 
         if (itemExists) {
