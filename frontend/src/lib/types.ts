@@ -15,21 +15,21 @@ export interface PopOverProps extends FocusTrapProps {
   portalId?: string;
 }
 
-export interface ICustomizeDetails {
+export interface CustomizeDetails {
   size: { name: string; price: number };
   addons: { name: string; quantity: number; price: number }[];
 }
 
-export interface ICategoryItem {
+export interface CategoryItem {
   id: number;
   name: string;
   image: string;
   type: string;
 }
 
-export interface ICategories {
-  drinks: ICategoryItem[];
-  food: ICategoryItem[];
+export interface CategoryType {
+  drinks: CategoryItem[];
+  food: CategoryItem[];
 }
 
 export interface ProductSummary {
