@@ -1,7 +1,6 @@
 'use client';
 
 import { useCartMerge } from '@/hooks/useCartMerge';
-import { selectCart } from '@/store/features/cartSlice';
 import { addUserInfo } from '@/store/features/userSlice';
 import { useAppDispatch } from '@/store/hooks';
 import { useUser } from '@auth0/nextjs-auth0/client';

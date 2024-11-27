@@ -38,7 +38,12 @@ export default function RootLayout({
 
             <Footer />
 
-            <Toaster position='top-right' offset={'2rem'} closeButton={true} />
+            <Toaster
+              position='top-right'
+              offset={'2rem'}
+              closeButton={true}
+              duration={2000}
+            />
           </div>
         </Providers>
       </body>
