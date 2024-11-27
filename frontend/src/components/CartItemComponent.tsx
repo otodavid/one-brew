@@ -84,7 +84,7 @@ export const CartItemComponent = ({ item, isEditable = true }: Props) => {
             {item.name}
           </Link>
 
-          <span className='font-semibold'>&#36; {item.price}</span>
+          <span className='font-semibold w-16'>&#36; {item.price}</span>
         </div>
 
         <div className='grid gap-1.5 font-medium'>

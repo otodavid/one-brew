@@ -9,6 +9,8 @@ import { Button } from './ui/button';
 import { Dispatch, SetStateAction } from 'react';
 import { useAppSelector } from '@/store/hooks';
 import { selectUser } from '@/store/features/userSlice';
+import { CheckoutReview } from './CheckoutReview';
+import { StripeWrapper } from './StripeWrapper';
 
 interface Prop {
   setIsFormFilled: Dispatch<SetStateAction<boolean>>;
@@ -18,8 +20,8 @@ export const CompletedCheckoutForm = ({ setIsFormFilled }: Prop) => {
   const userInfo = useAppSelector(selectUser);
 
   return (
-    <div>
-      <Card>
+    <div className='w-full grid md:grid-cols-[1fr_.7fr] gap-6 items-start grid-rows-[25.5rem_20rem_1fr]'>
+      <Card className='md:col-start-1 md:row-span-1'>
         <div>
           <CardHeader>
             <CardTitle>Contact Information</CardTitle>
@@ -55,6 +57,20 @@ export const CompletedCheckoutForm = ({ setIsFormFilled }: Prop) => {
             Edit
           </Button>
         </CardFooter>
+      </Card>
+
+      <div className='md:row-span-4 md:col-start-2'>
+        <CheckoutReview />
+      </div>
+
+      <Card className='md:col-start-1 md:row-span-2'>
+        <CardHeader>
+          <CardTitle> Payment </CardTitle>
+        </CardHeader>
+
+        <CardContent>
+          <StripeWrapper />
+        </CardContent>
       </Card>
     </div>
   );

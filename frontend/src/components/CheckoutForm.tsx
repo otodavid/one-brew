@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Form,
   FormControl,
@@ -11,17 +13,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
-import {
-  Dispatch,
-  FormEvent,
-  MutableRefObject,
-  SetStateAction,
-  useEffect,
-  useRef,
-} from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { selectCart } from '@/store/features/cartSlice';
-import { CartItemComponent } from '@/components/CartItemComponent';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { UserInfo } from '@/lib/types';
 import { addUserInfo, selectUser } from '@/store/features/userSlice';
@@ -29,6 +22,7 @@ import { formFields, formSchema } from '@/lib/constants';
 import axios, { AxiosError } from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { CheckoutReview } from './CheckoutReview';
 
 interface Prop {
   isFormFilled: boolean;
@@ -36,7 +30,6 @@ interface Prop {
 }
 
 export const CheckoutForm = ({ isFormFilled, setIsFormFilled }: Prop) => {
-  const cart = useAppSelector(selectCart);
   const userInfo = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
@@ -110,49 +103,47 @@ export const CheckoutForm = ({ isFormFilled, setIsFormFilled }: Prop) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-full space-y-6'>
-        {Object.entries(formFields).map(([groupName, fieldData]) => (
-          <Card key={groupName}>
-            <CardHeader>
-              <CardTitle>{groupName}</CardTitle>
-            </CardHeader>
-            <CardContent className='space-y-4'>
-              {fieldData.map(({ name, label }) => (
-                <FormField
-                  key={name}
-                  control={form.control}
-                  name={name}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{label}</FormLabel>
-                      <FormControl>
-                        <Input placeholder='' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ))}
-            </CardContent>
-          </Card>
-        ))}
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className='w-full grid lg:grid-cols-[1fr_.7fr] gap-6 items-start'
+      >
+        <div className='space-y-6'>
+          {Object.entries(formFields).map(([groupName, fieldData]) => (
+            <Card key={groupName}>
+              <CardHeader>
+                <CardTitle>{groupName}</CardTitle>
+              </CardHeader>
+              <CardContent className='space-y-4'>
+                {fieldData.map(({ name, label }) => (
+                  <FormField
+                    key={name}
+                    control={form.control}
+                    name={name}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{label}</FormLabel>
+                        <FormControl>
+                          <Input placeholder='' {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                ))}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle> Review</CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            {cart.map((item, index) => (
-              <CartItemComponent item={item} key={item.id} isEditable={false} />
-            ))}
-          </CardContent>
-        </Card>
+        <div className='space-y-6'>
+          <CheckoutReview />
 
-        {!isFormFilled && (
-          <Button type='submit' className='block w-full'>
-            Continue to Payment
-          </Button>
-        )}
+          {!isFormFilled && (
+            <Button type='submit' className='block w-full col-start-2'>
+              Continue to Payment
+            </Button>
+          )}
+        </div>
       </form>
     </Form>
   );
