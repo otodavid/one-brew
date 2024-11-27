@@ -1,28 +1,12 @@
 'use client';
 
 import { convertToLink } from '@/lib/utils';
-import { Categories } from '@/lib/types';
 import Link from 'next/link';
-import { useQuery } from '@tanstack/react-query';
 import { MenuSidebarSkeletonLoader } from './Loaders/MenuSidebarSkeletonLoader';
-import axios from 'axios';
+import { useGetCategories } from '@/hooks/useGetCategories';
 
 export const MenuSidebar = () => {
-  const {
-    data: categories,
-    isError,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['categories'],
-    queryFn: (): Promise<Categories[]> => {
-      return axios.get('http://localhost:5000/categories');
-    },
-  });
-
-  if (isError && !isLoading) {
-    throw new Error(error.message || 'An unexpected error occurred');
-  }
+  const { categories, isLoading } = useGetCategories();
 
   if (isLoading) {
     return <MenuSidebarSkeletonLoader />;

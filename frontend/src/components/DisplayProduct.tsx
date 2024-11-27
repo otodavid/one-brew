@@ -34,6 +34,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   const cartItemRef = useRef<CartItem | null>(null);
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector(selectUser);
+  const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
 
   const [customizeDetails, setCustomizeDetails] = useState<CustomizeDetails>({
     size: { name: '', price: 0 },
@@ -50,7 +51,11 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   } = useQuery({
     queryKey: ['product', productId],
     queryFn: async (): Promise<Product> => {
-      return axios.get(`http://localhost:5000/products/${productId}`);
+      const { data } = await axios.get(
+        `http://localhost:5000/products/${productId}`
+      );
+
+      return data;
     },
   });
 
@@ -73,6 +78,8 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
       toast.success('added to cart', {
         className: 'toast-style',
       });
+
+      setIsAddingToCart(false);
     },
 
     onError: (error) => {
@@ -113,6 +120,8 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   }, [product]);
 
   const handleAddToCart = useCallback(() => {
+    setIsAddingToCart(true);
+
     if (product) {
       cartItemRef.current = {
         id: product.id,
@@ -313,8 +322,12 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
               )}
             </div>
 
-            <Button onClick={handleAddToCart} className='mt-8 w-full block'>
-              Add to Cart
+            <Button
+              onClick={handleAddToCart}
+              className={`mt-8 w-full block ${isAddingToCart && 'opacity-60'}`}
+              disabled={isAddingToCart}
+            >
+              {isAddingToCart ? 'Adding to cart...' : 'Add to Cart'}
             </Button>
           </div>
         </section>

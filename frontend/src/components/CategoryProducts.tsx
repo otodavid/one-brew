@@ -20,8 +20,12 @@ export const CategoryProducts = ({ categoryName, categoryId }: Props) => {
     error,
   } = useQuery({
     queryKey: ['categoryProducts', categoryId],
-    queryFn: (): Promise<ProductSummary[]> => {
-      return axios.get(`http://localhost:5000/products/c/${categoryId}`);
+    queryFn: async (): Promise<ProductSummary[]> => {
+      const { data } = await axios.get(
+        `http://localhost:5000/products/c/${categoryId}`
+      );
+
+      return data;
     },
   });
 

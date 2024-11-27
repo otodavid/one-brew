@@ -19,7 +19,7 @@ import {
   updateUserInfo,
 } from '@/store/features/userSlice';
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { HomepageSkeletonLoader } from '@/components/Loaders/HomepageSkeletonLoader';
 
 export default function Home() {
@@ -39,6 +39,7 @@ export default function Home() {
   const { user } = useUser();
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector(selectUser);
+  const hasComponentMounted = useRef<boolean>(false);
 
   const { mutate } = useMutation({
     mutationFn: (newUserInfo: UserInfo) => {
@@ -66,8 +67,13 @@ export default function Home() {
 
   // Trigger the mutation with updated `userInfo` when `userInfo.email` is updated
   useEffect(() => {
+    if (hasComponentMounted.current) {
+      return;
+    }
+
     if (userInfo.email) {
       mutate(userInfo);
+      hasComponentMounted.current = true;
     }
   }, [userInfo, mutate]);
 
