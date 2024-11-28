@@ -1,49 +1,83 @@
 'use client';
 
-import { convertToText } from '@/lib/helpers';
-import { ICategories } from '@/lib/types';
+import { convertToLink, convertToText } from '@/lib/utils';
 import Link from 'next/link';
+import { MenuSidebarSkeletonLoader } from './Loaders/MenuSidebarSkeletonLoader';
+import { useGetCategories } from '@/hooks/useGetCategories';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 
-interface Props {
-  categories: ICategories;
-}
+export const MenuSidebar = () => {
+  const { categories, isLoading } = useGetCategories();
+  const [activeLink, setActiveLink] = useState<string>('');
+  const pathname = usePathname();
 
-export const MenuSidebar = ({ categories }: Props) => {
+  useEffect(() => {
+    if (pathname !== '/menu') {
+      setActiveLink(() => convertToText(pathname.split('/')[2]));
+    }
+  }, [pathname, activeLink]);
+
+  if (isLoading) {
+    return <MenuSidebarSkeletonLoader />;
+  }
   return (
-    <div className='hidden lg:block'>
-      <div className='mb-9'>
-        <h5 className='mb-2 font-medium'>Drinks</h5>
+    <>
+      {categories && (
+        <div className='hidden lg:block'>
+          <div className='mb-9'>
+            <h5 className='mb-2 font-medium'>Drinks</h5>
 
-        <ul>
-          {categories.drinks.map((category, index) => (
-            <li key={index} className='mb-4'>
-              <Link
-                href={`/menu/${category.name}`}
-                className='capitalize opacity-70 text-sm hover:opacity-100'
-              >
-                {convertToText(category.name)}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+            <ul>
+              {categories.map(
+                (category) =>
+                  category.type === 'drinks' && (
+                    <li key={category.id} className='mb-4'>
+                      <Link
+                        href={`/menu/${convertToLink(category.name)}/${
+                          category.id
+                        }`}
+                        className={`capitalize opacity-70 text-sm hover:opacity-100 ${
+                          activeLink.includes(category.name)
+                            ? 'text-accent opacity-100'
+                            : 'text-primary'
+                        }`}
+                      >
+                        {category.name}
+                      </Link>
+                    </li>
+                  )
+              )}
+            </ul>
+          </div>
 
-      <div className='mb-9'>
-        <h5 className='mb-2 font-medium'>Food</h5>
+          <div className='mb-9'>
+            <h5 className='mb-2 font-medium'>Food</h5>
 
-        <ul>
-          {categories.food.map((category, index) => (
-            <li key={index} className='mb-4'>
-              <Link
-                href={`/menu/${category.name}`}
-                className='capitalize opacity-70 text-sm hover:opacity-100'
-              >
-                {convertToText(category.name)}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+            <ul>
+              {categories.map(
+                (category) =>
+                  category.type === 'food' && (
+                    <li key={category.id} className='mb-4'>
+                      <Link
+                        href={`/menu/${convertToLink(category.name)}/${
+                          category.id
+                        }`}
+                        className={`capitalize opacity-70 text-sm hover:opacity-100 ${
+                          activeLink.includes(category.name)
+                            ? 'text-accent opacity-100'
+                            : 'text-primary'
+                        }`}
+                      >
+                        {category.name}
+                      </Link>
+                    </li>
+                  )
+              )}
+            </ul>
+          </div>
+        </div>
+      )}
+    </>
   );
 };

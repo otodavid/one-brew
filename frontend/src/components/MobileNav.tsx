@@ -11,14 +11,19 @@ import {
   closeButtonVariant,
 } from '@/lib/animations';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { NAVLINKS } from '@/lib/constants';
 import { Modal } from './Modal';
 import useClickOutside from '@/hooks/useClickOutside';
 import { Button } from './ui/button';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { FiUser } from 'react-icons/fi';
 import { FaBoxOpen } from 'react-icons/fa6';
+import { useAppSelector } from '@/store/hooks';
+import { selectUser } from '@/store/features/userSlice';
+import { Accordion, AccordionTrigger } from './ui/accordion';
+import { ImProfile } from 'react-icons/im';
+import { AccordionContent, AccordionItem } from '@radix-ui/react-accordion';
+import { FaRegUserCircle } from 'react-icons/fa';
+import { usePathname } from 'next/navigation';
 
 const MotionButton = motion(Button);
 
@@ -29,6 +34,8 @@ export function MobileNav({
 }: FocusTrapProps) {
   const ref = useClickOutside({ isComponentOpen, closeComponent });
   const { user } = useUser();
+  const userInfo = useAppSelector(selectUser);
+  const pathname = usePathname();
 
   useEffect(() => {
     const bodyElement = document.querySelector('body') as HTMLBodyElement;
@@ -65,7 +72,7 @@ export function MobileNav({
           onClick={closeComponent}
           className='mr-6 ml-auto'
         >
-          <FaXmark size={'1rem'} />
+          <FaXmark size={16} />
         </MotionButton>
 
         <motion.ul
@@ -76,56 +83,69 @@ export function MobileNav({
           animate={'open'}
           exit={'closed'}
         >
-          {NAVLINKS.map(({ name, link }) => (
-            <motion.li key={name} variants={menuItemVariant} className='mb-6'>
+          {NAVLINKS.map((navLink) => (
+            <motion.li
+              key={navLink.name}
+              variants={menuItemVariant}
+              className='mb-6'
+            >
               <Link
-                href={link}
-                className='capitalize font-medium'
+                href={navLink.link}
+                className={`flex items-center gap-2 capitalize font-medium ${
+                  pathname === navLink.link
+                    ? 'text-foreground'
+                    : 'text-foreground'
+                }`}
                 onClick={closeComponent}
               >
-                {name}
+                {<navLink.icon />}
+                {navLink.name}
               </Link>
             </motion.li>
           ))}
+          {user && (
+            <motion.li variants={menuItemVariant} className=''>
+              <Accordion asChild type='single' collapsible>
+                <AccordionItem value='my account'>
+                  <AccordionTrigger className='py-0'>
+                    <p className='flex items-center gap-2 capitalize font-medium text-base'>
+                      <FaRegUserCircle size={18} />
+                      My Account
+                    </p>
+                  </AccordionTrigger>
+
+                  <AccordionContent>
+                    <ul className='py-4 px-4'>
+                      <motion.li variants={menuItemVariant}>
+                        <Link
+                          href={'/account/profile'}
+                          className='flex items-center gap-2 text-sm mb-4'
+                          onClick={closeComponent}
+                        >
+                          <ImProfile size={14} />
+                          Profile
+                        </Link>
+                      </motion.li>
+                      <motion.li variants={menuItemVariant}>
+                        <Link
+                          href={'/account/orders'}
+                          className='flex items-center gap-2 text-sm'
+                          onClick={closeComponent}
+                        >
+                          <FaBoxOpen size={14} />
+                          My Orders
+                        </Link>
+                      </motion.li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </motion.li>
+          )}
         </motion.ul>
 
-        {user && (
-          <div className='fixed bottom-0 right-0 left-0 border-t px-6 py-4 bg-black/5'>
-            <h3>My Account</h3>
-            <p className='pt-2 pb-6'>Hey, {user.email}</p>
-            <ul>
-              <li>
-                <Link
-                  href={'/account/profile'}
-                  className='flex items-center mb-4'
-                  onClick={closeComponent}
-                >
-                  <FiUser className='mr-2 h-4 w-4' />
-                  Profile
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={'/account/orders'}
-                  className='flex items-center'
-                  onClick={closeComponent}
-                >
-                  <FaBoxOpen className='mr-2 h-4 w-4' />
-                  My Orders
-                </Link>
-              </li>
-            </ul>
-
-            <Link legacyBehavior href={'/api/auth/logout'} passHref>
-              <a className='block text-center w-4/5 bg-primary text-background mx-auto mb-6 rounded-full p-2 mt-10'>
-                Log out
-              </a>
-            </Link>
-          </div>
-        )}
-
         <div className='fixed bottom-6 left-6 right-6'>
-          {!user && (
+          {!user ? (
             <>
               <Link legacyBehavior href={'/api/auth/login'} passHref>
                 <a className='block text-center w-full bg-primary text-background mx-auto mb-6 rounded-full p-2'>
@@ -142,6 +162,12 @@ export function MobileNav({
                 </Link>
               </p>
             </>
+          ) : (
+            <Link legacyBehavior href={'/api/auth/logout'} passHref>
+              <a className='block text-center w-4/5 bg-primary text-background mx-auto mb-6 rounded-full p-2 mt-10'>
+                Log out
+              </a>
+            </Link>
           )}
         </div>
       </motion.div>

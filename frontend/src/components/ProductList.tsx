@@ -1,23 +1,24 @@
 import React from 'react';
 import { ProductCard } from './ui/ProductCard';
-import { IProduct } from '@/lib/types';
+import { ProductSummary } from '@/lib/types';
 
-interface IProductList {
-  productList: IProduct[];
+interface ProductList {
+  productList: ProductSummary[];
 }
 
-export const ProductList = ({ productList }: IProductList) => {
+export const ProductList = ({ productList }: ProductList) => {
   return (
     <>
       {productList.map((product) => (
         <ProductCard
-          key={product.name}
+          key={product.id}
           id={product.id}
           name={product.name}
           description={product.description}
           price={product.price}
           image={product.image}
           categoryName={product.categoryName}
+          categoryType={product.categoryType}
         />
       ))}
     </>

@@ -4,14 +4,14 @@ import Image from 'next/image';
 
 export const EmptyCart = () => {
   return (
-    <div className='h-[35rem] items-center py-12 text-center'>
+    <div className='min-h-[35rem] items-center py-12 text-center'>
       <div className='w-4/5 mx-auto'>
-        <div className='relative h-72'>
+        <div className='relative min-h-72 md:min-h-96'>
           <Image
             src={'/empty-cart.svg'}
             alt='SVG icon for empty cart'
             fill={true}
-            className='object-cover object-center'
+            className='object-contain object-center'
           />
         </div>
 

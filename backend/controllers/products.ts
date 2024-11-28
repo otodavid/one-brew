@@ -10,7 +10,8 @@ import {
   queryAllProducts,
   queryProductById,
   queryProductsByCategoryId,
-} from '../queries';
+} from '../queries/products';
+import { error } from 'console';
 
 export async function getAllProducts(req: Request, res: Response) {
   try {
@@ -35,7 +36,10 @@ export async function getAllCategories(req: Request, res: Response) {
 
     res.json(categories);
   } catch (err: any) {
-    console.error(err.message);
+    console.error('Error in getAllCategories:', err.message);
+    res
+      .status(500)
+      .json({ error: 'Internal server error. Please try again later.' });
   }
 }
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { cn } from '@/lib/helpers';
+import { cn } from '@/lib/utils';
 import Image from 'next/image';
 
 const Card = React.forwardRef<
@@ -10,7 +10,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'rounded-xl bg-card text-foreground shadow overflow-hidden hover:shadow-md group',
+      'rounded-xl bg-card text-foreground shadow overflow-hidden group',
       className
     )}
     {...props}
@@ -36,7 +36,7 @@ const CardTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h4
     ref={ref}
-    className={cn('font-semibold tracking-tight', className)}
+    className={cn('font-semibold tracking-tight capitalize', className)}
     {...props}
   />
 ));

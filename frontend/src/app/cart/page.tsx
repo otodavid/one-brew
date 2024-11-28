@@ -1,103 +1,47 @@
 'use client';
 
+import { CartItemComponent } from '@/components/CartItemComponent';
 import { EmptyCart } from '@/components/EmptyCart';
+import { OrderSummary } from '@/components/OrderSummary';
 import { Button } from '@/components/ui/button';
-import { selectCart, removeFromCart } from '@/store/features/cartSlice';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import Image from 'next/image';
+import { selectCart } from '@/store/features/cartSlice';
+import { useAppSelector } from '@/store/hooks';
 import Link from 'next/link';
-import { CiEdit } from 'react-icons/ci';
-import { MdOutlineDeleteOutline } from 'react-icons/md';
 
 export default function Cart() {
-  const dispatch = useAppDispatch();
   const cart = useAppSelector(selectCart);
 
-  console.log(cart);
+  if (cart.length === 0) {
+    return <EmptyCart />;
+  }
 
   return (
-    <section className='px-4 py-6'>
-      {cart.length > 0 && (
-        <h2 className='capitalize font-bold text-center'>
-          Review order ({cart.length})
-        </h2>
-      )}
+    <section className='px-4 py-10 max-w-6xl mx-auto xs:px-6 md:px-12 md:grid md:grid-cols-[1fr_.6fr] md:gap-x-4 md:items-start lg:gap-x-12 xl:px-16 2xl:px-20'>
+      <div className='shadow-sm rounded-lg px-8 pt-5 pb-2 bg-card'>
+        {cart.length > 0 && (
+          <h3 className='capitalize font-bold text-center'>
+            Review order ({cart.length})
+          </h3>
+        )}
 
-      {cart.length !== 0 ? (
-        <div className='grid grid-cols-1 gap-y-8 pb-12 mt-8'>
+        <div className='mt-6 md:px-4'>
           {cart.map((item, index) => (
-            <div
-              key={index}
-              className='flex flex-wrap gap-4 shadow-sm rounded-lg p-4 bg-card'
-            >
-              <div className='self-start relative h-20 w-20 rounded-full overflow-hidden'>
-                <Image
-                  src={item.image}
-                  fill={true}
-                  alt={item.name}
-                  className='object-cover'
-                />
-              </div>
-              <div className='flex-1 items-center'>
-                <div className='flex justify-between items-center'>
-                  <h4 className='text-xl capitalize font-medium'>
-                    {item.name}
-                  </h4>
-
-                  <span className='text-xl font-bold'>{item.price}</span>
-                </div>
-
-                <div className='mt-3 grid gap-1 font-medium'>
-                  <p className='text-xs'>{item.size.name}</p>
-                  {item.addons.length > 0 &&
-                    item.addons.map((addon) => (
-                      <div
-                        key={addon.name}
-                        className='text-xs grid grid-cols-[auto_1fr_auto] gap-2'
-                      >
-                        <p className='flex-1'>{addon.name}</p>
-                        <div className='border-b border-dotted'></div>
-                        <span className='font-bold'>
-                          + {(addon.price * addon.quantity).toFixed(2)}
-                        </span>
-                      </div>
-                    ))}
-                </div>
-              </div>
-
-              <div className='flex-[1_1_100%] flex justify-end gap-2 border-t pt-2'>
-                <Button asChild variant={'ghost'} size={'icon'}>
-                  <Link href='/cart/update'>
-                    <CiEdit size={'18'} />
-                  </Link>
-                </Button>
-
-                <Button
-                  variant={'ghost'}
-                  size={'icon'}
-                  onClick={() => dispatch(removeFromCart(index))}
-                >
-                  <MdOutlineDeleteOutline
-                    size={'18'}
-                    className='text-primary'
-                  />
-                </Button>
-              </div>
-            </div>
+            <CartItemComponent item={item} key={item.cartProductID} />
           ))}
-
-          <div className='flex flex-wrap gap-4 shadow-sm rounded-lg px-4 py-6 bg-card'>
-            <h3>Total</h3>
-            <span>
-              {cart
-                .reduce((accumulator, item) => accumulator + item.totalPrice, 0)
-                .toFixed(2)}
-            </span>
-          </div>
         </div>
-      ) : (
-        <EmptyCart />
-      )}
+      </div>
+
+      <div className='mt-6 md:mt-0'>
+        <OrderSummary>
+          <Button asChild className='w-full block text-center mt-6'>
+            <Link href={'/checkout'}>Continue to Checkout</Link>
+          </Button>
+        </OrderSummary>
+        <p className='text-xs text-slate-500 mt-6'>
+          Prices and shipping costs are not confirmed until you&apos;ve reached
+          checkout.
+        </p>
+      </div>
     </section>
   );
 }

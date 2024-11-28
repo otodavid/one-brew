@@ -1,45 +1,28 @@
 'use client';
 
-import { FaMinus, FaPlus } from 'react-icons/fa6';
-import { Button } from './ui/button';
-import { useContext, useEffect, useState } from 'react';
-import { CustomizeContext } from './DisplayProduct';
-import { ICustomizeDetails } from '@/lib/types';
+import { Dispatch, SetStateAction, useEffect } from 'react';
+import { CustomizeDetails } from '@/lib/types';
+import { useCounter } from '@/hooks/useCounter';
+import { Counter } from './Counter';
 
 interface CustomizationItemProps {
   name: string;
   maxValue: number;
   price: number;
+  setCustomizeDetails: Dispatch<SetStateAction<CustomizeDetails>>;
 }
 
 export const CustomizationItem = ({
   name,
   maxValue,
   price,
+  setCustomizeDetails,
 }: CustomizationItemProps) => {
-  const [quantity, setQuantity] = useState<number>(0);
-  const context = useContext(CustomizeContext);
-
-  if (!context) {
-    throw new Error('Context Provider is undefined');
-  }
-
-  const { customizeDetails, setCustomizeDetails, cartItem, setCartItem } =
-    context;
-
-  const handleAdd = () => {
-    setQuantity((prev) => prev + 1);
-  };
-
-  const handleSubstract = () => {
-    setQuantity((prev) => prev - 1);
-  };
+  const { quantity, handleAdd, handleSubtract } = useCounter();
 
   useEffect(() => {
-    console.log(quantity);
-
     if (quantity > 0) {
-      setCustomizeDetails((prev: ICustomizeDetails) => {
+      setCustomizeDetails((prev: CustomizeDetails) => {
         const itemExists = prev.addons.some((item) => item.name === name);
 
         if (itemExists) {
@@ -57,58 +40,18 @@ export const CustomizationItem = ({
         }
       });
     }
-  }, [quantity, name]);
-
-  useEffect(() => {
-    console.log(customizeDetails.addons);
-    setCartItem((prev) => ({
-      ...prev,
-
-      addons: customizeDetails.addons,
-    }));
-  }, [customizeDetails.addons]);
-
-  useEffect(() => {
-    const totalAddons = customizeDetails.addons.reduce(
-      (acc, item) => acc + item.price * item.quantity,
-      0
-    );
-
-    setCartItem((prev) => ({
-      ...prev,
-
-      totalPrice: prev.size.price + totalAddons,
-    }));
-  }, [customizeDetails.addons]);
+  }, [quantity, name, price, setCustomizeDetails]);
 
   return (
     <div>
       <div className='flex justify-between items-center'>
         <p className='capitalize'>{name}</p>
         <div className='flex items-center gap-2'>
-          <Button
-            type='button'
-            disabled={quantity === 0 ? true : false}
-            variant={'outline'}
-            size={'icon'}
-            className={`w-5 h-5 ${quantity === 0 && 'disabled:opacity-30'}`}
-            onClick={handleSubstract}
-          >
-            <FaMinus size={'14px'} />
-          </Button>
-          <span>{quantity}</span>
-          <Button
-            type='button'
-            disabled={quantity === maxValue ? true : false}
-            variant={'outline'}
-            size={'icon'}
-            className={`w-5 h-5 ${
-              quantity === maxValue && 'disabled:opacity-30'
-            }`}
-            onClick={handleAdd}
-          >
-            <FaPlus size={'14px'} />
-          </Button>
+          <Counter
+            quantity={quantity}
+            handleAdd={handleAdd}
+            handleSubtract={handleSubtract}
+          />
         </div>
       </div>
     </div>

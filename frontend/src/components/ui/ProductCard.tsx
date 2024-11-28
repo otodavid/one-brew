@@ -9,9 +9,9 @@ import {
   CardTitle,
 } from './card';
 import { BiSolidMagicWand } from 'react-icons/bi';
-import { convertToLink, convertToText } from '@/lib/helpers';
+import { convertToLink, convertToText } from '@/lib/utils';
 import Link from 'next/link';
-import { IProduct } from '@/lib/types';
+import { ProductSummary } from '@/lib/types';
 
 export const ProductCard = ({
   id,
@@ -20,19 +20,16 @@ export const ProductCard = ({
   description,
   image,
   price,
-}: IProduct) => {
+}: ProductSummary) => {
   return (
     <Card>
-      <Link
-        href={`/menu/${categoryName}/${convertToLink(name)}/${id}`}
-        className='grid'
-      >
+      <Link href={`/products/${id}`} className='grid'>
         <CardImage imageSrc={image} alt={name} />
 
         <CardHeader className='py-0 pt-6'>
           <CardTitle className='capitalize'>{convertToText(name)}</CardTitle>
           <CardDescription className='capitalize font-light'>
-            {convertToText(categoryName)}
+            {categoryName}
           </CardDescription>
         </CardHeader>
 

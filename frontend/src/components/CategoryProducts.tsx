@@ -1,43 +1,54 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { ProductList } from './ProductList';
-import { IProduct } from '@/lib/types';
-import { MenuSidebar } from './MenuSidebar';
-import { useFetchCategories } from '@/hooks/useFetchCategories';
-import { convertToText } from '@/lib/helpers';
+import { convertToText } from '@/lib/utils';
+import { useQuery } from '@tanstack/react-query';
+import { MenuCategoryProductsSkeletonLoader } from './Loaders/MenuCategoryProductsSkeletonLoader';
+import axios from 'axios';
+import { ProductSummary } from '@/lib/types';
 
-export const CategoryProducts = ({ category }: { category: string }) => {
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const categories = useFetchCategories();
+interface Props {
+  categoryName: string;
+  categoryId: string;
+}
 
-  useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const res = await fetch(`http://localhost:5000/categories/${category}`);
-        const products = await res.json();
+export const CategoryProducts = ({ categoryName, categoryId }: Props) => {
+  const {
+    data: products,
+    isError,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['categoryProducts', categoryId],
+    queryFn: async (): Promise<ProductSummary[]> => {
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/c/${categoryId}`
+      );
 
-        setProducts(products);
-      } catch (err) {
-        console.log('could not fetch data');
-      }
-    };
+      return data;
+    },
+  });
 
-    getProducts();
-  }, []);
+  if (isError && !isLoading) {
+    throw new Error(error.message || 'An unexpected error occurred');
+  }
+
+  if (isLoading) {
+    return <MenuCategoryProductsSkeletonLoader />;
+  }
 
   return (
-    <div className='lg:grid lg:grid-cols-[10rem_1fr] lg:gap-20 xl:gap-32'>
-      <MenuSidebar categories={categories} />
-
-      <div>
-        <h2 className='capitalize font-bold text-xl'>
-          {convertToText(category)}
-        </h2>
-        <div className='grid gap-y-6 sm:gap-x-4 sm:grid-cols-cards-list pt-4 sm:pt-6'>
-          <ProductList productList={products} />
-        </div>
-      </div>
+    <div>
+      {!isLoading && products && (
+        <>
+          <h2 className='capitalize font-bold text-xl'>
+            {convertToText(categoryName)}
+          </h2>
+          <div className='grid gap-y-6 sm:gap-x-4 sm:grid-cols-cards-list pt-4 sm:pt-6'>
+            <ProductList productList={products} />
+          </div>
+        </>
+      )}
     </div>
   );
 };
