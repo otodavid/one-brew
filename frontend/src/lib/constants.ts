@@ -4,10 +4,12 @@ import { BiCategory } from 'react-icons/bi';
 import { IconType } from 'react-icons/lib';
 import { IoHomeOutline } from 'react-icons/io5';
 import { IoMdInformationCircleOutline } from 'react-icons/io';
+import { VscCoffee } from "react-icons/vsc";
+
 
 export const NAVLINKS: { name: string; link: string; icon: IconType }[] = [
   { name: 'home', link: '/', icon: IoHomeOutline },
-  { name: 'menu', link: '/menu', icon: BiCategory },
+  { name: 'menu', link: '/menu', icon: VscCoffee },
   { name: 'about', link: '/about', icon: IoMdInformationCircleOutline },
 ];
 

@@ -52,7 +52,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     queryKey: ['product', productId],
     queryFn: async (): Promise<Product> => {
       const { data } = await axios.get(
-        `http://localhost:5000/products/${productId}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${productId}`
       );
 
       return data;
@@ -220,13 +220,13 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
           <div className='grid grid-cols-1 content-start md:mx-auto lg:pr-8 xl:max-w-xl '>
             <div className='flex justify-between items-center flex-wrap pt-6 gap-x-3 gap-y-2 lg:pt-0'>
               <span
-                className='uppercase text-xs text-primary/80 flex-[1_1_100%] w-full tracking-wider'
+                className='uppercase text-xs text-accent flex-[1_1_100%] w-full tracking-wider'
                 defaultValue={product.categoryType}
               >
                 {product.categoryType}
               </span>
               <h2 className='capitalize'>{product.name}</h2>
-              <h2 className='text-primary'>&#36; {product.price}</h2>
+              <h2 className='text-accent'>&#36; {product.price}</h2>
               <p className='text-sm flex-[1_1_100%] lg:mt-3'>
                 {product.description}
               </p>
@@ -256,10 +256,15 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
                           />
                           <Label
                             htmlFor={size.name}
-                            className='relative flex flex-col gap-2 items-center justify-center bg-primary/5 rounded-full w-16 h-16 border-2 border-transparent peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-background'
+                            className='relative flex flex-col gap-2 items-center justify-center bg-primary/5 rounded-full w-16 h-16 border-2 border-transparent peer-data-[state=checked]:border-accent peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-card'
                           >
                             <CoffeeIconSize size={size.name} />
-                            <p className='absolute -translate-x-2/4 left-2/4 -bottom-11 flex flex-col items-center gap-1.5 font-normal text-foreground capitalize'>
+                            <p
+                              className={`absolute -translate-x-2/4 left-2/4 -bottom-11 flex flex-col items-center gap-1.5 font-normal  capitalize  ${
+                                size.name === customizeDetails.size.name &&
+                                'text-accent'
+                              }`}
+                            >
                               {size.name}
                               <span className='font-light'>
                                 {handleProductSizeVolume(size.name)}

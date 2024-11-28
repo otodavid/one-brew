@@ -1,12 +1,22 @@
 'use client';
 
-import { convertToLink } from '@/lib/utils';
+import { convertToLink, convertToText } from '@/lib/utils';
 import Link from 'next/link';
 import { MenuSidebarSkeletonLoader } from './Loaders/MenuSidebarSkeletonLoader';
 import { useGetCategories } from '@/hooks/useGetCategories';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 
 export const MenuSidebar = () => {
   const { categories, isLoading } = useGetCategories();
+  const [activeLink, setActiveLink] = useState<string>('');
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname !== '/menu') {
+      setActiveLink(() => convertToText(pathname.split('/')[2]));
+    }
+  }, [pathname, activeLink]);
 
   if (isLoading) {
     return <MenuSidebarSkeletonLoader />;
@@ -27,7 +37,11 @@ export const MenuSidebar = () => {
                         href={`/menu/${convertToLink(category.name)}/${
                           category.id
                         }`}
-                        className='capitalize opacity-70 text-sm hover:opacity-100'
+                        className={`capitalize opacity-70 text-sm hover:opacity-100 ${
+                          activeLink.includes(category.name)
+                            ? 'text-accent opacity-100'
+                            : 'text-primary'
+                        }`}
                       >
                         {category.name}
                       </Link>
@@ -49,7 +63,11 @@ export const MenuSidebar = () => {
                         href={`/menu/${convertToLink(category.name)}/${
                           category.id
                         }`}
-                        className='capitalize opacity-70 text-sm hover:opacity-100'
+                        className={`capitalize opacity-70 text-sm hover:opacity-100 ${
+                          activeLink.includes(category.name)
+                            ? 'text-accent opacity-100'
+                            : 'text-primary'
+                        }`}
                       >
                         {category.name}
                       </Link>

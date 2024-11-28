@@ -23,6 +23,7 @@ import { Accordion, AccordionTrigger } from './ui/accordion';
 import { ImProfile } from 'react-icons/im';
 import { AccordionContent, AccordionItem } from '@radix-ui/react-accordion';
 import { FaRegUserCircle } from 'react-icons/fa';
+import { usePathname } from 'next/navigation';
 
 const MotionButton = motion(Button);
 
@@ -34,6 +35,7 @@ export function MobileNav({
   const ref = useClickOutside({ isComponentOpen, closeComponent });
   const { user } = useUser();
   const userInfo = useAppSelector(selectUser);
+  const pathname = usePathname();
 
   useEffect(() => {
     const bodyElement = document.querySelector('body') as HTMLBodyElement;
@@ -89,7 +91,11 @@ export function MobileNav({
             >
               <Link
                 href={navLink.link}
-                className='flex items-center gap-2 capitalize font-medium'
+                className={`flex items-center gap-2 capitalize font-medium ${
+                  pathname === navLink.link
+                    ? 'text-foreground'
+                    : 'text-foreground'
+                }`}
                 onClick={closeComponent}
               >
                 {<navLink.icon />}

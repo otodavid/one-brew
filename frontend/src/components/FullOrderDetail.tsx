@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from './ui/dialog';
 import Image from 'next/image';
@@ -11,7 +12,7 @@ import { CartItem, OrderItem } from '@/lib/types';
 export const FullOrderDetail = ({ order }: { order: OrderItem }) => {
   return (
     <Dialog>
-      <DialogTrigger className='bg-primary px-8 py-2 rounded-full text-background w-full'>
+      <DialogTrigger className='bg-accent hover:accent-accent-dark px-8 py-2 rounded-full text-background w-full'>
         View Order
       </DialogTrigger>
 
@@ -19,7 +20,9 @@ export const FullOrderDetail = ({ order }: { order: OrderItem }) => {
       <DialogContent className='p-0 max-w-2xl'>
         <div className='max-h-[90svh] overflow-y-scroll px-6 py-8 space-y-6'>
           <DialogHeader>
-            <h3 className='uppercase text-center'>order details</h3>
+            <DialogTitle className='uppercase text-center'>
+              order details
+            </DialogTitle>
           </DialogHeader>
 
           <div className='text-foreground text-left'>

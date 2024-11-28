@@ -11,7 +11,9 @@ export const useGetCategories = () => {
   } = useQuery({
     queryKey: ['categories'],
     queryFn: async (): Promise<Categories[]> => {
-      const { data } = await axios.get('http://localhost:5000/categories');
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories`
+      );
       return data;
     },
   });

@@ -23,7 +23,7 @@ export const Counter = ({
         disabled={quantity === startValue ? true : false}
         variant={'outline'}
         size={'icon'}
-        className={`w-5 h-5 ${
+        className={`w-6 h-6 py-0 px-0  ${
           quantity === startValue && 'disabled:opacity-30'
         }`}
         onClick={handleSubtract}
@@ -36,7 +36,9 @@ export const Counter = ({
         disabled={quantity === maxValue ? true : false}
         variant={'outline'}
         size={'icon'}
-        className={`w-5 h-5 ${quantity === maxValue && 'disabled:opacity-30'}`}
+        className={`w-6 h-6 py-0 px-0 ${
+          quantity === maxValue && 'disabled:opacity-30'
+        }`}
         onClick={handleAdd}
       >
         <FaPlus size={'10px'} />

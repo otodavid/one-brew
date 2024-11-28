@@ -10,6 +10,7 @@ export default function Loading() {
           alt='coffee machine loader'
           priority={true}
           fill={true}
+          unoptimized={true}
         />
       </div>
 

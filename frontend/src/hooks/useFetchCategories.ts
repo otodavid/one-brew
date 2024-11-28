@@ -12,7 +12,9 @@ export const useFetchCategories = () => {
   const { data, isError, isLoading, error } = useQuery({
     queryKey: ['categories'],
     queryFn: async (): Promise<CategoryItem[]> => {
-      const { data } = await axios.get('http://localhost:5000/categories');
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories`
+      );
 
       return data;
     },

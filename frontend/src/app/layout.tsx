@@ -34,7 +34,7 @@ export default function RootLayout({
           <div className='overflow-hidden mx-auto'>
             <Header />
 
-            <main>{children}</main>
+            <main className='min-h-[80svh]'>{children}</main>
 
             <Footer />
 
@@ -43,6 +43,7 @@ export default function RootLayout({
               offset={'2rem'}
               closeButton={true}
               duration={2000}
+              richColors={true}
             />
           </div>
         </Providers>

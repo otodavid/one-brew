@@ -103,7 +103,6 @@ export default function Orders() {
                       &#36;{order.orderAmount}
                     </span>
                   </div>
-                  <p></p>
                 </CardContent>
 
                 <CardFooter>

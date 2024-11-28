@@ -37,7 +37,7 @@ export default function Profile() {
         <DialogTrigger asChild>
           <Button
             variant='outline'
-            className='mr-0 ml-auto w-32'
+            className='mr-0 ml-auto w-32 bg-primary hover:bg-primary-light text-primary-foreground'
             onClick={() => setIsDialogOpen(true)}
           >
             Edit Profile

@@ -132,7 +132,7 @@ export const CartItemComponent = ({ item, isEditable = true }: Props) => {
             size={'icon'}
             onClick={handleDeleteFromCart}
           >
-            <MdOutlineDeleteOutline size={'18'} className='text-primary' />
+            <MdOutlineDeleteOutline size={'18'} className='text-destructive' />
           </Button>
         </div>
       )}

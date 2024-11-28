@@ -21,6 +21,7 @@ import {
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useEffect, useRef } from 'react';
 import { HomepageSkeletonLoader } from '@/components/Loaders/HomepageSkeletonLoader';
+import { Input } from '@/components/ui/input';
 
 export default function Home() {
   const {
@@ -31,7 +32,9 @@ export default function Home() {
   } = useQuery({
     queryKey: ['products'],
     queryFn: async (): Promise<ProductSummary[]> => {
-      const { data } = await axios.get('http://localhost:5000/products');
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products`
+      );
       return data;
     },
   });
@@ -112,8 +115,8 @@ export default function Home() {
       </Featured>
 
       <CallOutSection bgImagePath='/img/callout2.jpg' imageDesc='coffee beans'>
-        <div className='md:flex md:gap-9 md:justify-center'>
-          <h2 className='text-center max-w-xl md:text-left'>
+        <div className='lg:flex lg:gap-9 lg:justify-center'>
+          <h2 className='text-center max-w-xl mx-auto lg:text-left'>
             Discover Our Premium Coffee Bean Selection
           </h2>
           <Button
@@ -146,7 +149,7 @@ export default function Home() {
         <div className='max-w-lg mx-auto'>
           <div>
             <h2 className='text-center'>
-              Join the <span className='text-primary-dark'>OneBrew Club</span>
+              Join the <span className='text-accent'>OneBrew Club</span>
             </h2>
             <p className='text-center'>
               Subscribe to our newsletter for exclusive blends, discounts, and
@@ -155,13 +158,14 @@ export default function Home() {
           </div>
 
           <div className='pt-8 sm:flex sm:gap-6'>
-            <input
+            <Input
               type='text'
               placeholder='Email address'
-              className='px-4 py-2 rounded-full w-full sm:flex-[1_1_70%]'
+              className='px-4 py-2 rounded-full w-full sm:flex-[1_1_70%] placeholder:text-background'
             />
             <Button
               size={'lg'}
+              variant={'secondary'}
               className='mt-5 w-full capitalize block sm:flex-1 sm:mt-0'
             >
               subscribe
