@@ -4,71 +4,81 @@
 
 @layer base {
   :root {
-    --test: hsl(0 0% 18%);
-    --test1: hsl(337, 91%, 47%);
-    --test1: hsl(341, 100%, 35%);
+    --test: hsl(28 19% 27%);
+    --test: hsl(30, 16%, 10%);
+    --tests: hsl(26, 6%, 46%);
+    --sd: hsl(28 15% 20%);
+    --sd: hsl(359 44% 49%);
+    --sd: #e07852;
+    --sd: #2c2621;
+    --sd: hsl(40 90% 60%);
+    /* 30 55% 70% */
 
-    --background: 348 45% 98%;
-    --foreground: 203 30% 18%;
+    /* 28 15% 15% */
 
-    --muted: 348 100% 98%;
-    --muted-foreground: 352 55% 74%;
+    --background: 0 0% 97%;
+    --foreground: 30 16% 10%;
+
+    --muted: 0 0% 92%;
+    --muted-foreground: 28 15% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 337 91% 47%;
+    --popover-foreground: 30 16% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 337 91% 47%;
+    --card-foreground: 30 16% 10%;
 
-    --primary: 337 91% 47%;
-    --primary-light: 335 100% 81%;
-    --primary-dark: 341 100% 35%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 28 15% 15%;
+    --primary-light: 25 8% 30%;
+    --primary-dark: 30 16% 10%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 348 100% 98%;
-    --secondary-foreground: 337 91% 47%;
+    --secondary: 33 20% 95%;
+    --secondary-foreground: 36 50% 30%;
 
-    --accent: 348 100% 98%;
-    --accent-foreground: 203 30% 18%;
+    --accent: 16.1 80.6% 42.5%;
+    --accent-dark: 16 58% 41%;
+    --accent-foreground: 30 16% 10%;
 
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 337 31.8% 91.4%;
-    --input: 337 31.8% 91.4%;
-    --ring: 337 20.2% 65.1%;
-
+    --border: 0, 0%, 92%;
+    --input:0, 0%, 92%;
+    --ring: 28 19% 27%;
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
+    --background: 30 15% 15%; /* Dark brown */
+    --foreground: 30 30% 94%; /* Light beige */
 
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
+    --muted: 30 20% 20%; /* Muted dark brown */
+    --muted-foreground: 30 25% 75%; /* Light cream */
 
-    --accent: 216 34% 17%;
-    --accent-foreground: 235, 40%, 98%;
+    --popover: 30 15% 15%; /* Same as background */
+    --popover-foreground: 30 30% 94%; /* Same as foreground */
 
-    --popover: 224 71% 4%;
-    --popover-foreground: 215 20.2% 65.1%;
+    --card: 30 15% 15%; /* Dark brown */
+    --card-foreground: 30 30% 94%; /* Light beige */
 
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
+    --primary: 25 65% 65%; /* Coffee tan */
+    --primary-light: 25 65% 75%; /* Lighter coffee tan */
+    --primary-dark: 25 65% 55%; /* Rich coffee tan */
+    --primary-foreground: 30 15% 15%; /* Dark brown */
 
-    --primary: 235, 40%, 98%;
-    --primary-foreground: 222.2 47.4% 1.2%;
+    --secondary: 45 55% 30%; /* Muted coffee tan */
+    --secondary-foreground: 30 30% 94%; /* Light beige */
 
-    --secondary: 235, 66%, 30%;
-    --secondary-foreground: 235, 40%, 98%;
+    --accent: 25 65% 65%; /* Coffee tan */
+    --accent-foreground: 30 15% 15%; /* Dark brown */
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 235, 40%, 98%;
+    --destructive: 0 65% 50%; /* Coffee cherry red */
+    --destructive-foreground: 30 15% 15%; /* Dark brown */
 
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
-    --ring: 216 34% 17%;
+    --border: 30 20% 25%; /* Muted dark brown */
+    --input: 30 20% 25%; /* Same as border */
+    --ring: 25 65% 65%; /* Coffee tan for focus */
 
     --radius: 0.5rem;
   }
