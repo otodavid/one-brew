@@ -23,7 +23,7 @@ export const StripeWrapper = () => {
   const cart = useAppSelector(selectCart);
   const deliveryFee = 2;
   const userInfo = useAppSelector(selectUser);
-  const hasComponentMountend = useRef(false);
+  const hasComponentMounted = useRef(false);
   const orderAmount = useMemo(
     () => Number((getTotalAmount(cart) + deliveryFee).toFixed(2)),
     [cart]
@@ -58,11 +58,13 @@ export const StripeWrapper = () => {
   });
 
   useEffect(() => {
-    if (hasComponentMountend.current) {
-      mutate({ orderAmount, orderId });
+    if (hasComponentMounted.current) {
+      return;
     }
 
-    hasComponentMountend.current = true;
+    mutate({ orderAmount, orderId });
+
+    hasComponentMounted.current = true;
   }, [mutate, orderAmount, orderId]);
   return (
     <>
