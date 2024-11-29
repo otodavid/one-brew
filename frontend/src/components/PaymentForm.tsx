@@ -22,11 +22,12 @@ export const PaymentForm = (orderOptions: OrderDataOptions) => {
     }
   }, [stripe]);
 
-  const { mutate } = useMutation({
+  const { mutate, isError } = useMutation({
     mutationFn: (options: OrderDataOptions) => {
       return axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/orders/add`,
-        options
+        options,
+        { headers: { 'Content-Type': 'application/json' } }
       );
     },
     onSuccess: () => {
@@ -56,6 +57,11 @@ export const PaymentForm = (orderOptions: OrderDataOptions) => {
 
     // save order to database on 'pending' status
     mutate(orderOptions);
+
+    if (isError) {
+      setLoading(false);
+      return;
+    }
 
     const { error } = await stripe.confirmPayment({
       elements,

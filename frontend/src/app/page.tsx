@@ -33,7 +33,12 @@ export default function Home() {
     queryKey: ['products'],
     queryFn: async (): Promise<ProductSummary[]> => {
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
       );
       return data;
     },
@@ -48,7 +53,8 @@ export default function Home() {
     mutationFn: (newUserInfo: UserInfo) => {
       return axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/add`,
-        newUserInfo
+        newUserInfo,
+        { headers: { 'Content-Type': 'application/json' } }
       );
     },
     onSuccess: (data: AxiosResponse) => {

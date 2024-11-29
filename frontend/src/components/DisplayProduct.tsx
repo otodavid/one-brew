@@ -52,7 +52,8 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     queryKey: ['product', productId],
     queryFn: async (): Promise<Product> => {
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${productId}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/${productId}`,
+        { headers: { 'Content-Type': 'application/json' } }
       );
 
       return data;
@@ -66,7 +67,8 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
         {
           email,
           item,
-        }
+        },
+        { headers: { 'Content-Type': 'application/json' } }
       );
 
       return data.data;
@@ -183,6 +185,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   useEffect(() => {
     if (userInfo.email === '' && cartItemRef.current !== null) {
       saveToLocalStorage(cart);
+      setIsAddingToCart(false);
     }
   }, [cart, userInfo.email]);
 
@@ -211,7 +214,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
           <div className='w-full relative h-80 mx-auto rounded-lg overflow-hidden md:h-max md:aspect-video md:mx-auto lg:max-w-none lg:aspect-square lg:w-full'>
             <Image
               src={product.image}
-              alt='Espresso Coffee'
+              alt={product.name}
               fill={true}
               className='object-cover'
             />

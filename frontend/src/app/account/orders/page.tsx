@@ -29,7 +29,10 @@ export default function Orders() {
     queryFn: async (): Promise<OrderItem[]> => {
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/orders`,
-        { params: { email: userInfo.email } }
+        {
+          params: { email: userInfo.email },
+          headers: { 'Content-Type': 'application/json' },
+        }
       );
 
       return data;

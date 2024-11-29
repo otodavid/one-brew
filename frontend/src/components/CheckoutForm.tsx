@@ -68,7 +68,8 @@ export const CheckoutForm = ({ isFormFilled, setIsFormFilled }: Prop) => {
     mutationFn: (newUserInfo: UserInfo) => {
       return axios.put(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/update`,
-        newUserInfo
+        newUserInfo,
+        { headers: { 'Content-Type': 'application/json' } }
       );
     },
     onSuccess: () => {

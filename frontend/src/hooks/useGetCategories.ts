@@ -12,7 +12,8 @@ export const useGetCategories = () => {
     queryKey: ['categories'],
     queryFn: async (): Promise<Categories[]> => {
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories`,
+        { headers: { 'Content-Type': 'application/json' } }
       );
       return data;
     },
