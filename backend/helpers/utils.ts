@@ -4,6 +4,7 @@ import {
   OrderItem,
   Product,
   ProductSummary,
+  Size,
   UserInfo,
 } from '../types';
 
@@ -38,10 +39,12 @@ export function transformProductData(data: any): Product {
     image: data.image_url,
     categoryName: data.category_name,
     categoryType: data.type,
-    sizes: data.sizes.map((size: { name: string; price: number }) => ({
-      name: size.name,
-      price: size.price,
-    })),
+    sizes: data.sizes
+      .sort((a: Size, b: Size) => a.price - b.price)
+      .map((size: { name: string; price: number }) => ({
+        name: size.name,
+        price: size.price,
+      })),
     addons: data.addons.map(
       (addon: {
         addon_type_id: number;

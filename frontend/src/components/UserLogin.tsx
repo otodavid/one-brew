@@ -38,39 +38,51 @@ export const UserLogin = () => {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator className='bg-foreground/5' />
             <DropdownMenuGroup>
-              <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-primary'>
-                <FiUser className='mr-2 h-4 w-4' />
-                <Link href={'account/profile'}>Profile</Link>
+              <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent'>
+                <Link
+                  href={'/account/profile'}
+                  className='flex items-center gap-2 hover:text-accent'
+                >
+                  <FiUser className='h-4 w-4' />
+                  Profile
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-primary'>
-                <FaBoxOpen className='mr-2 h-4 w-4' />
-                <Link href={'/account/orders'}>My Orders</Link>
+              <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent'>
+                <Link
+                  href={'/account/orders'}
+                  className='flex items-center gap-2 hover:text-accent'
+                >
+                  <FaBoxOpen className='h-4 w-4' />
+                  My Orders
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator className='bg-foreground/5' />
-            <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-primary'>
-              <CiLogout className='mr-2 h-4 w-4' />
+            <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent'>
               <Link legacyBehavior href='/api/auth/logout' passHref>
-                <a className='hover:text-primary'>Log out</a>
+                <a className='text-destructive flex items-center gap-2'>
+                  <CiLogout className='h-4 w-4' />
+                  Log out
+                </a>
               </Link>
             </DropdownMenuItem>
           </>
         ) : (
           <div className='py-2 px-2'>
             <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-primary justify-center'>
-              <Link legacyBehavior href='/api/auth/logout' passHref>
-                <a className='hover:text-primary border rounded-full px-4 py-2 border-primary w-full text-center'>
-                  Log in
-                </a>
-              </Link>
+              <Button variant={'outline'} className='w-full' size={'sm'}>
+                <Link legacyBehavior href='/api/auth/login' passHref>
+                  <a>Log in</a>
+                </Link>
+              </Button>
             </DropdownMenuItem>
             <p className='text-center border-b pb-2 text-sm'>or</p>
             <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-primary justify-center pt-2'>
-              <Link legacyBehavior href='/api/auth/logout' passHref>
-                <a className='bg-primary text-background text-center px-4 py-2 rounded-full w-full'>
-                  Create account
-                </a>
-              </Link>
+              <Button variant={'default'} className='w-full' size={'sm'}>
+                <Link legacyBehavior href='/api/auth/signup' passHref>
+                  <a>Create account</a>
+                </Link>
+              </Button>
             </DropdownMenuItem>
           </div>
         )}

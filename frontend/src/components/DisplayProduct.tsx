@@ -97,22 +97,22 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   });
 
   const handleSizeDetails = (value: string) => {
-    let getPrice: number = 0;
+    let sizePrice: number = 0;
     if (product) {
       product.sizes.forEach(
-        (size) => size.name === value && (getPrice = size.price)
+        (size) => size.name === value && (sizePrice = size.price)
       );
     }
 
     setCustomizeDetails((prev) => ({
       ...prev,
 
-      size: { name: value, price: getPrice },
+      size: { name: value, price: sizePrice },
     }));
   };
 
   useEffect(() => {
-    if (product && product.sizes.length !== 0) {
+    if (product && product.sizes.length >= 0) {
       setCustomizeDetails((prev) => ({
         ...prev,
 
@@ -182,6 +182,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
     quantity,
   ]);
 
+  //if user is not signed in, save cart with added item to local storage
   useEffect(() => {
     if (userInfo.email === '' && cartItemRef.current !== null) {
       saveToLocalStorage(cart);
@@ -245,37 +246,36 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
                     className='flex gap-8 pt-4'
                     onValueChange={(value) => handleSizeDetails(value)}
                   >
-                    {product.sizes
-                      .sort((a, b) => a.price - b.price)
-                      .map((size) => (
-                        <div
-                          className='flex flex-col items-center relative isolate'
-                          key={size.name}
+                    {product.sizes.map((size) => (
+                      <div
+                        className='flex flex-col items-center relative isolate'
+                        key={size.name}
+                      >
+                        <RadioGroupItem
+                          value={size.name}
+                          id={size.name}
+                          className='absolute left-4 top-2 -z-10 opacity-0 peer'
+                        />
+                        <Label
+                          htmlFor={size.name}
+                          className='relative flex flex-col gap-2 items-center justify-center bg-primary/5 rounded-full w-16 h-16 border-2 border-transparent peer-data-[state=checked]:border-accent peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-card'
                         >
-                          <RadioGroupItem
-                            value={size.name}
-                            id={size.name}
-                            className='absolute left-4 top-2 -z-10 opacity-0 peer'
-                          />
-                          <Label
-                            htmlFor={size.name}
-                            className='relative flex flex-col gap-2 items-center justify-center bg-primary/5 rounded-full w-16 h-16 border-2 border-transparent peer-data-[state=checked]:border-accent peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-card'
+                          <CoffeeIconSize size={size.name} />
+                          <p
+                            className={`absolute -translate-x-2/4 left-2/4 -bottom-11 flex flex-col items-center gap-1.5 font-normal  capitalize   ${
+                              size.name === customizeDetails.size.name
+                                ? 'text-accent'
+                                : 'text-foreground'
+                            }`}
                           >
-                            <CoffeeIconSize size={size.name} />
-                            <p
-                              className={`absolute -translate-x-2/4 left-2/4 -bottom-11 flex flex-col items-center gap-1.5 font-normal  capitalize  ${
-                                size.name === customizeDetails.size.name &&
-                                'text-accent'
-                              }`}
-                            >
-                              {size.name}
-                              <span className='font-light'>
-                                {handleProductSizeVolume(size.name)}
-                              </span>
-                            </p>
-                          </Label>
-                        </div>
-                      ))}
+                            {size.name}
+                            <span className='font-light'>
+                              {handleProductSizeVolume(size.name)}
+                            </span>
+                          </p>
+                        </Label>
+                      </div>
+                    ))}
                   </RadioGroup>
                 </div>
               )}

@@ -20,7 +20,7 @@ export const CompletedCheckoutForm = ({ setIsFormFilled }: Prop) => {
   const userInfo = useAppSelector(selectUser);
 
   return (
-    <div className='w-full grid md:grid-cols-[1fr_.7fr] gap-6 items-start grid-rows-[25.5rem_20rem_1fr]'>
+    <div className='w-full grid md:grid-cols-[1fr_.7fr] gap-6 items-start md:grid-rows-[25.5rem_20rem_1fr]'>
       <Card className='md:col-start-1 md:row-span-1'>
         <div>
           <CardHeader>

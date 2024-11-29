@@ -29,7 +29,7 @@ interface Addon {
   items: AddonItem[];
 }
 
-interface Size {
+export interface Size {
   name: string;
   price: number;
 }

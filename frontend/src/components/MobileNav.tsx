@@ -147,11 +147,11 @@ export function MobileNav({
         <div className='fixed bottom-6 left-6 right-6'>
           {!user ? (
             <>
-              <Link legacyBehavior href={'/api/auth/login'} passHref>
-                <a className='block text-center w-full bg-primary text-background mx-auto mb-6 rounded-full p-2'>
-                  Log in
-                </a>
-              </Link>
+              <Button className='block mb-2 w-full'>
+                <Link legacyBehavior href={'/api/auth/login'} passHref>
+                  <a className='w-full'>Log in</a>
+                </Link>
+              </Button>
 
               <p className='text-center text-sm'>
                 Don&apos;t have an account?{' '}
