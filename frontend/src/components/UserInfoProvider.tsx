@@ -35,7 +35,10 @@ export default function UserInfoProvider({
     queryFn: async () => {
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/me`,
-        { params: { email: currentUser } }
+        {
+          params: { email: currentUser },
+          headers: { 'Content-Type': 'application/json' },
+        }
       );
       return data;
     },

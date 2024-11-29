@@ -34,8 +34,6 @@ export default function Header() {
     setIsModalOpen(false);
   };
 
-  console.log(pathname.split('/')[1]);
-
   return (
     <header className='z-10 border-b'>
       <div className='flex justify-between items-center flex-wrap px-4 py-4 relative max-w-8xl mx-auto xs:px-6 md:px-12 xl:px-16 2xl:px-20'>

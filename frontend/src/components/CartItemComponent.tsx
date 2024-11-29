@@ -2,14 +2,13 @@ import { CartItem } from '@/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from './ui/button';
-import { removeFromCart, selectCart } from '@/store/features/cartSlice';
+import { removeFromCart } from '@/store/features/cartSlice';
 import { MdOutlineDeleteOutline } from 'react-icons/md';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { selectUser } from '@/store/features/userSlice';
 import { toast } from 'sonner';
-import { saveToLocalStorage } from '@/lib/utils';
 
 interface Props {
   item: CartItem;
@@ -19,7 +18,6 @@ interface Props {
 export const CartItemComponent = ({ item, isEditable = true }: Props) => {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector(selectUser);
-  const cart = useAppSelector(selectCart);
 
   const { mutate } = useMutation({
     mutationFn: async ({
@@ -34,7 +32,8 @@ export const CartItemComponent = ({ item, isEditable = true }: Props) => {
         {
           email,
           cartProductID,
-        }
+        },
+        { headers: { 'Content-Type': 'application/json' } }
       );
 
       return data.data;
@@ -61,7 +60,6 @@ export const CartItemComponent = ({ item, isEditable = true }: Props) => {
       mutate({ email: userInfo.email, cartProductID: item.cartProductID });
     } else {
       dispatch(removeFromCart(item.cartProductID));
-      saveToLocalStorage(cart);
     }
   };
 
