@@ -52,9 +52,10 @@ app.post('/process-payment', handlePayment);
 
 app.get('/categories', getAllCategories);
 
+app.get('/categories/:id/products', getProductsByCategoryId);
+
 app.get('/products', getAllProducts);
 
-app.get('/products/c/:categoryId', getProductsByCategoryId);
 
 app.get('/products/:productId', getProductById);
 

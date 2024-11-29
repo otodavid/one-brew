@@ -22,7 +22,7 @@ export const CategoryProducts = ({ categoryName, categoryId }: Props) => {
     queryKey: ['categoryProducts', categoryId],
     queryFn: async (): Promise<ProductSummary[]> => {
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/c/${categoryId}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories/${categoryId}/products`,
         { headers: { 'Content-Type': 'application/json' } }
       );
 

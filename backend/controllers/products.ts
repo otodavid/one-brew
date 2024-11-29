@@ -47,8 +47,8 @@ export async function getProductsByCategoryId(req: Request, res: Response) {
   try {
     const query = queryProductsByCategoryId();
 
-    const { categoryId } = req.params;
-    const result = await conn.query(query, [categoryId]);
+    const { id } = req.params;
+    const result = await conn.query(query, [id]);
 
     const products = result.rows.map(transformProductSummaryData);
 
