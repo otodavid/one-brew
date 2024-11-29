@@ -38,7 +38,7 @@ export default function Header() {
     <header className='z-10 border-b'>
       <div className='flex justify-between items-center flex-wrap px-4 py-4 relative max-w-8xl mx-auto xs:px-6 md:px-12 xl:px-16 2xl:px-20'>
         <Link href={'/'}>
-          <Image src={logo} alt='One Brew logo' width={120} />
+          <Image src={logo} alt='One Brew logo' width={120} priority />
         </Link>
 
         <div className='flex justify-between gap-16 items-center'>

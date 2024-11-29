@@ -6,12 +6,12 @@ import heroPic from '/public/img/hero-image.jpg';
 export default function Hero() {
   return (
     <section className='relative isolate'>
-      <div className='min-h-[30rem] grid items-center bg-gradient-to-tr sm:from-black/85 sm:from-40% sm:to-transparent sm:to-80% sm:grid sm:grid-cols-[1fr_.5fr] xl:py-24 '>
+      <div className='min-h-[30rem] grid items-center bg-gradient-to-tr sm:from-black/85 sm:from-40% sm:to-transparent sm:to-80% sm:grid sm:grid-cols-[1fr_.5fr] xl:py-24 relative'>
         <Image
           src={heroPic}
           alt='brown hero background'
           fill={true}
-          sizes='(max-width: 767px) 40vw, (max-width: 1200px) 50vw, 100vw'
+          sizes='100vw'
           priority={true}
           className='-z-10 object-cover brightness-[.2] sm:brightness-100'
           placeholder='blur'

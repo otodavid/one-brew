@@ -59,6 +59,7 @@ export const FullOrderDetail = ({ order }: { order: OrderItem }) => {
                     src={item.image}
                     fill={true}
                     alt={item.name}
+                    sizes='80px'
                     className='object-cover'
                   />
                 </div>

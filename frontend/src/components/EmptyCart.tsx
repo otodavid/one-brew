@@ -12,6 +12,7 @@ export const EmptyCart = () => {
             alt='SVG icon for empty cart'
             fill={true}
             className='object-contain object-center'
+            sizes='80vw'
           />
         </div>
 
