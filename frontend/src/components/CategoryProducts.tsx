@@ -3,7 +3,7 @@
 import { ProductList } from './ProductList';
 import { convertToText } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
-import { MenuCategoryProductsSkeletonLoader } from './Loaders/MenuCategoryProductsSkeletonLoader';
+import { ProductsSkeletonLoader } from './Loaders/ProductsSkeletonLoader';
 import axios from 'axios';
 import { ProductSummary } from '@/lib/types';
 
@@ -35,7 +35,7 @@ export const CategoryProducts = ({ categoryName, categoryId }: Props) => {
   }
 
   if (isLoading) {
-    return <MenuCategoryProductsSkeletonLoader />;
+    return <ProductsSkeletonLoader />;
   }
 
   return (
