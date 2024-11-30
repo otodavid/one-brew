@@ -101,22 +101,8 @@ export default function Home() {
         heading='Explore our Top Coffee Selection'
         subheading='Discover the blends our customers love the most.'
       >
-        <div className='mb-6 mt-10 grid gap-6 grid-cols-cards-list'>
-          {products &&
-            products
-              .slice(0, 4)
-              .map((product: ProductSummary) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  image={product.image}
-                  name={product.name}
-                  description={product.description}
-                  price={product.price}
-                  categoryName={product.categoryName}
-                  categoryType={product.categoryType}
-                />
-              ))}
+        <div className='mb-6 mt-10'>
+          {products && <ProductList productList={products.slice(0, 4)} />}
         </div>
       </Featured>
 
@@ -140,7 +126,7 @@ export default function Home() {
         heading='Delicious Fresh Baked Treats'
         subheading='Perfect companions for your coffee moments, made fresh daily. Take a pick from our special baked foods.'
       >
-        <div className='grid gap-8 mb-6 mt-10 grid-cols-cards-list'>
+        <div className='mb-6 mt-10'>
           {products && <ProductList productList={products.slice(0, 4)} />}
         </div>
       </Featured>

@@ -45,7 +45,7 @@ export const CategoryProducts = ({ categoryName, categoryId }: Props) => {
           <h2 className='capitalize font-bold text-xl'>
             {convertToText(categoryName)}
           </h2>
-          <div className='grid gap-y-6 sm:gap-x-4 sm:grid-cols-cards-list pt-4 sm:pt-6'>
+          <div className='pt-4 sm:pt-6'>
             <ProductList productList={products} />
           </div>
         </>
