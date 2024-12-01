@@ -14,12 +14,12 @@ import { selectUser } from '@/store/features/userSlice';
 import Image from 'next/image';
 import logo from '/public/logo.svg';
 import { usePathname } from 'next/navigation';
+import { SearchBox } from './SearchBox';
 
 export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const cart = useAppSelector(selectCart);
   const { user, error, isLoading } = useUser();
-  const userInfo = useAppSelector(selectUser);
   const pathname = usePathname();
 
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
@@ -61,7 +61,9 @@ export default function Header() {
             ))}
           </ul>
 
-          <div className='relative flex items-center gap-4'>
+          <div className='flex items-center gap-4'>
+            <SearchBox />
+
             <div className='hidden md:block'>
               <UserLogin />
             </div>

@@ -33,7 +33,7 @@ export default function Hero() {
             className='mx-auto mt-2'
             asChild={true}
           >
-            <Link href='/menu'>Order now</Link>
+            <Link href='/products'>Order now</Link>
           </Button>
         </div>
       </div>
