@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { MenuSidebarSkeletonLoader } from './Loaders/MenuSidebarSkeletonLoader';
 import { useGetCategories } from '@/hooks/useGetCategories';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const MenuSidebar = () => {
   const { categories, isLoading } = useGetCategories();
@@ -13,8 +13,10 @@ export const MenuSidebar = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname !== '/menu') {
-      setActiveLink(() => convertToText(pathname.split('/')[2]));
+    const paths = pathname.split('/');
+
+    if (paths[1] === 'menu' && paths[2]) {
+      setActiveLink(() => convertToText(paths[2]));
     }
   }, [pathname, activeLink]);
 
