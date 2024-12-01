@@ -42,7 +42,7 @@ export const MainMenu = () => {
                           className='object-cover object-center aspect-square'
                         />
                       </div>
-                      <p className='font-medium group-hover:text-primary capitalize'>
+                      <p className='font-medium group-hover:text-foreground capitalize'>
                         {category.name}
                       </p>
                     </Link>
@@ -75,7 +75,7 @@ export const MainMenu = () => {
                           className='object-cover object-center aspect-square'
                         />
                       </div>
-                      <p className='font-medium group-hover:text-primary capitalize'>
+                      <p className='font-medium group-hover:text-foreground capitalize'>
                         {category.name}
                       </p>
                     </Link>

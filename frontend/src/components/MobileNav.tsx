@@ -156,7 +156,7 @@ export function MobileNav({
               <p className='text-center text-sm'>
                 Don&apos;t have an account?{' '}
                 <Link legacyBehavior href='/api/auth/signup'>
-                  <a className='font-bold text-primary hover:underline'>
+                  <a className='font-bold text-foreground hover:underline'>
                     Create Account
                   </a>
                 </Link>

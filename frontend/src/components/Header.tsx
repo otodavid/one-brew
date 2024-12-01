@@ -44,7 +44,7 @@ export default function Header() {
         <div className='flex justify-between gap-16 items-center'>
           <ul className='hidden md:flex md:gap-12 items-center'>
             {NAVLINKS.map((navLink) => (
-              <li key={navLink.name} className='hover:text-primary'>
+              <li key={navLink.name} className='hover:text-foreground'>
                 <Link
                   href={navLink.link}
                   className={`capitalize font-medium hover:text-accent  ${

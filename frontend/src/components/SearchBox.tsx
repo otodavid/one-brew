@@ -72,7 +72,7 @@ export const SearchBox = () => {
     const parts = text.split(new RegExp(`(${query})`, 'gi'));
     return parts.map((part, index) =>
       part.toLowerCase() === query.toLowerCase() ? (
-        <span key={index} className='text-primary font-bold'>
+        <span key={index} className='text-foreground font-bold'>
           {part}
         </span>
       ) : (
