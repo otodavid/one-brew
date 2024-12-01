@@ -10,6 +10,8 @@ import {
   queryAllProducts,
   queryProductById,
   queryProductsByCategoryId,
+  querySearchProducts,
+  querySearchSuggestions,
 } from '../queries/products';
 import { error } from 'console';
 
@@ -71,5 +73,38 @@ export async function getProductById(req: Request, res: Response) {
   } catch (err: any) {
     console.error(err.message);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+export async function getSearchedProducts(req: Request, res: Response) {
+  try {
+    const { term } = req.query;
+    const query = querySearchProducts();
+    const result = await conn.query(query, [term]);
+
+    const products = result.rows.map(transformProductSummaryData);
+
+    res.status(200).json(products);
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Error searching for data' });
+  }
+}
+
+export async function getSearchSuggestions(req: Request, res: Response) {
+  try {
+    const { term } = req.query;
+    const query = querySearchSuggestions();
+    const result = await conn.query(query, [term]);
+
+    const suggestions = result.rows.map((suggestion) => {
+      return { id: suggestion.id, name: suggestion.name };
+    });
+
+    console.log(suggestions);
+    res.status(200).json(suggestions);
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Error searching for data' });
   }
 }

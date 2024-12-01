@@ -87,3 +87,40 @@ GROUP BY
   categories.name,
   categories.type;`;
 };
+
+export const querySearchProducts = () => {
+  return `SELECT
+      product.id,
+      product.name,
+      product.image_url,
+      product.description,
+      product.price,
+      categories.id AS category_id,
+      categories.name AS category_name,
+      categories.type,
+      ts_rank(name_tsvector, plainto_tsquery('english', $1)) AS rank
+    FROM
+        product
+        INNER JOIN categories ON product.category_id = categories.id
+    WHERE
+        name_tsvector @@ plainto_tsquery('english', $1)
+    ORDER BY
+        rank DESC
+    LIMIT 20
+    ;
+      `;
+};
+
+export const querySearchSuggestions = () => {
+  return `
+  SELECT
+    id, name, ts_rank(name_tsvector, plainto_tsquery('english', $1)) AS rank
+  FROM product
+  WHERE
+    name_tsvector @@ plainto_tsquery('english', $1)
+    OR name ILIKE $1 || '%'
+    OR name ILIKE '% ' || $1 || '%'
+  ORDER BY rank DESC
+  LIMIT 5; 
+  `
+}

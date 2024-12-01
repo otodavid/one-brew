@@ -6,6 +6,8 @@ import {
   getAllProducts,
   getProductById,
   getProductsByCategoryId,
+  getSearchedProducts,
+  getSearchSuggestions,
 } from './controllers/products';
 import {
   handleAddUserOrder,
@@ -56,6 +58,9 @@ app.get('/categories/:id/products', getProductsByCategoryId);
 
 app.get('/products', getAllProducts);
 
+app.get('/products/search', getSearchedProducts);
+
+app.get('/products/search/suggestions', getSearchSuggestions);
 
 app.get('/products/:productId', getProductById);
 
