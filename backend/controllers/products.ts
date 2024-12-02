@@ -76,9 +76,7 @@ export async function getProductById(req: Request, res: Response) {
 
     const product = result.rows.map(transformProductData)[0];
 
-    console.log(product);
-
-    res.json(product);
+    res.status(200).json(product);
   } catch (err: any) {
     console.error(err.message);
     res.status(500).json({ error: 'Internal Server Error' });
