@@ -35,8 +35,10 @@ export const SearchBox = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    router.push(`/products?term=${encodeURIComponent(query.trim())}`);
+    router.push(`/products/search?term=${encodeURIComponent(query.trim())}`);
     setOpen(false);
+
+    setQuery('');
   };
 
   const handleInputChange = (value: string) => {
@@ -143,6 +145,7 @@ export const SearchBox = () => {
                   onClick={() => {
                     router.push(`/products/${suggestion.id}`);
                     setOpen(false);
+                    setQuery('');
                   }}
                   onMouseEnter={() => setSelectedIndex(index)}
                 >
