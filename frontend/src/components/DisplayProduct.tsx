@@ -112,7 +112,7 @@ export const DisplayProduct = ({ productId }: { productId: string }) => {
   };
 
   useEffect(() => {
-    if (product && product.sizes.length >= 0) {
+    if (product && product.sizes.length > 0) {
       setCustomizeDetails((prev) => ({
         ...prev,
 

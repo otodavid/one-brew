@@ -76,6 +76,8 @@ export async function getProductById(req: Request, res: Response) {
 
     const product = result.rows.map(transformProductData)[0];
 
+    console.log(product);
+
     res.json(product);
   } catch (err: any) {
     console.error(err.message);
