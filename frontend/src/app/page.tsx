@@ -25,7 +25,7 @@ import { Input } from '@/components/ui/input';
 
 export default function Home() {
   const {
-    data: products,
+    data: featuredProducts,
     isError,
     isLoading,
     error,
@@ -33,7 +33,7 @@ export default function Home() {
     queryKey: ['products'],
     queryFn: async (): Promise<ProductSummary[]> => {
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/featured`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -102,7 +102,13 @@ export default function Home() {
         subheading='Discover the blends our customers love the most.'
       >
         <div className='mb-6 mt-10'>
-          {products && <ProductList productList={products.slice(0, 4)} />}
+          {featuredProducts && (
+            <ProductList
+              productList={featuredProducts
+                .filter((product) => product.categoryType === 'drinks')
+                .slice(0, 4)}
+            />
+          )}
         </div>
       </Featured>
 
@@ -127,7 +133,13 @@ export default function Home() {
         subheading='Perfect companions for your coffee moments, made fresh daily. Take a pick from our special baked foods.'
       >
         <div className='mb-6 mt-10'>
-          {products && <ProductList productList={products.slice(0, 4)} />}
+          {featuredProducts && (
+            <ProductList
+              productList={featuredProducts
+                .filter((product) => product.categoryType === 'food')
+                .slice(0, 4)}
+            />
+          )}
         </div>
       </Featured>
 
