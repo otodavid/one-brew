@@ -19,9 +19,11 @@ export const queryAllProducts = () => {
       categories.id AS category_id,
       categories.name AS category_name,
       categories.type
-FROM
+    FROM
       product
-      INNER JOIN categories ON product.category_id = categories.id;`;
+      INNER JOIN categories ON product.category_id = categories.id
+    ORDER BY product.created_at DESC
+    LIMIT $1 OFFSET $2;`;
 };
 
 export const queryProductById = () => {
@@ -104,10 +106,10 @@ export const querySearchProducts = () => {
         INNER JOIN categories ON product.category_id = categories.id
     WHERE
         name_tsvector @@ plainto_tsquery('english', $1)
+        OR product.name ILIKE $1 || '%'
+        OR product.name ILIKE '% ' || $1 || '%'
     ORDER BY
-        rank DESC
-    LIMIT 20
-    ;
+        rank DESC;
       `;
 };
 
@@ -121,6 +123,5 @@ export const querySearchSuggestions = () => {
     OR name ILIKE $1 || '%'
     OR name ILIKE '% ' || $1 || '%'
   ORDER BY rank DESC
-  LIMIT 5; 
-  `
-}
+  `;
+};

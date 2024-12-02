@@ -13,16 +13,22 @@ import {
   querySearchProducts,
   querySearchSuggestions,
 } from '../queries/products';
-import { error } from 'console';
 
 export async function getAllProducts(req: Request, res: Response) {
   try {
+    const { page = 1, limit = 1 } = req.query;
+    const offset = (Number(page) - 1) * Number(limit);
+
     const query = queryAllProducts();
-    const result = await conn.query(query);
+    const result = await conn.query(query, [Number(limit), offset]);
 
     const products = result.rows.map(transformProductSummaryData);
 
-    res.json(products);
+    const totalCountResult = await conn.query('SELECT COUNT(*) FROM product');
+    const totalCount = parseInt(totalCountResult.rows[0].count);
+    const hasMore = offset + Number(limit) < totalCount;
+
+    res.json({ data: products, hasMore });
   } catch (err: any) {
     console.error(err.message);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -78,13 +84,24 @@ export async function getProductById(req: Request, res: Response) {
 
 export async function getSearchedProducts(req: Request, res: Response) {
   try {
-    const { term } = req.query;
+    const { term, page = 1, limit = 1 } = req.query;
+    const limitValue = Number(limit); //3
+    const offset = (Number(page) - 1) * limitValue;
+
     const query = querySearchProducts();
     const result = await conn.query(query, [term]);
 
     const products = result.rows.map(transformProductSummaryData);
 
-    res.status(200).json(products);
+    const totalCount = result.rowCount ? result.rowCount : 0;
+    const hasMore = offset + Number(limit) < totalCount;
+
+    const startIndex = (Number(page) - 1) * limitValue;
+    const endIndex = Number(page) * limitValue;
+
+    res
+      .status(200)
+      .json({ data: products.slice(startIndex, endIndex), hasMore });
   } catch (err: any) {
     console.error(err.message);
     res.status(500).json({ error: 'Error searching for data' });
@@ -101,7 +118,6 @@ export async function getSearchSuggestions(req: Request, res: Response) {
       return { id: suggestion.id, name: suggestion.name };
     });
 
-    console.log(suggestions);
     res.status(200).json(suggestions);
   } catch (err: any) {
     console.error(err.message);
