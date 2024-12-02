@@ -144,7 +144,7 @@ export function MobileNav({
           )}
         </motion.ul>
 
-        <div className='fixed bottom-6 left-6 right-6'>
+        {/* <div className='fixed bottom-6 left-6 right-6'>
           {!user ? (
             <>
               <Button className='block mb-2 w-full'>
@@ -169,7 +169,7 @@ export function MobileNav({
               </a>
             </Link>
           )}
-        </div>
+        </div> */}
       </motion.div>
     </Modal>
   );
