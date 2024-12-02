@@ -1,8 +1,10 @@
 'use client';
 
+import { Filter } from '@/components/Filter';
 import { ProductsSkeletonLoader } from '@/components/Loaders/ProductsSkeletonLoader';
 import { MenuSidebar } from '@/components/MenuSidebar';
 import { ProductList } from '@/components/ProductList';
+import { ProductPageWrapper } from '@/components/ProductPageWrapper';
 import { Button } from '@/components/ui/button';
 import { ProductSummary } from '@/lib/types';
 import { useQuery } from '@tanstack/react-query';
@@ -14,7 +16,7 @@ interface ProductsResponseData {
   hasMore: boolean;
 }
 
-const AllProducts = () => {
+export default function Page() {
   const [page, setPage] = useState<number>(1);
   const [fetchedProducts, setFetchedProducts] = useState<ProductSummary[]>([]);
 
@@ -32,7 +34,7 @@ const AllProducts = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          params: { page, limit: 3 },
+          params: { page, limit: 5 },
         }
       );
 
@@ -57,9 +59,15 @@ const AllProducts = () => {
   }
 
   return (
-    <div>
+    <ProductPageWrapper>
       <div>
-        <h3>Products</h3>
+        <div>
+          <h3>Products</h3>
+
+          <div className='block mr-0 ml-auto lg:hidden'>
+            <Filter />
+          </div>
+        </div>
 
         <div className='mt-8'>
           {fetchedProducts && fetchedProducts.length > 0 ? (
@@ -84,16 +92,6 @@ const AllProducts = () => {
           )}
         </div>
       </div>
-    </div>
-  );
-};
-
-export default function Page() {
-  return (
-    <div className='px-4 py-6 pb-10 min-h-[90vh] xs:px-6 md:px-12 lg:grid lg:grid-cols-[10rem_1fr] lg:gap-20 xl:gap-32 xl:px-16 2xl:px-20 max-w-8xl mx-auto'>
-      <MenuSidebar />
-
-      <AllProducts />
-    </div>
+    </ProductPageWrapper>
   );
 }

@@ -34,7 +34,7 @@ export const MenuSidebar = () => {
     return <MenuSidebarSkeletonLoader />;
   }
   return (
-    <div className='hidden lg:block'>
+    <div>
       <Link
         href='/products'
         className={`mb-3 block ${
