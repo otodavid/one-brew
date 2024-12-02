@@ -58,32 +58,32 @@ export const UserLogin = () => {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator className='bg-foreground/5' />
-            {/* <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent'>
+            <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent'>
               <Link legacyBehavior href='/api/auth/logout' passHref>
                 <a className='text-destructive flex items-center gap-2'>
                   <CiLogout className='h-4 w-4' />
                   Log out
                 </a>
               </Link>
-            </DropdownMenuItem> */}
+            </DropdownMenuItem>
           </>
         ) : (
           <div className='py-2 px-2'>
             <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-foreground justify-center'>
               <Button variant={'outline'} className='w-full' size={'sm'}>
-                {/* <Link legacyBehavior href='/api/auth/login' passHref> */}
-                  <a href='/api/auth/login'>Log in</a>
-                {/* </Link> */}
+                <Link legacyBehavior href='/api/auth/login' passHref>
+                  <a>Log in</a>
+                </Link>
               </Button>
             </DropdownMenuItem>
             <p className='text-center border-b pb-2 text-sm'>or</p>
-            {/* <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-foreground justify-center pt-2'>
+            <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-foreground justify-center pt-2'>
               <Button variant={'default'} className='w-full' size={'sm'}>
                 <Link legacyBehavior href='/api/auth/signup' passHref>
                   <a>Create account</a>
                 </Link>
               </Button>
-            </DropdownMenuItem> */}
+            </DropdownMenuItem>
           </div>
         )}
       </DropdownMenuContent>
