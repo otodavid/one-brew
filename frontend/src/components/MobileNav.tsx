@@ -62,7 +62,7 @@ export function MobileNav({
         initial={'hidden'}
         animate='visible'
         exit={'exit'}
-        className='w-3/4 h-screen bg-white mr-0 ml-auto py-6'
+        className='w-3/4 min-h-svh bg-white mr-0 ml-auto py-6'
         ref={ref}
       >
         <MotionButton
@@ -156,7 +156,7 @@ export function MobileNav({
               <p className='text-center text-sm'>
                 Don&apos;t have an account?{' '}
                 <Link legacyBehavior href='/api/auth/signup'>
-                  <a className='font-bold text-primary hover:underline'>
+                  <a className='font-bold text-foreground hover:underline'>
                     Create Account
                   </a>
                 </Link>

@@ -25,7 +25,7 @@ import { Input } from '@/components/ui/input';
 
 export default function Home() {
   const {
-    data: products,
+    data: featuredProducts,
     isError,
     isLoading,
     error,
@@ -33,7 +33,7 @@ export default function Home() {
     queryKey: ['products'],
     queryFn: async (): Promise<ProductSummary[]> => {
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/featured`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -101,22 +101,14 @@ export default function Home() {
         heading='Explore our Top Coffee Selection'
         subheading='Discover the blends our customers love the most.'
       >
-        <div className='mb-6 mt-10 grid gap-6 grid-cols-cards-list'>
-          {products &&
-            products
-              .slice(0, 4)
-              .map((product: ProductSummary) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  image={product.image}
-                  name={product.name}
-                  description={product.description}
-                  price={product.price}
-                  categoryName={product.categoryName}
-                  categoryType={product.categoryType}
-                />
-              ))}
+        <div className='mb-6 mt-10'>
+          {featuredProducts && (
+            <ProductList
+              productList={featuredProducts
+                .filter((product) => product.categoryType === 'drinks')
+                .slice(0, 4)}
+            />
+          )}
         </div>
       </Featured>
 
@@ -140,8 +132,14 @@ export default function Home() {
         heading='Delicious Fresh Baked Treats'
         subheading='Perfect companions for your coffee moments, made fresh daily. Take a pick from our special baked foods.'
       >
-        <div className='grid gap-8 mb-6 mt-10 grid-cols-cards-list'>
-          {products && <ProductList productList={products.slice(0, 4)} />}
+        <div className='mb-6 mt-10'>
+          {featuredProducts && (
+            <ProductList
+              productList={featuredProducts
+                .filter((product) => product.categoryType === 'food')
+                .slice(0, 4)}
+            />
+          )}
         </div>
       </Featured>
 

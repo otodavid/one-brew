@@ -1,6 +1,6 @@
 import { Skeleton } from '../ui/skeleton';
 
-export const MenuCategoryProductsSkeletonLoader = () => {
+export const ProductsSkeletonLoader = () => {
   return (
     <div>
       <Skeleton className='h-4 w-60 mb-6' />

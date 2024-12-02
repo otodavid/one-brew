@@ -14,12 +14,12 @@ import { selectUser } from '@/store/features/userSlice';
 import Image from 'next/image';
 import logo from '/public/logo.svg';
 import { usePathname } from 'next/navigation';
+import { SearchBox } from './SearchBox';
 
 export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const cart = useAppSelector(selectCart);
   const { user, error, isLoading } = useUser();
-  const userInfo = useAppSelector(selectUser);
   const pathname = usePathname();
 
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
@@ -38,13 +38,13 @@ export default function Header() {
     <header className='z-10 border-b'>
       <div className='flex justify-between items-center flex-wrap px-4 py-4 relative max-w-8xl mx-auto xs:px-6 md:px-12 xl:px-16 2xl:px-20'>
         <Link href={'/'}>
-          <Image src={logo} alt='One Brew logo' width={120} />
+          <Image src={logo} alt='One Brew logo' width={120} priority />
         </Link>
 
         <div className='flex justify-between gap-16 items-center'>
           <ul className='hidden md:flex md:gap-12 items-center'>
             {NAVLINKS.map((navLink) => (
-              <li key={navLink.name} className='hover:text-primary'>
+              <li key={navLink.name} className='hover:text-foreground'>
                 <Link
                   href={navLink.link}
                   className={`capitalize font-medium hover:text-accent  ${
@@ -61,7 +61,9 @@ export default function Header() {
             ))}
           </ul>
 
-          <div className='relative flex items-center gap-4'>
+          <div className='flex items-center gap-4'>
+            <SearchBox />
+
             <div className='hidden md:block'>
               <UserLogin />
             </div>

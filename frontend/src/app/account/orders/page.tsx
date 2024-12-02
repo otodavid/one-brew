@@ -65,6 +65,8 @@ export default function Orders() {
                         src={order.products[0].image}
                         alt={order.products[0].name}
                         fill={true}
+                        className='object-cover'
+                        sizes='50px'
                       />
                     </div>
                     <div>

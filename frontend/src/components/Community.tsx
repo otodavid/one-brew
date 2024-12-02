@@ -34,7 +34,8 @@ export const Community = () => {
         <div className='relative rounded-xl overflow-hidden'>
           <Image
             src={'/img/community11.jpg'}
-            alt='coffee cafe 1'
+            alt='first part split of a coffee shop'
+            sizes='(max-width: 768) 50vw, 25vw'
             className='object-cover brightness-75'
             fill={true}
           />
@@ -42,16 +43,17 @@ export const Community = () => {
         <div className='relative rounded-xl overflow-hidden'>
           <Image
             src={'/img/community12.jpg'}
-            alt='coffee cafe 2'
-            className='object-cover brightness-75 object-center'
+            alt='second part split of a coffee shop'
+            sizes='(max-width: 768) 50vw, 25vw'            className='object-cover brightness-75 object-center'
             fill={true}
           />
         </div>
         <div className='relative rounded-xl  col-span-2 overflow-hidden'>
           <Image
             src={'/img/community13.jpg'}
-            alt='coffee cafe 3'
+            alt='third part split of a coffee shop'
             className='object-cover brightness-75'
+            sizes='(max-width: 768) 100vw, 50vw'
             fill={true}
           />
         </div>

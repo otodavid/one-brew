@@ -31,7 +31,7 @@ export default function Error({
   };
 
   return (
-    <div className='flex flex-col justify-center items-center min-h-[90vh] p-4'>
+    <div className='flex flex-col justify-center items-center min-h-[80vh] p-4'>
       {error.statusCode ? (
         <h2 className='text-center text-4xl text-opacity-80'>
           {error.statusCode}

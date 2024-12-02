@@ -70,6 +70,7 @@ export const CartItemComponent = ({ item, isEditable = true }: Props) => {
           src={item.image}
           fill={true}
           alt={item.name}
+          sizes='100px'
           className='object-cover'
         />
       </div>

@@ -8,19 +8,28 @@ import {
 import {
   queryAllCategories,
   queryAllProducts,
+  queryFeaturedProducts,
   queryProductById,
   queryProductsByCategoryId,
+  querySearchProducts,
+  querySearchSuggestions,
 } from '../queries/products';
-import { error } from 'console';
 
 export async function getAllProducts(req: Request, res: Response) {
   try {
+    const { page = 1, limit = 1 } = req.query;
+    const offset = (Number(page) - 1) * Number(limit);
+
     const query = queryAllProducts();
-    const result = await conn.query(query);
+    const result = await conn.query(query, [Number(limit), offset]);
 
     const products = result.rows.map(transformProductSummaryData);
 
-    res.json(products);
+    const totalCountResult = await conn.query('SELECT COUNT(*) FROM product');
+    const totalCount = parseInt(totalCountResult.rows[0].count);
+    const hasMore = offset + Number(limit) < totalCount;
+
+    res.json({ data: products, hasMore });
   } catch (err: any) {
     console.error(err.message);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -47,8 +56,8 @@ export async function getProductsByCategoryId(req: Request, res: Response) {
   try {
     const query = queryProductsByCategoryId();
 
-    const { categoryId } = req.params;
-    const result = await conn.query(query, [categoryId]);
+    const { id } = req.params;
+    const result = await conn.query(query, [id]);
 
     const products = result.rows.map(transformProductSummaryData);
 
@@ -67,7 +76,64 @@ export async function getProductById(req: Request, res: Response) {
 
     const product = result.rows.map(transformProductData)[0];
 
-    res.json(product);
+    res.status(200).json(product);
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+export async function getSearchedProducts(req: Request, res: Response) {
+  try {
+    const { term, page = 1, limit = 1 } = req.query;
+    const limitValue = Number(limit); //3
+    const offset = (Number(page) - 1) * limitValue;
+
+    const query = querySearchProducts();
+    const result = await conn.query(query, [term]);
+
+    const products = result.rows.map(transformProductSummaryData);
+
+    const totalCount = result.rowCount ? result.rowCount : 0;
+    const hasMore = offset + Number(limit) < totalCount;
+
+    const startIndex = (Number(page) - 1) * limitValue;
+    const endIndex = Number(page) * limitValue;
+
+    res
+      .status(200)
+      .json({ data: products.slice(startIndex, endIndex), hasMore });
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Error searching for data' });
+  }
+}
+
+export async function getSearchSuggestions(req: Request, res: Response) {
+  try {
+    const { term } = req.query;
+    const query = querySearchSuggestions();
+    const result = await conn.query(query, [term]);
+
+    const suggestions = result.rows.map((suggestion) => {
+      return { id: suggestion.id, name: suggestion.name };
+    });
+
+    res.status(200).json(suggestions);
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Error searching for data' });
+  }
+}
+
+export async function getFeaturedProducts(req: Request, res: Response) {
+  try {
+    const query = queryFeaturedProducts();
+    const result = await conn.query(query);
+
+    const products = result.rows.map(transformProductSummaryData);
+
+    res.json(products);
   } catch (err: any) {
     console.error(err.message);
     res.status(500).json({ error: 'Internal Server Error' });

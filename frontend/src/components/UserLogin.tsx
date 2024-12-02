@@ -69,7 +69,7 @@ export const UserLogin = () => {
           </>
         ) : (
           <div className='py-2 px-2'>
-            <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-primary justify-center'>
+            <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-foreground justify-center'>
               <Button variant={'outline'} className='w-full' size={'sm'}>
                 <Link legacyBehavior href='/api/auth/login' passHref>
                   <a>Log in</a>
@@ -77,7 +77,7 @@ export const UserLogin = () => {
               </Button>
             </DropdownMenuItem>
             <p className='text-center border-b pb-2 text-sm'>or</p>
-            <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-primary justify-center pt-2'>
+            <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-foreground justify-center pt-2'>
               <Button variant={'default'} className='w-full' size={'sm'}>
                 <Link legacyBehavior href='/api/auth/signup' passHref>
                   <a>Create account</a>

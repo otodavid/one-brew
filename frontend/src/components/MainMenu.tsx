@@ -5,6 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { MainMenuSkeletonLoader } from './Loaders/MainMenuSkeletonLoader';
 import { useGetCategories } from '@/hooks/useGetCategories';
+import { Button } from './ui/button';
+import { IoFilterCircleOutline } from 'react-icons/io5';
+import { Filter } from './Filter';
 
 export const MainMenu = () => {
   const { categories, isLoading } = useGetCategories();
@@ -17,7 +20,14 @@ export const MainMenu = () => {
     <>
       {categories && (
         <div>
-          <h2 className='mb-2 lg:mb-8'>Menu</h2>
+          <div>
+            <h2 className='mb-2 lg:mb-8'>Menu</h2>
+
+            <div className='block mr-0 ml-auto lg:hidden'>
+              <Filter />
+            </div>
+          </div>
+          
           {/* Drinks section */}
           <section className='py-6 lg:pt-0'>
             <h4 className='border-b pb-2'>Drinks</h4>
@@ -42,7 +52,7 @@ export const MainMenu = () => {
                           className='object-cover object-center aspect-square'
                         />
                       </div>
-                      <p className='font-medium group-hover:text-primary capitalize'>
+                      <p className='font-medium group-hover:text-foreground capitalize'>
                         {category.name}
                       </p>
                     </Link>
@@ -75,7 +85,7 @@ export const MainMenu = () => {
                           className='object-cover object-center aspect-square'
                         />
                       </div>
-                      <p className='font-medium group-hover:text-primary capitalize'>
+                      <p className='font-medium group-hover:text-foreground capitalize'>
                         {category.name}
                       </p>
                     </Link>

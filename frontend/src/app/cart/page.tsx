@@ -23,8 +23,6 @@ export default function Cart() {
 
   useEffect(() => {
     if (!userInfo.email && cart) {
-      console.log(cart);
-
       saveToLocalStorage(cart);
     }
   }, [cart, userInfo]);
@@ -38,32 +36,35 @@ export default function Cart() {
       {isMounted && (
         <>
           {cart.length > 0 ? (
-            <div className='shadow-sm rounded-lg px-8 pt-5 pb-2 bg-card'>
-              <h3 className='capitalize font-bold text-center'>
-                Review order ({cart.length})
-              </h3>
+            <>
+              <div className='shadow-sm rounded-lg px-8 pt-5 pb-2 bg-card'>
+                <h3 className='capitalize font-bold text-center'>
+                  Review order ({cart.length})
+                </h3>
 
-              <div className='mt-6 md:px-4'>
-                {cart.map((item) => (
-                  <CartItemComponent item={item} key={item.cartProductID} />
-                ))}
+                <div className='mt-6 md:px-4'>
+                  {cart.map((item) => (
+                    <CartItemComponent item={item} key={item.cartProductID} />
+                  ))}
+                </div>
               </div>
-            </div>
+              <div className='mt-6 md:mt-0'>
+                <OrderSummary>
+                  <Button asChild className='w-full block text-center mt-6'>
+                    <Link href={'/checkout'}>Continue to Checkout</Link>
+                  </Button>
+                </OrderSummary>
+                <p className='text-xs text-slate-500 mt-6'>
+                  Prices and shipping costs are not confirmed until you&apos;ve
+                  reached checkout.
+                </p>
+              </div>
+            </>
           ) : (
-            <EmptyCart />
+            <div className='md:col-span-2'>
+              <EmptyCart />
+            </div>
           )}
-
-          <div className='mt-6 md:mt-0'>
-            <OrderSummary>
-              <Button asChild className='w-full block text-center mt-6'>
-                <Link href={'/checkout'}>Continue to Checkout</Link>
-              </Button>
-            </OrderSummary>
-            <p className='text-xs text-slate-500 mt-6'>
-              Prices and shipping costs are not confirmed until you&apos;ve
-              reached checkout.
-            </p>
-          </div>
         </>
       )}
     </section>

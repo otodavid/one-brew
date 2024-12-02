@@ -8,7 +8,7 @@ interface ProductList {
 
 export const ProductList = ({ productList }: ProductList) => {
   return (
-    <>
+    <div className='grid gap-y-6 sm:gap-x-4 grid-cols-cards-list'>
       {productList.map((product) => (
         <ProductCard
           key={product.id}
@@ -21,6 +21,6 @@ export const ProductList = ({ productList }: ProductList) => {
           categoryType={product.categoryType}
         />
       ))}
-    </>
+    </div>
   );
 };

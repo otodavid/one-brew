@@ -3,7 +3,7 @@
 import { ProductList } from './ProductList';
 import { convertToText } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
-import { MenuCategoryProductsSkeletonLoader } from './Loaders/MenuCategoryProductsSkeletonLoader';
+import { ProductsSkeletonLoader } from './Loaders/ProductsSkeletonLoader';
 import axios from 'axios';
 import { ProductSummary } from '@/lib/types';
 
@@ -22,7 +22,7 @@ export const CategoryProducts = ({ categoryName, categoryId }: Props) => {
     queryKey: ['categoryProducts', categoryId],
     queryFn: async (): Promise<ProductSummary[]> => {
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/c/${categoryId}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories/${categoryId}/products`,
         { headers: { 'Content-Type': 'application/json' } }
       );
 
@@ -35,7 +35,7 @@ export const CategoryProducts = ({ categoryName, categoryId }: Props) => {
   }
 
   if (isLoading) {
-    return <MenuCategoryProductsSkeletonLoader />;
+    return <ProductsSkeletonLoader />;
   }
 
   return (
@@ -45,7 +45,7 @@ export const CategoryProducts = ({ categoryName, categoryId }: Props) => {
           <h2 className='capitalize font-bold text-xl'>
             {convertToText(categoryName)}
           </h2>
-          <div className='grid gap-y-6 sm:gap-x-4 sm:grid-cols-cards-list pt-4 sm:pt-6'>
+          <div className='pt-4 sm:pt-6'>
             <ProductList productList={products} />
           </div>
         </>

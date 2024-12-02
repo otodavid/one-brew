@@ -17,6 +17,7 @@ export default function About() {
               src={'/img/about-us-1.jpg'}
               alt='a barrister brewing a coffee drink'
               fill={true}
+              sizes='(max-width: 650px) 50vw, 33vw'
               className='object-cover'
             />
           </div>
@@ -25,6 +26,7 @@ export default function About() {
               src={'/img/about-us-2.jpg'}
               alt='a sign post with the word cofffee'
               fill={true}
+              sizes='(max-width: 650px) 50vw, 33vw'
               className='object-cover'
             />
           </div>
@@ -33,6 +35,7 @@ export default function About() {
               src={'/img/about-us-4.jpg'}
               alt='a busy coffee shop'
               fill={true}
+              sizes='(max-width: 650px) 50vw, 33vw'
               className='object-cover'
             />
           </div>
@@ -41,6 +44,7 @@ export default function About() {
               src={'/img/about-us-3.jpg'}
               alt='about us image'
               fill={true}
+              sizes='(max-width: 650px) 50vw, 33vw'
               className='object-cover'
             />
           </div>
@@ -77,6 +81,8 @@ export default function About() {
               src={'/img/about-us-5.jpg'}
               alt='a person holding a coffee drink'
               fill={true}
+              sizes='(max-width: 768px) 100vw, 50vw'
+              className='object-cover'
             />
           </div>
         </div>
@@ -99,6 +105,8 @@ export default function About() {
               src={'/img/about-us-6.jpg'}
               alt='coffee beans farmer with a coffee drink'
               fill={true}
+              sizes='(max-width: 768px) 100vw, 50vw'
+              className='object-cover'
             />
           </div>
         </div>

@@ -19,9 +19,11 @@ export const queryAllProducts = () => {
       categories.id AS category_id,
       categories.name AS category_name,
       categories.type
-FROM
+    FROM
       product
-      INNER JOIN categories ON product.category_id = categories.id;`;
+      INNER JOIN categories ON product.category_id = categories.id
+    ORDER BY product.created_at DESC
+    LIMIT $1 OFFSET $2;`;
 };
 
 export const queryProductById = () => {
@@ -86,4 +88,57 @@ GROUP BY
   product.id,
   categories.name,
   categories.type;`;
+};
+
+export const querySearchProducts = () => {
+  return `SELECT
+      product.id,
+      product.name,
+      product.image_url,
+      product.description,
+      product.price,
+      categories.id AS category_id,
+      categories.name AS category_name,
+      categories.type,
+      ts_rank(name_tsvector, plainto_tsquery('english', $1)) AS rank
+    FROM
+        product
+        INNER JOIN categories ON product.category_id = categories.id
+    WHERE
+        name_tsvector @@ plainto_tsquery('english', $1)
+        OR product.name ILIKE $1 || '%'
+        OR product.name ILIKE '% ' || $1 || '%'
+    ORDER BY
+        rank DESC;
+      `;
+};
+
+export const querySearchSuggestions = () => {
+  return `
+  SELECT
+    id, name, ts_rank(name_tsvector, plainto_tsquery('english', $1)) AS rank
+  FROM product
+  WHERE
+    name_tsvector @@ plainto_tsquery('english', $1)
+    OR name ILIKE $1 || '%'
+    OR name ILIKE '% ' || $1 || '%'
+  ORDER BY rank DESC
+  `;
+};
+
+// In the future, featured products should come from a separate table
+export const queryFeaturedProducts = () => {
+  return `SELECT
+      product.id,
+      product.name,
+      product.image_url,
+      product.description,
+      product.price,
+      categories.id AS category_id,
+      categories.name AS category_name,
+      categories.type
+    FROM
+      product
+      INNER JOIN categories ON product.category_id = categories.id
+    ORDER BY product.created_at DESC`;
 };

@@ -18,6 +18,7 @@ export const CallOutSection = ({
         src={bgImagePath}
         alt={imageDesc}
         fill={true}
+        sizes='70vw'
         className='object-cover inset-0 -z-10 brightness-[.3]'
       />
       <div className='text-background'>{children}</div>
