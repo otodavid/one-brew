@@ -59,29 +59,26 @@ export const UserLogin = () => {
             </DropdownMenuGroup>
             <DropdownMenuSeparator className='bg-foreground/5' />
             <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent'>
-              <Link legacyBehavior href='/api/auth/logout' passHref>
-                <a className='text-destructive flex items-center gap-2'>
-                  <CiLogout className='h-4 w-4' />
-                  Log out
-                </a>
-              </Link>
+              <a
+                href='/api/auth/logout'
+                className='text-destructive flex items-center gap-2'
+              >
+                <CiLogout className='h-4 w-4' />
+                Log out
+              </a>
             </DropdownMenuItem>
           </>
         ) : (
           <div className='py-2 px-2'>
             <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-foreground justify-center'>
               <Button variant={'outline'} className='w-full' size={'sm'}>
-                <Link legacyBehavior href='/api/auth/login' passHref>
-                  <a>Log in</a>
-                </Link>
+                <a href='/api/auth/login'>Log in</a>
               </Button>
             </DropdownMenuItem>
             <p className='text-center border-b pb-2 text-sm'>or</p>
             <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-foreground justify-center pt-2'>
               <Button variant={'default'} className='w-full' size={'sm'}>
-                <Link legacyBehavior href='/api/auth/signup' passHref>
-                  <a>Create account</a>
-                </Link>
+                <a href='/api/auth/signup'>Create account</a>
               </Button>
             </DropdownMenuItem>
           </div>

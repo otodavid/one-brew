@@ -70,9 +70,9 @@ export default function AccountLayout({
           </li>
           <li className='absolute bottom-0 flex items-center px-4 py-3 bg-destructive text-destructive-foreground w-full'>
             <CiLogout className='mr-2 h-4 w-4' />
-            <Link legacyBehavior href='/api/auth/logout' passHref>
-              <a className='block w-full'>Log out</a>
-            </Link>
+            <a href='/api/auth/logout' className='block w-full'>
+              Log out
+            </a>
           </li>
         </ul>
       </div>
