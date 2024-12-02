@@ -8,6 +8,7 @@ import {
 import {
   queryAllCategories,
   queryAllProducts,
+  queryFeaturedProducts,
   queryProductById,
   queryProductsByCategoryId,
   querySearchProducts,
@@ -122,5 +123,19 @@ export async function getSearchSuggestions(req: Request, res: Response) {
   } catch (err: any) {
     console.error(err.message);
     res.status(500).json({ error: 'Error searching for data' });
+  }
+}
+
+export async function getFeaturedProducts(req: Request, res: Response) {
+  try {
+    const query = queryFeaturedProducts();
+    const result = await conn.query(query);
+
+    const products = result.rows.map(transformProductSummaryData);
+
+    res.json(products);
+  } catch (err: any) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 }

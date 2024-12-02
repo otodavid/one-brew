@@ -125,3 +125,20 @@ export const querySearchSuggestions = () => {
   ORDER BY rank DESC
   `;
 };
+
+// In the future, featured products should come from a separate table
+export const queryFeaturedProducts = () => {
+  return `SELECT
+      product.id,
+      product.name,
+      product.image_url,
+      product.description,
+      product.price,
+      categories.id AS category_id,
+      categories.name AS category_name,
+      categories.type
+    FROM
+      product
+      INNER JOIN categories ON product.category_id = categories.id
+    ORDER BY product.created_at DESC`;
+};
