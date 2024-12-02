@@ -62,7 +62,7 @@ export function MobileNav({
         initial={'hidden'}
         animate='visible'
         exit={'exit'}
-        className='w-3/4 h-screen bg-white mr-0 ml-auto py-6'
+        className='w-3/4 min-h-svh bg-white mr-0 ml-auto py-6'
         ref={ref}
       >
         <MotionButton
