@@ -148,26 +148,28 @@ export function MobileNav({
           {!user ? (
             <>
               <Button className='block mb-2 w-full'>
-                <Link legacyBehavior href={'/api/auth/login'} passHref>
-                  <a className='w-full'>Log in</a>
-                </Link>
+                <a href={'/api/auth/login'} className='w-full'>
+                  Log in
+                </a>
               </Button>
 
               <p className='text-center text-sm'>
                 Don&apos;t have an account?{' '}
-                <Link legacyBehavior href='/api/auth/signup'>
-                  <a className='font-bold text-foreground hover:underline'>
-                    Create Account
-                  </a>
-                </Link>
+                <a
+                  href='/api/auth/signup'
+                  className='font-bold text-foreground hover:underline'
+                >
+                  Create Account
+                </a>
               </p>
             </>
           ) : (
-            <Link legacyBehavior href={'/api/auth/logout'} passHref>
-              <a className='block text-center w-4/5 bg-primary text-background mx-auto mb-6 rounded-full p-2 mt-10'>
-                Log out
-              </a>
-            </Link>
+            <a
+              href={'/api/auth/logout'}
+              className='block text-center w-4/5 bg-primary text-background mx-auto mb-6 rounded-full p-2 mt-10'
+            >
+              Log out
+            </a>
           )}
         </div>
       </motion.div>
