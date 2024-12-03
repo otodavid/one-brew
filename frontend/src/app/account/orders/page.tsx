@@ -12,12 +12,13 @@ import { OrderItem } from '@/lib/types';
 import { getFormattedDate } from '@/lib/utils';
 import { selectUser } from '@/store/features/userSlice';
 import { useAppSelector } from '@/store/hooks';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Image from 'next/image';
 import { toast } from 'sonner';
 
-export default function Orders() {
+export default withPageAuthRequired(function Orders() {
   const userInfo = useAppSelector(selectUser);
 
   const {
@@ -122,4 +123,4 @@ export default function Orders() {
       )}
     </div>
   );
-}
+});

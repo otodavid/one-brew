@@ -16,10 +16,10 @@ import {
 import { formFields } from '@/lib/constants';
 import { selectUser } from '@/store/features/userSlice';
 import { useAppSelector } from '@/store/hooks';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import { useState } from 'react';
 
-export default function Profile() {
+export default withPageAuthRequired(function Profile() {
   const userInfo = useAppSelector(selectUser);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
@@ -85,4 +85,4 @@ export default function Profile() {
       </div>
     </div>
   );
-}
+});
