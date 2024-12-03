@@ -21,7 +21,7 @@ This repository includes the client-side application and backend server, with pl
 - Scalability: Modular code structure for ease of future extensions.
 
 ## 🔧 Tech Stack
-- Frontend: Next.js, Typescript, Redux Toolkit, Tanstack Query(React Query), Axios, TailwindCSS, Shadcn
+- Frontend: React, Next.js, Typescript, Redux Toolkit, Tanstack Query(React Query), Axios, TailwindCSS, Shadcn
 - Backend: Node.js, Express, Typescript
 - Database: PostgreSQL
 - Authentication: Auth0
