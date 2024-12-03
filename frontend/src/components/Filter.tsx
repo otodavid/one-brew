@@ -15,7 +15,11 @@ export const Filter = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant='icon' size='icon' className='block mr-0 ml-auto'>
+        <Button
+          variant='icon'
+          className='text-accent flex items-center gap-1 mr-0 ml-auto'
+        >
+          <p>Filter</p>
           <IoFilterCircleOutline size={18} />
         </Button>
       </SheetTrigger>

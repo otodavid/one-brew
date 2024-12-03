@@ -72,7 +72,7 @@ export const UserLogin = () => {
           <div className='py-2 px-2'>
             <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-foreground justify-center'>
               <Button variant={'outline'} className='w-full p-0' size={'sm'}>
-                <a href='/api/auth/login' className='p-3 w-full'>
+                <a href='/api/auth/login' className=' block p-2 w-full'>
                   Log in
                 </a>
               </Button>
@@ -80,7 +80,7 @@ export const UserLogin = () => {
             <p className='text-center border-b pb-2 text-sm'>or</p>
             <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-foreground justify-center pt-2'>
               <Button variant={'default'} className='w-full p-0' size={'sm'}>
-                <a href='/api/auth/signup' className='p-3 w-full'>
+                <a href='/api/auth/signup' className='block p-2 w-full'>
                   Create account
                 </a>
               </Button>

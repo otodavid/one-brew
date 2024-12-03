@@ -148,7 +148,7 @@ export function MobileNav({
           {!user ? (
             <>
               <Button className='block mb-2 w-full p-0'>
-                <a href={'/api/auth/login'} className='w-full p-3'>
+                <a href={'/api/auth/login'} className='w-full block p-2'>
                   Log in
                 </a>
               </Button>
@@ -166,7 +166,7 @@ export function MobileNav({
           ) : (
             <a
               href={'/api/auth/logout'}
-              className='block text-center w-4/5 bg-primary text-background mx-auto mb-6 rounded-full p-3 mt-10'
+              className='block text-center w-4/5 bg-destructive text-destructive-foreground mx-auto mb-6 rounded-full p-2 mt-10'
             >
               Log out
             </a>
