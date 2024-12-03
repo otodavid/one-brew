@@ -28,6 +28,7 @@ This repository includes the client-side application and backend server, with pl
 - Payment Integration: Stripe 
 - State Management: Redux Toolkit
 - Other Tools: Local Storage, Git
+- Deployments: Vercel, Render, Neon
 
 ## 🚀 Features in Progress
 - Admin Dashboard:
