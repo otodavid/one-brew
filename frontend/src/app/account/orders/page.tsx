@@ -12,12 +12,13 @@ import { OrderItem } from '@/lib/types';
 import { getFormattedDate } from '@/lib/utils';
 import { selectUser } from '@/store/features/userSlice';
 import { useAppSelector } from '@/store/hooks';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Image from 'next/image';
 import { toast } from 'sonner';
 
-export default function Orders() {
+export default withPageAuthRequired(function Orders() {
   const userInfo = useAppSelector(selectUser);
 
   const {
@@ -54,7 +55,7 @@ export default function Orders() {
       <h3>My Orders</h3>
 
       {orders && (
-        <div className='grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-6 py-6 mt-3 items-start'>
+        <div className='grid grid-cols-cards-list gap-6 py-6 mt-3 items-start'>
           {orders.length > 0 ? (
             orders.map((order: OrderItem) => (
               <Card key={order.orderId}>
@@ -122,4 +123,4 @@ export default function Orders() {
       )}
     </div>
   );
-}
+});

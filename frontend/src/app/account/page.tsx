@@ -3,8 +3,9 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import { selectUser } from '@/store/features/userSlice';
 import { useAppSelector } from '@/store/hooks';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
-export default function Page() {
+export default withPageAuthRequired(function Page() {
   const userInfo = useAppSelector(selectUser);
   return (
     <div>
@@ -23,4 +24,4 @@ export default function Page() {
       )}
     </div>
   );
-}
+});
