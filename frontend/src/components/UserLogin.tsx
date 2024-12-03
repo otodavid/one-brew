@@ -61,7 +61,7 @@ export const UserLogin = () => {
             <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent'>
               <a
                 href='/api/auth/logout'
-                className='text-destructive flex items-center gap-2'
+                className='text-destructive flex items-center gap-2 py-2'
               >
                 <CiLogout className='h-4 w-4' />
                 Log out
@@ -71,14 +71,18 @@ export const UserLogin = () => {
         ) : (
           <div className='py-2 px-2'>
             <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-foreground justify-center'>
-              <Button variant={'outline'} className='w-full' size={'sm'}>
-                <a href='/api/auth/login'>Log in</a>
+              <Button variant={'outline'} className='w-full p-0' size={'sm'}>
+                <a href='/api/auth/login' className='p-3 w-full'>
+                  Log in
+                </a>
               </Button>
             </DropdownMenuItem>
             <p className='text-center border-b pb-2 text-sm'>or</p>
             <DropdownMenuItem className='hover:bg-transparent focus:bg-transparent hover:text-foreground justify-center pt-2'>
-              <Button variant={'default'} className='w-full' size={'sm'}>
-                <a href='/api/auth/signup'>Create account</a>
+              <Button variant={'default'} className='w-full p-0' size={'sm'}>
+                <a href='/api/auth/signup' className='p-3 w-full'>
+                  Create account
+                </a>
               </Button>
             </DropdownMenuItem>
           </div>

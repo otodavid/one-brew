@@ -54,7 +54,7 @@ export default function Orders() {
       <h3>My Orders</h3>
 
       {orders && (
-        <div className='grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-6 py-6 mt-3 items-start'>
+        <div className='grid grid-cols-cards-list gap-6 py-6 mt-3 items-start'>
           {orders.length > 0 ? (
             orders.map((order: OrderItem) => (
               <Card key={order.orderId}>
