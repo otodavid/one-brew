@@ -1,13 +1,14 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
 
-export default function Page() {
+export default withPageAuthRequired(function Page() {
   const router = useRouter();
 
   useEffect(() => {
@@ -36,4 +37,4 @@ export default function Page() {
       </p>
     </div>
   );
-}
+});

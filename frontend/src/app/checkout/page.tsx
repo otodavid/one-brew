@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 import { CompletedCheckoutForm } from '@/components/CompletedCheckoutForm';
 import { CheckoutForm } from '@/components/CheckoutForm';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
-export default function Page() {
+export default withPageAuthRequired(function Page() {
   const [isFormFilled, setIsFormFilled] = useState<boolean>(false);
   const [isClient, setIsClient] = useState(false);
 
@@ -25,12 +26,10 @@ export default function Page() {
             />
           ) : (
             <>
-              <CompletedCheckoutForm
-                setIsFormFilled={setIsFormFilled}
-              />
+              <CompletedCheckoutForm setIsFormFilled={setIsFormFilled} />
             </>
           )}
         </div>
       </section>
     );
-}
+});
